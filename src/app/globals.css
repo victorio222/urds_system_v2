@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-dm-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #f5f8fc;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm-sans), sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+.scroll-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.recharts-wrapper:focus,
+.recharts-wrapper > svg:focus {
+  outline: none;
+}
+
+/* Container for skeleton */
+.skeleton-wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to bottom, #f4f4f4, #e0e0e0);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Skeleton base */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  will-change: transform;
+}
+
+.skeleton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(224, 224, 224, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 7, 7, 0) 100%
+  );
+  transform: translateX(-100%);
+  animation: shimmer 1.8s linear infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+/* Header bar */
+.header-bar {
+  width: 60%;
+  height: 20px;
+  margin: 0 auto 20px auto;
+}
+
+/* Featured content block */
+.featured {
+  height: 160px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
+/* List item container */
+.list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+/* Avatar */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Text lines */
+.line {
+  height: 12px;
+  border-radius: 0px;
+}
+
+.line-short {
+  width: 50%;
+  margin-bottom: 6px;
+}
+
+.line-long {
+  width: 80%;
+}
+
+
+/* Custom for card or chart */
+.card-skeleton {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.chart-skeleton {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+}

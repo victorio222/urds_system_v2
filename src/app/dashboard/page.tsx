@@ -1,0 +1,19 @@
+'use client';
+import HeaderLayout from '@/component/layout/header/Header';
+import SidebarLayout from '@/component/layout/sidebar/Sidebar';
+import React, { useState } from 'react';
+import AdminDashboard from './admin/AdminDashboard';
+import DefaultLayout from '@/component/layout/DefaultLayout';
+import PersonnelDashboard from './personnel/PersonnelDashboard';
+
+const DashboardPage = () => {
+  return (
+    <div className="flex max-h-screen">
+      <DefaultLayout>
+        <PersonnelDashboard />
+      </DefaultLayout>
+    </div>
+  );
+};
+
+export default DashboardPage;
