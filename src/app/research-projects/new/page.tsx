@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
+import NewResearchPage from './table/NewResearch';
 
 const AllResearch = () => {
   return (
@@ -8,6 +9,7 @@ const AllResearch = () => {
       <div className="bg-blue-50 h-auto w-full">
         <DefaultLayout pageName='Research Projects'>
           <div className='py-3 px-5'>
+            <NewResearchPage/>
           </div>
         </DefaultLayout>
       </div>
