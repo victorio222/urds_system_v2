@@ -10,7 +10,7 @@ interface FormInputProps {
   required?: boolean;
 }
 
-const FormInput: React.FC<FormInputProps> = ({
+const GreyInput: React.FC<FormInputProps> = ({
   label,
   type,
   name,
@@ -32,10 +32,10 @@ const FormInput: React.FC<FormInputProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className="w-full h-[42px] border border-[#190072] rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 text-gray-400 focus:ring-blue-500"
+        className="w-full h-[42px] border rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 text-gray-400 focus:ring-blue-500"
       />
     </div>
   );
 };
 
-export default FormInput;
+export default GreyInput;
