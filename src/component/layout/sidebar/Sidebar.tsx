@@ -34,7 +34,7 @@ const sidebar: SidebarItem[] = [
         subItems: [
             { title: 'All Proposals', link: '/research-projects/all' },
             { title: 'New', link: '/research-projects/new' },
-            { title: 'Ongoing', link: '/research-projects/ongoing' },
+            { title: 'Ongoing', link: '/research-projects/on-going' },
             { title: 'Completed', link: '/research-projects/completed' },
         ],
     },
