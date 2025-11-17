@@ -38,6 +38,10 @@ import ActiveAccounts from "./cards/ActiveAccount";
 import PendingAccount from "./cards/PendingAccount";
 import InactiveAccount from "./cards/ActiveAccount";
 import InactiveAccounts from "./cards/InactiveAccount";
+import FacultyResearcher from "./cards/FacultyResearcher";
+import TwgEvaluator from "./cards/TwgEvaluator";
+import StaffandDirector from "./cards/StaffandDirector";
+import RecentlyActive from "./cards/RecentlyActive";
 
 const UserManagement = () => {
   return (
@@ -62,10 +66,10 @@ const UserManagement = () => {
               <ActiveAccounts />
               <PendingAccount />
               <InactiveAccounts />
-              <TotalUser />
-              <TotalUser />
-              <TotalUser />
-              <TotalUser />
+              <FacultyResearcher />
+              <TwgEvaluator />
+              <StaffandDirector />
+              <RecentlyActive />
             </div>
 
             {/* Table */}

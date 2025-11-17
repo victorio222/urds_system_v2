@@ -2,17 +2,17 @@
 import React from 'react';
 import { BiChip } from 'react-icons/bi';
 import { FaCogs } from 'react-icons/fa';
-import { FaUser, FaUserGraduate, FaUserSlash } from 'react-icons/fa6';
-import { PiStudentBold } from 'react-icons/pi';
+import { FaUser } from 'react-icons/fa6';
+import { RiUserSearchFill } from 'react-icons/ri';
 
-const InactiveAccounts = () => {
+const RecentlyActive = () => {
   return (
-    <div className="relative bg-gradient-to-r from-red-500 to-rose-400 text-white rounded-lg p-3 shadow-md overflow-hidden w-full">
+    <div className="relative bg-gradient-to-r from-[#5e4d2d] to-[#cbb287] text-white rounded-lg p-3 shadow-md overflow-hidden w-full">
       <div className="absolute top-3 right-3 text-white text-2xl opacity-90">
-        <FaUserSlash />
+        <RiUserSearchFill />
       </div>
 
-      <p className="text-sm font-normal">Inactive Accounts</p>
+      <p className="text-sm font-normal">Recently Active Users</p>
 
       <h2 className="text-2xl font-bold my-1">70</h2>
 
@@ -22,4 +22,4 @@ const InactiveAccounts = () => {
   );
 };
 
-export default InactiveAccounts;
+export default RecentlyActive;

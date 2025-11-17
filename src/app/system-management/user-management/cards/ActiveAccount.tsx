@@ -2,13 +2,13 @@
 import React from 'react';
 import { BiChip } from 'react-icons/bi';
 import { FaCogs } from 'react-icons/fa';
-import { FaUser } from 'react-icons/fa6';
+import { FaUser, FaUserCheck } from 'react-icons/fa6';
 
 const ActiveAccounts = () => {
   return (
     <div className="relative bg-gradient-to-r from-green-500 to-emerald-400 text-white rounded-lg p-3 shadow-md overflow-hidden w-full">
       <div className="absolute top-3 right-3 text-white text-2xl opacity-90">
-        <FaUser />
+        <FaUserCheck />
       </div>
 
       <p className="text-sm font-normal">Active Accounts</p>

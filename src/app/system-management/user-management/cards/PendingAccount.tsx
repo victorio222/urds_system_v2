@@ -2,13 +2,14 @@
 import React from 'react';
 import { BiChip } from 'react-icons/bi';
 import { FaCogs } from 'react-icons/fa';
-import { FaUser } from 'react-icons/fa6';
+import { FaUser, FaUserClock } from 'react-icons/fa6';
+import { MdPendingActions } from 'react-icons/md';
 
 const PendingAccount = () => {
   return (
     <div className="relative bg-gradient-to-r from-orange-400 to-yellow-500 text-white rounded-lg p-3 shadow-md overflow-hidden w-full">
       <div className="absolute top-3 right-3 text-white text-2xl opacity-90">
-        <FaUser />
+        <FaUserClock />
       </div>
 
       <p className="text-sm font-normal">Pending Accounts</p>
