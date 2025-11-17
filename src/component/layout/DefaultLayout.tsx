@@ -6,9 +6,10 @@ import FooterLayout from './footer/Footer';
 
 interface DefaultLayoutProps {
     children: React.ReactNode;
+    pageName: string
 }
 
-const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, pageName }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -19,7 +20,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     <div className="flex max-h-screen w-full">
       <SidebarLayout isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1">
-        <HeaderLayout toggleSidebar={toggleSidebar} />
+        <HeaderLayout toggleSidebar={toggleSidebar} pageName={pageName} />
         <div style={{ height: 'calc(100vh - 85px)'}}>
           {/* Main content goes here */}
           {children}

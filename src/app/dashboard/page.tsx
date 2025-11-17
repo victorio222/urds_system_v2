@@ -9,7 +9,7 @@ import PersonnelDashboard from './personnel/PersonnelDashboard';
 const DashboardPage = () => {
   return (
     <div className="flex max-h-screen">
-      <DefaultLayout>
+      <DefaultLayout pageName='Dashboard'>
         <PersonnelDashboard />
       </DefaultLayout>
     </div>

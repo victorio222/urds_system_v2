@@ -32,15 +32,15 @@ const sidebar: SidebarItem[] = [
         title: 'Research Projects',
         icon: <AiOutlineExperiment size={20} />,
         subItems: [
-            { title: 'All Proposals', link: '/plant-profiles/all' },
-            { title: 'New', link: '/plant-profiles/new' },
-            { title: 'Ongoing', link: '/plant-profiles/ongoing' },
-            { title: 'Completed', link: '/plant-profiles/completed' },
+            { title: 'All Proposals', link: '/research-projects/all' },
+            { title: 'New', link: '/research-projects/new' },
+            { title: 'Ongoing', link: '/research-projects/ongoing' },
+            { title: 'Completed', link: '/research-projects/completed' },
         ],
     },
-    { title: 'In-House Schedule', link: '/sensors-and-actuators', icon: <AiOutlineSchedule size={20} /> },
-    { title: 'Announcement', link: '/hydroponic-model', icon: <AiOutlineNotification size={20} /> },
-    { title: 'Calendar', link: '/transplant', icon: <AiOutlineCalendar size={20} /> },
+    { title: 'In-House Schedule', link: '/in-house-schedule', icon: <AiOutlineSchedule size={20} /> },
+    { title: 'Announcement', link: '/announcements', icon: <AiOutlineNotification size={20} /> },
+    { title: 'Calendar', link: '/calendar', icon: <AiOutlineCalendar size={20} /> },
     { title: 'System Management', link: '/system-management/user-management', icon: <AiOutlineSetting size={20} /> },
 ];
 
