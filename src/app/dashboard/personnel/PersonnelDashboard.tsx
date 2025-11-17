@@ -9,6 +9,7 @@ import NewProposal from "./cards/NewProposal";
 import OngoingProposal from "./cards/OngoingProposal";
 import TerminatedProposal from "./cards/TerminatedProposal";
 import CompletedProposal from "./cards/CompletedProposal";
+import RecentProjectPage from "./table/RecentProposal";
 
 const PersonnelDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,9 @@ const PersonnelDashboard = () => {
         <div>
           <SensorChart />
           <MonthlyHarvestChart />
+        </div>
+        <div>
+          <RecentProjectPage/>
         </div>
       </div>
     </div>

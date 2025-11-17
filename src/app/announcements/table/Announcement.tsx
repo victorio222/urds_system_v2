@@ -1,7 +1,8 @@
 "use client";
 import Button from "@/component/ui/Button";
+import Modal from "@/component/ui/Modal";
 import Table from "@/component/ui/Table";
-import React from "react";
+import React, { useState } from "react";
 import { BiSolidFilterAlt, BiSolidPlusCircle, BiEdit, BiTrash } from "react-icons/bi";
 
 interface Announcement {
@@ -99,12 +100,15 @@ const AnnouncementPage = () => {
     },
   ];
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="space-y-4 mt-[-10px]">
       {/* Top Navigation */}
       <nav className="flex justify-end">
         <div className="bg-white p-2 rounded-4xl shadow-xs inline-flex space-x-4">
-          <Button
+          <button
+            onClick={() => setIsModalOpen(true)}
             type="submit"
             className="text-sm flex items-center px-2 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer"
           >
@@ -112,7 +116,7 @@ const AnnouncementPage = () => {
               <BiSolidPlusCircle />
             </span>
             Create Announcement
-          </Button>
+          </button>
 
           <div className="text-sm text-slate-500 flex items-center font-medium">
             <span className="pr-2 text-xl">
@@ -125,6 +129,33 @@ const AnnouncementPage = () => {
 
       {/* Table */}
       <Table<Announcement> columns={columns} data={data} />
+
+      {/* Modal */}
+            <Modal
+              opened={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              title="Assign Project"
+            >
+              {/* Modal Content Here */}
+              <div className="space-y-3">
+                <p className="text-gray-700">
+                  Add your modal content here, like inputs or forms.
+                </p>
+
+                <input
+                  type="text"
+                  placeholder="Project title"
+                  className="w-full border px-3 py-2 rounded"
+                />
+
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                >
+                  Save
+                </button>
+              </div>
+            </Modal>
     </div>
   );
 };
