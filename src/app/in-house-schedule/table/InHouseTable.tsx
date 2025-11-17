@@ -1,84 +1,272 @@
-"use client";
-import Button from "@/component/ui/Button";
-import Table from "@/component/ui/Table";
-import React from "react";
-import { BiSolidFilterAlt, BiSolidPlusCircle, BiEdit, BiTrash } from "react-icons/bi";
+// "use client";
 
-interface InHouseSchedProps {
+// import React, { useState } from "react";
+// import Table from "@/component/ui/Table";
+// import { BiSolidFilterAlt, BiSolidPlusCircle } from "react-icons/bi";
+// import ActionDropdown from "../action/ActionDropdown";
+// import Dropdown, { DropdownItem } from "@/component/ui/Dropdown";
+
+// interface ResearchProject {
+//   id: number;
+//   title: string;
+//   researcher: string;
+//   campus: string;
+//   college: string;
+//   status: "Completed" | "Terminated" | "Pending" | "Ongoing";
+//   action?: React.ReactNode;
+// }
+
+// type ColumnKey = keyof ResearchProject | "action";
+
+// const InHousePage = () => {
+//   const data: ResearchProject[] = [
+//     {
+//       id: 1,
+//       title: "Plant Growth Study",
+//       researcher: "Dr. Alice",
+//       campus: "Main",
+//       college: "Science",
+//       status: "Completed",
+//     },
+//     {
+//       id: 2,
+//       title: "Soil Analysis",
+//       researcher: "Dr. Bob",
+//       campus: "West",
+//       college: "Agriculture",
+//       status: "Pending",
+//     },
+//     {
+//       id: 3,
+//       title: "Genetic Research",
+//       researcher: "Dr. Carol",
+//       campus: "Main",
+//       college: "Biotech",
+//       status: "Ongoing",
+//     },
+//     {
+//       id: 4,
+//       title: "Water Quality Study",
+//       researcher: "Dr. Dave",
+//       campus: "East",
+//       college: "Environment",
+//       status: "Terminated",
+//     },
+//   ];
+
+//   const [year, setYear] = useState(2025);
+//   const [status, setStatus] = useState("All Proposal");
+
+//   const columns: Array<{
+//     key: ColumnKey;
+//     header: string;
+//     render?: (value: any, row: ResearchProject) => React.ReactNode;
+//     align?: "left" | "center";
+//     width?: string;
+//   }> = [
+//     { key: "id", header: "#", align: "center", width: "60px" },
+//     { key: "title", header: "Title", align: "left" },
+//     { key: "researcher", header: "Researcher", align: "left" },
+//     { key: "campus", header: "Campus", align: "center" },
+//     { key: "college", header: "College", align: "center" },
+//     {
+//       key: "status",
+//       header: "Status",
+//       align: "center",
+//       render: (value: ResearchProject["status"]) => {
+//         const styleMap = {
+//           Completed: "bg-green-100 text-green-700",
+//           Terminated: "bg-red-100 text-red-700",
+//           Pending: "bg-yellow-100 text-yellow-700",
+//           Ongoing: "bg-blue-100 text-blue-700",
+//         };
+//         return (
+//           <span
+//             className={`inline-block px-3 py-1 rounded-full font-medium select-none ${styleMap[value]}`}
+//           >
+//             {value}
+//           </span>
+//         );
+//       },
+//     },
+//     {
+//       key: "action",
+//       header: "Action",
+//       align: "center",
+//       width: "60px",
+//       render: (_, row) => (
+//         <ActionDropdown
+//           onView={() => alert(`Edit ${row.title}`)}
+//           onApprove={() => alert(`Delete ${row.title}`)}
+//           onRequest={() => alert(`View ${row.title}`)}
+//         />
+//       ),
+//     },
+//   ];
+
+//   // Dropdown items
+//   const yearItems: DropdownItem[] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
+//     label: y.toString(),
+//     onClick: () => setYear(y),
+//   }));
+
+//   const statusItems: DropdownItem[] = [
+//     "All Proposal",
+//     "Completed",
+//     "Pending",
+//     "Ongoing",
+//     "Terminated",
+//   ].map((s) => ({
+//     label: s,
+//     onClick: () => setStatus(s),
+//   }));
+
+//   return (
+//     <div className="space-y-4 mt-[-10px] w-full">
+//       {/* Top Navigation */}
+//       <div className="max-w-full flex justify-end mb-[-5px]">
+//         <div className="inline-flex justify-end bg-white p-2 pr-5 rounded-full shadow space-x-4">
+//           <div className="flex items-center">
+//             <Dropdown buttonContent={`Year: ${year}`} items={yearItems} />
+//             <Dropdown buttonContent={`Status: ${status}`} items={statusItems} />
+//           </div>
+
+//           <div className="flex items-center text-sm text-slate-500 font-medium cursor-pointer select-none">
+//             <BiSolidFilterAlt className="mr-2 text-xl" />
+//             More Filters
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Table */}
+//       <Table<ResearchProject> columns={columns} data={data} />
+//     </div>
+//   );
+// };
+
+// export default InHousePage;
+
+
+
+
+
+"use client";
+
+import React, { useState } from "react";
+import Table from "@/component/ui/Table";
+import { BiSolidFilterAlt } from "react-icons/bi";
+import ActionDropdown from "../action/ActionDropdown";
+import Dropdown, { DropdownItem } from "@/component/ui/Dropdown";
+
+interface BatchEntry {
   id: number;
+  batchId: string;
   commodity: string;
-  numOfProposals: string;
-  dateCreated: string;
-  validUntil: string;
-  status: "Active" | "Expired" | "Draft";
-  action?: React.ReactNode; // virtual field for Action column
+  proposals: number;
+  panels: number;
+  schedule: string;
+  status: "Completed" | "Terminated" | "Pending" | "Ongoing";
 }
 
+type ColumnKey = keyof BatchEntry | "checkbox" | "action";
+
 const InHousePage = () => {
-  const data: InHouseSchedProps[] = [
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+  // 🚀 NEW DATA
+  const data: BatchEntry[] = [
     {
       id: 1,
-      commodity: "Call for Research Proposals",
-      numOfProposals:
-        "We invite researchers to submit proposals for upcoming internal studies in plant sciences.",
-      dateCreated: "2025-11-01",
-      validUntil: "2025-12-15",
-      status: "Active",
+      batchId: "BATCH-001",
+      commodity: "Rice",
+      proposals: 12,
+      panels: 3,
+      schedule: "2025-03-10",
+      status: "Completed",
     },
-    // {
-    //   id: 2,
-    //   title: "In-House Review Started",
-    //   description:
-    //     "The in-house review of the greenhouse management protocols has officially started.",
-    //   dateCreated: "2025-11-10",
-    //   validUntil: "2025-11-30",
-    //   status: "Active",
-    // },
-    // {
-    //   id: 3,
-    //   title: "System Maintenance Notification",
-    //   description:
-    //     "Scheduled maintenance of the plant tracking system next week.",
-    //   dateCreated: "2025-10-28",
-    //   validUntil: "2025-11-20",
-    //   status: "Expired",
-    // },
+    {
+      id: 2,
+      batchId: "BATCH-002",
+      commodity: "Corn",
+      proposals: 8,
+      panels: 2,
+      schedule: "2025-04-02",
+      status: "Pending",
+    },
+    {
+      id: 3,
+      batchId: "BATCH-003",
+      commodity: "Vegetables",
+      proposals: 15,
+      panels: 4,
+      schedule: "2025-05-15",
+      status: "Ongoing",
+    },
   ];
 
-  const columns: Array<{
-    key: keyof InHouseSchedProps;
-    header: string;
-    render?: (value: any, row: InHouseSchedProps) => React.ReactNode;
-    width?: string;
-    align?: "left" | "center";
-  }> = [
-    { key: "id", header: "Batch ID", width: "50px", align: "center" },
-    { key: "commodity", header: "Commodity/Unit", align: "left", width: "220px" },
-    { key: "numOfProposals", header: "No. of Proposals", width: "350px", align: "left" },
-    { key: "dateCreated", header: "Date Created", align: "center" },
-    { key: "validUntil", header: "Valid Until", align: "center" },
+  const toggleRow = (id: number) => {
+    setSelectedRows((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(data.map((item) => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const [year, setYear] = useState(2025);
+  const [status, setStatus] = useState("All Proposal");
+
+  const columns = [
+    {
+      key: "checkbox" as ColumnKey,
+      header: (
+        <input
+          type="checkbox"
+          checked={selectAll}
+          onChange={toggleSelectAll}
+          className="w-4 h-4 cursor-pointer"
+        />
+      ),
+      align: "center",
+      width: "40px",
+      render: (_: any, row: BatchEntry) => (
+        <input
+          type="checkbox"
+          checked={selectedRows.includes(row.id)}
+          onChange={() => toggleRow(row.id)}
+          className="w-4 h-4 cursor-pointer"
+        />
+      ),
+    },
+    { key: "batchId", header: "Batch ID", align: "left" },
+    { key: "commodity", header: "Commodity", align: "left" },
+    { key: "proposals", header: "No. of Proposals", align: "center" },
+    { key: "panels", header: "No. of Panels", align: "center" },
+    { key: "schedule", header: "Date Schedule", align: "center" },
     {
       key: "status",
       header: "Status",
       align: "center",
-      render: (value: InHouseSchedProps["status"]) => {
-        let color = "";
-        switch (value) {
-          case "Active":
-            color = "bg-green-500";
-            break;
-          case "Expired":
-            color = "bg-red-500";
-            break;
-          case "Draft":
-            color = "bg-yellow-500";
-            break;
-        }
+      render: (value: BatchEntry["status"]) => {
+        const styleMap = {
+          Completed: "bg-green-100 text-green-700",
+          Terminated: "bg-red-100 text-red-700",
+          Pending: "bg-yellow-100 text-yellow-700",
+          Ongoing: "bg-blue-100 text-blue-700",
+        };
         return (
-          <div className="flex items-center justify-center gap-2">
-            <span className={`w-3 h-3 rounded-full ${color}`}></span>
-            <span>{value}</span>
-          </div>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${styleMap[value]}`}
+          >
+            {value}
+          </span>
         );
       },
     },
@@ -86,45 +274,51 @@ const InHousePage = () => {
       key: "action",
       header: "Action",
       align: "center",
-      render: (_, row) => (
-        <div className="flex gap-2 justify-center">
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white p-1 rounded">
-            <BiEdit size={16} />
-          </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white p-1 rounded">
-            <BiTrash size={16} />
-          </button>
-        </div>
+      width: "60px",
+      render: (_: any, row: BatchEntry) => (
+        <ActionDropdown
+          onView={() => alert(`Viewing ${row.batchId}`)}
+          onApprove={() => alert(`Approving ${row.batchId}`)}
+          onRequest={() => alert(`Request for ${row.batchId}`)}
+        />
       ),
     },
   ];
 
-  return (
-    <div className="space-y-4 mt-[-10px]">
-      {/* Top Navigation */}
-      <nav className="flex justify-end">
-        <div className="bg-white p-2 rounded-4xl shadow-xs inline-flex space-x-4">
-          <Button
-            type="submit"
-            className="text-sm flex items-center px-2 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer"
-          >
-            <span className="pr-1 text-xl">
-              <BiSolidPlusCircle />
-            </span>
-            Create Announcement
-          </Button>
+  const yearItems: DropdownItem[] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
+    label: y.toString(),
+    onClick: () => setYear(y),
+  }));
 
-          <div className="text-sm text-slate-500 flex items-center font-medium">
-            <span className="pr-2 text-xl">
-              <BiSolidFilterAlt color="gray" />
-            </span>
-            <p>More Filters</p>
+  const statusItems: DropdownItem[] = [
+    "All Proposal",
+    "Completed",
+    "Pending",
+    "Ongoing",
+    "Terminated",
+  ].map((s) => ({
+    label: s,
+    onClick: () => setStatus(s),
+  }));
+
+  return (
+    <div className="space-y-4 mt-[-10px] w-full">
+      {/* Top Navigation */}
+      <div className="max-w-full flex justify-end mb-[-5px]">
+        <div className="inline-flex justify-end bg-white p-2 pr-5 rounded-full shadow space-x-4">
+          <div className="flex items-center space-x-3">
+            <Dropdown buttonContent={`Year: ${year}`} items={yearItems} />
+            <Dropdown buttonContent={`Status: ${status}`} items={statusItems} />
+          </div>
+
+          <div className="flex items-center text-sm text-slate-500 font-medium cursor-pointer select-none">
+            <BiSolidFilterAlt className="mr-2 text-xl" />
+            More Filters
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* Table */}
-      <Table<InHouseSchedProps> columns={columns} data={data} />
+      <Table columns={columns as any} data={data} />
     </div>
   );
 };
