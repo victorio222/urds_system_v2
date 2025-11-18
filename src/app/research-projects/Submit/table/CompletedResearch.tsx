@@ -241,6 +241,7 @@ const SignupPage = () => {
     CoProponentMain: '', // first co‑proponent
     ProjectLocation: '',
     NatureOfResearch: '',
+    Description: '',
   });
 
   // additional co‑proponents only (second, third, ...)
@@ -447,7 +448,7 @@ const SignupPage = () => {
             </div>
           )}
           <div className="">
-     <FormInput
+            <FormInput
               label="Nature of Research"
               type="text"
               name="NatureOfResearch"
@@ -456,7 +457,17 @@ const SignupPage = () => {
               placeholder="Enter your Nature of Research"
               required
             />
-            </div>
+
+                <FormInput
+              label="Description"
+              type="text"
+              name="Description"
+              value={formData.Description}
+              onChange={handleInputChange}
+              placeholder="Enter your Description"
+              required
+            />
+          </div>
           <div className="mt-6">
             <FileUploadArea onFileChange={file => setUploadedFile(file)} />
           </div>

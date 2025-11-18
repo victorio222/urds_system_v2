@@ -1,6 +1,6 @@
 'use client';
-import HeaderLayout from '@/Mogatar/component/layout/header/Header';
-import SidebarLayout from '@/Mogatar/component/layout/sidebar/Sidebar';
+import HeaderLayout from '@/app/Mogatar/component/layout/header/Header';
+import SidebarLayout from '@/app/Mogatar/component/layout/sidebar/Sidebar';
 import React, { useState } from 'react';
 import FooterLayout from './footer/Footer';
 
