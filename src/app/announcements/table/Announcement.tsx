@@ -130,13 +130,147 @@ const AnnouncementPage = () => {
       {/* Table */}
       <Table<Announcement> columns={columns} data={data} />
 
-      {/* Modal */}
+        <Modal
+  opened={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  title="Create Announcement" // Title ng Modal
+>
+  {/* Modal Content Here - Pinalitan ng content mula sa larawan */}
+  <div className="space-y-6 p-4">
+
+    {/* Title Input */}
+    <div>
+      <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+        Title
+      </label>
+      <input
+        id="title"
+        type="text"
+        placeholder="Announcement Title"
+        className="mt-1 w-full border text-black border-gray-300 px-3 py-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+
+    {/* Description Textarea */}
+    <div>
+      <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+        Description
+      </label>
+      <textarea
+        id="description"
+        placeholder="Enter announcement details..."
+        //rows="5"
+        className="mt-1 w-full border text-black border-gray-300 px-3 py-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-y"
+      ></textarea>
+    </div>
+
+    {/* Purpose and Deadline */}
+    <div className="grid grid-cols-2 gap-4">
+      {/* Purpose Dropdown */}
+      <div>
+        <label htmlFor="purpose" className="block text-sm font-medium text-gray-700">
+          Purpose
+        </label>
+        <select
+          id="purpose"
+          className="mt-1 w-full border text-gray-500 border-gray-300 bg-white px-3 py-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option>Select here...</option>
+          <option>Call for Research Proposal</option>
+          <option>In-House Evaluation</option>
+          {/* Iba pang options dito */}
+        </select>
+      </div>
+
+      {/* Deadline of Submission Input (Date Picker) */}
+      <div>
+        <label htmlFor="deadline" className="block text-sm font-medium text-gray-700">
+          Deadline of Submission
+        </label>
+        <div className="relative mt-1 text-gray-500">
+          <input
+            id="deadline"
+            type="date" // Gamitin ang 'date' kung available ang date picker
+            defaultValue="01/01/2025" // Example date
+            className="w-full border border-gray-300 px-3 py-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 pr-10"
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* Audience Dropdowns */}
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-gray-700">
+        Audience
+      </label>
+      <div className="grid grid-cols-3 gap-4">
+        <select className="col-span-1 border text-gray-500 border-gray-300 bg-white px-3 py-2 rounded-md shadow-sm">
+          <option>Select Campus</option>
+          <option>UEP Main Campus</option>
+          <option>UEP Laoang Campus</option>
+          <option>PRM Campus</option>
+          
+        </select>
+        <select className="col-span-1 border text-gray-500 border-gray-300 bg-white px-3 py-2 rounded-md shadow-sm">
+          <option>Select College</option>
+          <option>College of Agriculture, Fisheries and Natural Resources</option>
+          <option>College of Arts and Communication</option>
+          <option>College of Business Administration</option>
+          <option>College of Engineering</option>
+          <option>College of Nursing and Allied Health Sciences</option>
+          <option>College of Science</option>
+          <option>College of Veterinary Medicine</option>
+          <option>College of Criminal Justice</option>
+        </select>
+        <select className="col-span-1 border text-gray-500 border-gray-300 bg-white px-3 py-2 rounded-md shadow-sm">
+          <option>Select Audience</option>
+        </select>
+      </div>
+    </div>
+
+    {/* Upload Files Section */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700">
+        Upload Files
+      </label>
+      <p className="text-xs text-gray-500 mb-2">
+        Select and upload files of your choice
+      </p>
+      <div className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50">
+        {/* Upload icon/link icon placeholder */}
+        <div className="text-2xl text-gray-400 mb-2">📎</div>
+        <p className="text-sm text-gray-500 mb-1">
+          Choose a file or drag and drop it here
+        </p>
+        <p className="text-xs text-gray-400 mb-4">
+          JPEG, PDF, and DOCS formats, up to 50MB
+        </p>
+        <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm hover:bg-gray-100">
+          Browse Files
+        </button>
+      </div>
+    </div>
+
+    {/* Save Changes Button (nasa kanang baba ng larawan) */}
+    <div className="pt-4 flex justify-end">
+      <button
+        onClick={() => setIsModalOpen(false)}
+        className="bg-blue-600 text-white font-semibold px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition duration-150"
+      >
+        Save Changes
+      </button>
+    </div>
+
+  </div>
+</Modal>
+
+      {/* Modal
             <Modal
               opened={isModalOpen}
               onClose={() => setIsModalOpen(false)}
               title="Assign Project"
             >
-              {/* Modal Content Here */}
+              Modal Content Here
               <div className="space-y-3">
                 <p className="text-gray-700">
                   Add your modal content here, like inputs or forms.
@@ -155,7 +289,7 @@ const AnnouncementPage = () => {
                   Save
                 </button>
               </div>
-            </Modal>
+            </Modal> */}
     </div>
   );
 };

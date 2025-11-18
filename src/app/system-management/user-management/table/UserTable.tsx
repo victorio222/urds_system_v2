@@ -179,6 +179,179 @@
 
 
 
+// "use client";
+
+// import React, { useState } from "react";
+// import Table from "@/component/ui/Table";
+// import { BiSolidFilterAlt } from "react-icons/bi";
+// import ActionDropdown from "../action/ActionDropdown";
+// import Dropdown, { DropdownItem } from "@/component/ui/Dropdown";
+
+// interface UserEntry {
+//   id: number;
+//   name: string;
+//   role: string;
+//   campus: string;
+//   college: string;
+//   status: "Active" | "Inactive" | "Suspended";
+// }
+
+// type ColumnKey = keyof UserEntry | "checkbox" | "action";
+
+// const UserTable = () => {
+//   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+//   const [selectAll, setSelectAll] = useState(false);
+
+//   // 🚀 NEW USER DATA
+//   const data: UserEntry[] = [
+//     {
+//       id: 101,
+//       name: "John Doe",
+//       role: "Administrator",
+//       campus: "Main",
+//       college: "IT",
+//       status: "Active",
+//     },
+//     {
+//       id: 102,
+//       name: "Sarah Smith",
+//       role: "Faculty",
+//       campus: "North",
+//       college: "Science",
+//       status: "Inactive",
+//     },
+//     {
+//       id: 103,
+//       name: "Michael Brown",
+//       role: "Student",
+//       campus: "West",
+//       college: "Engineering",
+//       status: "Suspended",
+//     },
+//   ];
+
+//   const toggleRow = (id: number) => {
+//     setSelectedRows((prev) =>
+//       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+//     );
+//   };
+
+//   const toggleSelectAll = () => {
+//     if (selectAll) {
+//       setSelectedRows([]);
+//     } else {
+//       setSelectedRows(data.map((item) => item.id));
+//     }
+//     setSelectAll(!selectAll);
+//   };
+
+//   const [year, setYear] = useState(2025);
+//   const [status, setStatus] = useState("All Users");
+
+//   const columns = [
+//     {
+//       key: "checkbox" as ColumnKey,
+//       header: (
+//         <input
+//           type="checkbox"
+//           checked={selectAll}
+//           onChange={toggleSelectAll}
+//           className="w-4 h-4 cursor-pointer"
+//         />
+//       ),
+//       align: "center",
+//       width: "40px",
+//       render: (_: any, row: UserEntry) => (
+//         <input
+//           type="checkbox"
+//           checked={selectedRows.includes(row.id)}
+//           onChange={() => toggleRow(row.id)}
+//           className="w-4 h-4 cursor-pointer"
+//         />
+//       ),
+//     },
+
+//     { key: "id", header: "ID", align: "center" },
+//     { key: "name", header: "Name of User", align: "left" },
+//     { key: "role", header: "Role", align: "center" },
+//     { key: "campus", header: "Campus", align: "center" },
+//     { key: "college", header: "College", align: "center" },
+
+//     {
+//       key: "status",
+//       header: "Status",
+//       align: "center",
+//       render: (value: UserEntry["status"]) => {
+//         const styleMap = {
+//           Active: "bg-green-100 text-green-700",
+//           Inactive: "bg-yellow-100 text-yellow-700",
+//           Suspended: "bg-red-100 text-red-700",
+//         };
+
+//         return (
+//           <span
+//             className={`px-3 py-1 rounded-full text-sm font-medium ${styleMap[value]}`}
+//           >
+//             {value}
+//           </span>
+//         );
+//       },
+//     },
+
+//     {
+//       key: "action",
+//       header: "Action",
+//       align: "center",
+//       width: "60px",
+//       render: (_: any, row: UserEntry) => (
+//         <ActionDropdown
+//           onView={() => alert(`Viewing ${row.name}`)}
+//           onApprove={() => alert(`Editing ${row.name}`)}
+//           onRequest={() => alert(`Deleting ${row.name}`)}
+//         />
+//       ),
+//     },
+//   ];
+
+//   const yearItems: DropdownItem[] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
+//     label: y.toString(),
+//     onClick: () => setYear(y),
+//   }));
+
+//   const statusItems: DropdownItem[] = [
+//     "All Users",
+//     "Active",
+//     "Inactive",
+//     "Suspended",
+//   ].map((s) => ({
+//     label: s,
+//     onClick: () => setStatus(s),
+//   }));
+
+//   return (
+//     <div className="space-y-4 mt-[-10px] w-full">
+//       {/* Top Navigation */}
+//       <div className="max-w-full flex justify-end mb-[-5px]">
+//         <div className="inline-flex justify-end bg-white p-2 pr-5 rounded-full shadow space-x-4">
+//           <div className="flex items-center space-x-3">
+//             <Dropdown buttonContent={`Year: ${year}`} items={yearItems} />
+//             <Dropdown buttonContent={`Status: ${status}`} items={statusItems} />
+//           </div>
+
+//           <div className="flex items-center text-sm text-slate-500 font-medium cursor-pointer select-none">
+//             <BiSolidFilterAlt className="mr-2 text-xl" />
+//             More Filters
+//           </div>
+//         </div>
+//       </div>
+
+//       <Table columns={columns as any} data={data} />
+//     </div>
+//   );
+// };
+// export default UserTable;
+
+
 "use client";
 
 import React, { useState } from "react";
@@ -186,7 +359,164 @@ import Table from "@/component/ui/Table";
 import { BiSolidFilterAlt } from "react-icons/bi";
 import ActionDropdown from "../action/ActionDropdown";
 import Dropdown, { DropdownItem } from "@/component/ui/Dropdown";
+import Modal from "@/component/ui/Modal";
 
+// ---------------------
+// Add User Form
+// ---------------------
+const AddUserForm = ({ close }: { close: () => void }) => {
+  // 🔹 Name fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [suffix, setSuffix] = useState("");
+
+  // 🔹 Contact
+  const [email, setEmail] = useState("");
+
+  // 🔹 Role / Account fields
+  const [role, setRole] = useState("Administrator");
+  const [password, setPassword] = useState("");
+
+  // 🔹 Optional fields (if needed later)
+  const [campus, setCampus] = useState("Main");
+  const [college, setCollege] = useState("IT");
+  const [status, setStatus] = useState<"Active" | "Inactive" | "Suspended">(
+    "Active"
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({
+      firstName,
+      lastName,
+      middleName,
+      suffix,
+      email,
+      role,
+      campus,
+      college,
+      status,
+    });
+    close();
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+
+      {/* Row 1 */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-black font-medium mb-1">First Name</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded text-gray-600"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-black font-medium mb-1">Last Name</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded text-gray-600"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
+      {/* Row 2 */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-black font-medium mb-1">Middle Name</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded text-gray-600"
+            value={middleName}
+            onChange={(e) => setMiddleName(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-black font-medium mb-1">Suffix Name</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded text-gray-600"
+            value={suffix}
+            onChange={(e) => setSuffix(e.target.value)}
+          />
+        </div>
+      </div>
+
+       {/* Row 3 */}
+      <div className="grid grid-cols-2 gap-4">
+      <div>
+        <label className="block text-sm text-black font-medium mb-1">Email Address</label>
+        <input
+          type="email"
+          className="w-full border px-3 py-2 rounded text-gray-600"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+
+      <div>
+          <label className="block text-sm text-black font-medium mb-1">Role/Position</label>
+          <select
+            className="w-full border px-3 py-2 rounded text-gray-600"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option>Administrator</option>
+            <option>Faculty</option>
+            <option>Staff</option>
+            <option>Student</option>
+            <option>Evaluator</option>
+          </select>
+        </div>
+         </div>
+
+        <div>
+          <label className="block text-sm text-black font-medium mb-1">Password</label>
+          <input
+            type="password"
+            className="w-full border px-3 py-2 rounded text-gray-600"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+     
+
+      {/* Buttons */}
+      <div className="flex justify-end gap-3 pt-2">
+        <button
+          type="button"
+          onClick={close}
+          className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  );
+};
+
+// ---------------------
+// Table Component
+// ---------------------
 interface UserEntry {
   id: number;
   name: string;
@@ -199,54 +529,38 @@ interface UserEntry {
 type ColumnKey = keyof UserEntry | "checkbox" | "action";
 
 const UserTable = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  // 🚀 NEW USER DATA
   const data: UserEntry[] = [
-    {
-      id: 101,
-      name: "John Doe",
-      role: "Administrator",
-      campus: "Main",
-      college: "IT",
-      status: "Active",
-    },
-    {
-      id: 102,
-      name: "Sarah Smith",
-      role: "Faculty",
-      campus: "North",
-      college: "Science",
-      status: "Inactive",
-    },
-    {
-      id: 103,
-      name: "Michael Brown",
-      role: "Student",
-      campus: "West",
-      college: "Engineering",
-      status: "Suspended",
-    },
+    { id: 101, name: "John Doe", role: "Administrator", campus: "Main", college: "IT", status: "Active" },
+    { id: 102, name: "Sarah Smith", role: "Faculty", campus: "North", college: "Science", status: "Inactive" },
+    { id: 103, name: "Michael Brown", role: "Student", campus: "West", college: "Engineering", status: "Suspended" },
   ];
 
-  const toggleRow = (id: number) => {
+  const toggleRow = (id: number) =>
     setSelectedRows((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
-  };
 
   const toggleSelectAll = () => {
-    if (selectAll) {
-      setSelectedRows([]);
-    } else {
-      setSelectedRows(data.map((item) => item.id));
-    }
+    setSelectedRows(selectAll ? [] : data.map((item) => item.id));
     setSelectAll(!selectAll);
   };
 
   const [year, setYear] = useState(2025);
   const [status, setStatus] = useState("All Users");
+
+  const yearItems: DropdownItem[] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
+    label: y.toString(),
+    onClick: () => setYear(y),
+  }));
+
+  const statusItems: DropdownItem[] = ["All Users", "Active", "Inactive", "Suspended"].map((s) => ({
+    label: s,
+    onClick: () => setStatus(s),
+  }));
 
   const columns = [
     {
@@ -270,13 +584,11 @@ const UserTable = () => {
         />
       ),
     },
-
     { key: "id", header: "ID", align: "center" },
     { key: "name", header: "Name of User", align: "left" },
     { key: "role", header: "Role", align: "center" },
     { key: "campus", header: "Campus", align: "center" },
     { key: "college", header: "College", align: "center" },
-
     {
       key: "status",
       header: "Status",
@@ -287,17 +599,13 @@ const UserTable = () => {
           Inactive: "bg-yellow-100 text-yellow-700",
           Suspended: "bg-red-100 text-red-700",
         };
-
         return (
-          <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${styleMap[value]}`}
-          >
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${styleMap[value]}`}>
             {value}
           </span>
         );
       },
     },
-
     {
       key: "action",
       header: "Action",
@@ -313,41 +621,42 @@ const UserTable = () => {
     },
   ];
 
-  const yearItems: DropdownItem[] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
-    label: y.toString(),
-    onClick: () => setYear(y),
-  }));
-
-  const statusItems: DropdownItem[] = [
-    "All Users",
-    "Active",
-    "Inactive",
-    "Suspended",
-  ].map((s) => ({
-    label: s,
-    onClick: () => setStatus(s),
-  }));
-
   return (
     <div className="space-y-4 mt-[-10px] w-full">
-      {/* Top Navigation */}
-      <div className="max-w-full flex justify-end mb-[-5px]">
-        <div className="inline-flex justify-end bg-white p-2 pr-5 rounded-full shadow space-x-4">
-          <div className="flex items-center space-x-3">
-            <Dropdown buttonContent={`Year: ${year}`} items={yearItems} />
-            <Dropdown buttonContent={`Status: ${status}`} items={statusItems} />
-          </div>
 
-          <div className="flex items-center text-sm text-slate-500 font-medium cursor-pointer select-none">
+      {/* Filters */}
+      <div className="max-w-full flex justify-end mb-[-5px]">
+        <div className="inline-flex bg-white p-2 pr-5 rounded-full shadow space-x-4">
+          <Dropdown buttonContent={`Year: ${year}`} items={yearItems} />
+          <Dropdown buttonContent={`Status: ${status}`} items={statusItems} />
+
+          <div className="flex items-center text-sm text-slate-500 font-medium cursor-pointer">
             <BiSolidFilterAlt className="mr-2 text-xl" />
             More Filters
           </div>
         </div>
       </div>
 
+      {/* Add Button */}
+      <div className="flex justify-end">
+        <button
+          onClick={() => setModalOpen(true)}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Add New User
+        </button>
+      </div>
+
+      {/* Modal */}
+      <Modal opened={modalOpen} onClose={() => setModalOpen(false)} title="Add New User">
+        <AddUserForm close={() => setModalOpen(false)} />
+      </Modal>
+
+      {/* Table */}
       <Table columns={columns as any} data={data} />
     </div>
   );
 };
 
 export default UserTable;
+

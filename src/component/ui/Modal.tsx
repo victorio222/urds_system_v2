@@ -33,10 +33,10 @@ const Modal: React.FC<ModalProps> = ({ opened, onClose, title, children }) => {
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-lg shadow-xl w-[90%] max-w-md p-5 animate-fadeIn">
+      <div className="relative bg-white rounded-lg shadow-xl w-[90%] max-w-xl p-5 animate-fadeIn">
         {/* Title */}
         {title && (
-          <h2 className="text-lg font-semibold mb-3 border-b pb-2">
+          <h2 className="text-lg font-semibold mb-3 border-b pb-2 text-black">
             {title}
           </h2>
         )}
