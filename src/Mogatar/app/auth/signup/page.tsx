@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import FormInput from '@/Mogatar/component/GreyInput';
+import FormInput from '@/component/ui/GreyInput';
 import FormButton from '@/component/ui/Button';
-import FormField from '@/Mogatar/component/Greyfield';
+import FormField from '@/component/ui/Greyfield';
 import NextImage from 'next/image';
 import illustrationSrc from '@/assets/images/loginpage.png'; 
 import Image from '@/assets/images/logo.png';

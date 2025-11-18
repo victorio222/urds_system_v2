@@ -1,12 +1,12 @@
 'use client'
 import React, { useState } from 'react'
-import FormInput from '@/Mogatar/component/FormInput'
+import FormInput from '@/component/ui/FormInput'
 import Link from 'next/link'
 import FormButton from '@/component/ui/Button'
 import Image from '@/assets/images/logo.png'
 import NextImage from 'next/image'
 import illustrationSrc from '@/assets/images/loginpage.png'
-import FormField from '@/Mogatar/component/Formfield'
+import FormField from '@/component/ui/Formfield'
 
 
 
