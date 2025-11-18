@@ -4,13 +4,13 @@ import SidebarLayout from '@/component/layout/sidebar/Sidebar';
 import React, { useState } from 'react';
 import AdminDashboard from './admin/AdminDashboard';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import PersonnelDashboard from './personnel/PersonnelDashboard';
+import PersonelDasboard from './personnel/PersonnelDashboard';
 
 const DashboardPage = () => {
   return (
     <div className="flex max-h-screen">
       <DefaultLayout pageName='Dashboard'>
-        <PersonnelDashboard />
+        <PersonelDasboard />
       </DefaultLayout>
     </div>
   );
