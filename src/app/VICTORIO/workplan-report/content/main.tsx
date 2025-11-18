@@ -200,6 +200,99 @@ const MainContent: React.FC = () => {
                 <td className="border border-black font-bold px-2 text-center"></td>
                 <td className="border border-black font-bold px-2 text-center"></td>
               </tr>
+
+              <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  4. Procurement of equipment and materials;        
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+              
+              <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  5. Follow up Interviews and focus group discussions with the head of
+                  instruction of the two external campuses, college secretaries,
+                  department chairs, and laboratory school principals;         
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
+              <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  6. Conduct preliminary Investigation
+                  and detailed data gathering;         
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
+              <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  7.  Analyze and assess the scope and
+                  requirements of the research study; 
+         
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
+              <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  8.Conduct the System Development Life Cycle;        
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
+               <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  9. Conduct Training to the head of instruction of the two external
+                  campuses, college secretaries,
+                  department chairs, and laboratory
+                  school principals.        
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
+               <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  10. Conduct an assessment on the
+                  acceptability of the Workload
+                  Computation System through survey;        
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
+               <tr>
+                <td className="border border-black px-2 py-1 w-1/3">
+                  11. Write terminal report, present
+                  completed extension project, write,
+                  and publish paper.        
+                </td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+                <td className="border border-black font-bold px-2 text-center"></td>
+              </tr>
+
             </tbody>
           </table>
         </div>
