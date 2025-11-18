@@ -66,9 +66,8 @@ const Calendar: React.FC = () => {
   }, [])
 
   return (
-    <div className="h-screen p-4 flex flex-col">
-      <h1 className="text-2xl font-bold mb-4">Event Organizer Calendar</h1>
-      <div className="flex-grow">
+    <div className="min-h-0 p-4 h-full flex flex-col flex-grow">
+      <div className="flex-1 min-h-0">
         <BigCalendar
           localizer={localizer}
           events={events}
@@ -83,15 +82,6 @@ const Calendar: React.FC = () => {
           toolbar={true}
         />
       </div>
-      {isModalOpen && (
-        // <EventModal
-        //   event={selectedEvent}
-        //   onSave={handleSaveEvent}
-        //   onDelete={handleDeleteEvent}
-        //   onClose={() => setIsModalOpen(false)}
-        // />
-        <div></div>
-      )}
     </div>
   )
 }
