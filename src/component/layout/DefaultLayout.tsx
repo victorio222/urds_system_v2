@@ -6,7 +6,7 @@ import FooterLayout from './footer/Footer';
 
 interface DefaultLayoutProps {
     children: React.ReactNode;
-    pageName: string
+    pageName: string;
 }
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, pageName }) => {
@@ -17,14 +17,21 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, pageName }) => 
   };
 
   return (
-    <div className="flex max-h-screen w-full">
+    <div className="flex h-screen w-full overflow-hidden">
       <SidebarLayout isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1">
+
+      {/* MAIN COLUMN */}
+      <div className="flex flex-col flex-1 min-h-0">
+
+        {/* HEADER */}
         <HeaderLayout toggleSidebar={toggleSidebar} pageName={pageName} />
-        <div style={{ height: 'calc(100vh - 85px)'}}>
-          {/* Main content goes here */}
+
+        {/* CONTENT → must be flex-grow + min-h-0 to allow calendar expansion */}
+        <div className="flex-1 overflow-auto min-h-0">
           {children}
         </div>
+
+        {/* FOOTER */}
         <FooterLayout />
       </div>
     </div>

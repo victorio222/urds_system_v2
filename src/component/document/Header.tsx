@@ -69,7 +69,7 @@ const DocumentHead: React.FC = () => {
       </div>
 
       {/* Header Text */}
-      <div className="text-center mt-4">
+      <div className="text-center mt-4 leading-4.5">
         <p className="text-black font-medium text-[16px]">
           Republic of the Philippines
         </p>

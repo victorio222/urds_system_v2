@@ -1,135 +1,169 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Divider } from '@mui/material';
-import { usePathname } from 'next/navigation';
-import { 
-    AiOutlineDashboard, 
-    AiOutlineExperiment, 
-    AiOutlineSchedule, 
-    AiOutlineNotification, 
-    AiOutlineCalendar, 
-    AiOutlineSetting 
-} from 'react-icons/ai';
-import logo from '@/assets/images/logo.png';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Divider } from '@mui/material';
+import {
+  AiOutlineDashboard,
+  AiOutlineExperiment,
+  AiOutlineSchedule,
+  AiOutlineNotification,
+  AiOutlineCalendar,
+  AiOutlineSetting,
+} from 'react-icons/ai';
+import { BiChevronDown } from 'react-icons/bi';
+import logo from '@/assets/images/logo.png';
 
 interface SidebarLayoutProps {
-    isSidebarOpen: boolean;
-    toggleSidebar: () => void;
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
 }
 
 interface SidebarItem {
-    title: string;
-    link?: string;
-    icon?: React.ReactNode;
-    subItems?: { title: string; link: string }[];
+  title: string;
+  link?: string;
+  icon?: React.ReactNode;
+  subItems?: { title: string; link: string }[];
 }
 
 const sidebar: SidebarItem[] = [
-    { title: 'Dashboard', link: '/dashboard', icon: <AiOutlineDashboard size={20} /> },
-    {
-        title: 'Research Projects',
-        icon: <AiOutlineExperiment size={20} />,
-        subItems: [
-            { title: 'All Proposals', link: '/research-projects/all' },
-            { title: 'New', link: '/research-projects/new' },
-            { title: 'Ongoing', link: '/research-projects/on-going' },
-            { title: 'Completed', link: '/research-projects/completed' },
-        ],
-    },
-    { title: 'In-House Schedule', link: '/in-house-schedule', icon: <AiOutlineSchedule size={20} /> },
-    { title: 'Announcement', link: '/announcements', icon: <AiOutlineNotification size={20} /> },
-    { title: 'Calendar', link: '/calendar', icon: <AiOutlineCalendar size={20} /> },
-    { title: 'System Management', link: '/system-management/user-management', icon: <AiOutlineSetting size={20} /> },
+  { title: 'Dashboard', link: '/dashboard', icon: <AiOutlineDashboard size={20} /> },
+  {
+    title: 'Research Projects',
+    icon: <AiOutlineExperiment size={20} />,
+    subItems: [
+      { title: 'All Proposals', link: '/research-projects/all' },
+      { title: 'New', link: '/research-projects/new' },
+      { title: 'Ongoing', link: '/research-projects/on-going' },
+      { title: 'Completed', link: '/research-projects/completed' },
+    ],
+  },
+  { title: 'In-House Schedule', link: '/in-house-schedule', icon: <AiOutlineSchedule size={20} /> },
+  { title: 'Announcement', link: '/announcements', icon: <AiOutlineNotification size={20} /> },
+  { title: 'Calendar', link: '/calendar', icon: <AiOutlineCalendar size={20} /> },
+  {
+    title: 'System Management',
+    icon: <AiOutlineSetting size={20} />,
+    subItems: [
+      { title: 'User Management', link: '/system-management/user-management' },
+      { title: 'System Settings', link: '/system-management/settings' },
+      { title: 'Activity Logs', link: '/system-management/logs' },
+    ],
+  },
 ];
 
 const SidebarLayout: React.FC<SidebarLayoutProps> = ({ isSidebarOpen, toggleSidebar }) => {
-    const pathname = usePathname();
-    const [expanded, setExpanded] = useState<string | null>(null);
+  const pathname = usePathname();
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-    const handleToggle = (title: string) => {
-        setExpanded(expanded === title ? null : title);
-    };
+  // Set parent open if any subitem matches the current path
+  useEffect(() => {
+    sidebar.forEach((item) => {
+      if (item.subItems?.some((sub) => sub.link === pathname)) {
+        setExpanded(item.title);
+      }
+    });
+  }, [pathname]);
 
-    return (
-        <aside
-            className={`bg-white p-4 min-h-screen w-60 text-slate-800 ${
-                isSidebarOpen ? 'ml-0' : 'ml-[-240px]'
-            } transition-all duration-300`}
-        >
-            {/* Logo */}
-            <div className="flex justify-center items-center cursor-pointer ml-[-15px]">
-                <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                    <Image
-                        src={logo}
-                        alt="logo"
-                        width={70}
-                        height={70}
-                        className="object-contain"
-                        priority
+  const handleToggle = (title: string) => {
+    setExpanded((prev) => (prev === title ? null : title));
+  };
+
+  return (
+    <>
+      {/* Mobile overlay */}
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-30 z-30 transition-opacity md:hidden ${
+          isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={toggleSidebar}
+      ></div>
+
+      <aside
+        className={`fixed top-0 left-0 bg-white p-4 h-full w-64 text-slate-800 z-40 transform transition-transform duration-300
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block`}
+      >
+        {/* Logo */}
+        <div className="flex justify-center items-center cursor-pointer mb-5">
+          <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden">
+            <Image src={logo} alt="logo" width={70} height={70} className="object-contain" priority />
+          </div>
+          <h1 className="font-extrabold text-blue-700 text-4xl ml-[-7px]">URDS</h1>
+        </div>
+
+        <Divider className="bg-slate-100" />
+
+        {/* Menu */}
+        <div className="flex flex-col gap-1 mt-7">
+          {sidebar.map((item, index) => (
+            <div key={index}>
+              {/* ITEM WITH SUBMENU */}
+              {item.subItems ? (
+                <>
+                  <button
+                    onClick={() => handleToggle(item.title)}
+                    className={`flex items-center justify-between w-full cursor-pointer text-[13px] font-medium py-2 px-4 rounded-md transition-colors
+                      ${expanded === item.title ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'}`}
+                  >
+                    <span className="flex items-center gap-5">
+                      {item.icon}
+                      {item.title}
+                    </span>
+                    <BiChevronDown
+                      size={16}
+                      className={`transition-transform duration-300 ${expanded === item.title ? 'rotate-180' : 'rotate-0'}`}
                     />
-                </div>
-                <h1 className='font-extrabold text-blue-700 text-4xl ml-[-7px]'>URDS</h1>
-            </div>
+                  </button>
 
-            <Divider className="bg-slate-100" />
-
-            <div className="flex flex-col gap-1 mt-7">
-                {sidebar.map((item, index) => (
-                    <div key={index}>
-                        {item.subItems ? (
-                            <>
-                                {/* Collapsible parent */}
-                                <button
-                                    onClick={() => handleToggle(item.title)}
-                                    className={`flex items-center gap-5 w-full cursor-pointer text-[13px] font-medium py-2 px-4 rounded-md transition-colors ${
-                                        expanded === item.title || item.subItems.some(sub => sub.link === pathname)
-                                            ? 'bg-blue-600 text-white'
-                                            : 'text-slate-500 hover:bg-blue-600 hover:text-white'
-                                    }`}
-                                >
-                                    {item.icon}
-                                    {item.title}
-                                </button>
-
-                                {/* Sub-items */}
-                                {(expanded === item.title || item.subItems.some(sub => sub.link === pathname)) && (
-                                    <div className="pl-11 flex flex-col gap-1 mt-1">
-                                        {item.subItems.map((subItem, subIndex) => (
-                                            <Link
-                                                key={subIndex}
-                                                href={subItem.link}
-                                                className={`text-[12px] py-1 px-3 rounded-md transition-colors ${
-                                                    pathname === subItem.link
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'text-slate-500 hover:bg-blue-600 hover:text-white'
-                                                }`}
-                                            >
-                                                {subItem.title}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <Link
-                                href={item.link!}
-                                className={`flex items-center gap-5 text-[13px] font-medium py-2 px-4 rounded-md transition-colors ${
-                                    pathname === item.link
-                                        ? 'bg-blue-600 text-white'
-                                        : 'text-slate-400 hover:bg-blue-600 hover:text-white'
-                                }`}
-                            >
-                                {item.icon}
-                                {item.title}
-                            </Link>
-                        )}
+                  {/* SUBMENU WITH FORCE-DOWN SMOOTH TRANSITION */}
+                  <div
+                    ref={(el) => { refs.current[item.title] = el; }}
+                    style={{
+                      height: expanded === item.title && refs.current[item.title]
+                        ? `${refs.current[item.title]?.scrollHeight ?? 0}px`
+                        : '0px',
+                    }}
+                    className="overflow-hidden transition-[height] duration-300"
+                  >
+                    <div className="pl-10 flex flex-col gap-1 mt-1 py-1">
+                      {item.subItems.map((subItem, subIndex) => (
+                        <Link
+                          key={subIndex}
+                          href={subItem.link}
+                          className={`flex items-center gap-3 text-[13px] font-medium py-2 px-4 rounded-md transition-colors
+                            ${
+                              pathname === subItem.link
+                                ? 'bg-blue-500 text-white'
+                                : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'
+                            }`}
+                        >
+                          {subItem.title}
+                        </Link>
+                      ))}
                     </div>
-                ))}
+                  </div>
+                </>
+              ) : (
+                <Link
+                  href={item.link!}
+                  className={`flex items-center gap-5 text-[13px] font-medium py-2 px-4 rounded-md transition-colors ${
+                    pathname === item.link
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'
+                  }`}
+                >
+                  {item.icon}
+                  {item.title}
+                </Link>
+              )}
             </div>
-        </aside>
-    );
+          ))}
+        </div>
+      </aside>
+    </>
+  );
 };
 
 export default SidebarLayout;

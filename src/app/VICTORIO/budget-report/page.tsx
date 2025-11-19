@@ -1,12 +1,13 @@
 "use client";
 
-import { HorizontalRule } from "@mui/icons-material";
+import { HorizontalRule, Landscape } from "@mui/icons-material";
 import { useRef } from "react";
 import Logo from "@/assets/images/logo.png";
 import Image from "next/image";
 import DocumentHead from "@/component/document/Header";
 import DocumentFooter from "@/component/document/Footer";
 import MainContent from "./content/main";
+import LandscapeContent from "./content/landscapeContent";
 
 // Define the printable page styles
 const styles: { [key: string]: React.CSSProperties } = {
@@ -110,15 +111,16 @@ const PrintablePage: React.FC = () => {
     <>
       <PrintStyleSheet />
       <div ref={contentRef} style={styles.printable} className="printable">
-        <main className="h-full w-[85%]  text-black bg-white flex-col items-center justify-center mx-auto">
+        <main className="h-full w-[85%] text-black bg-white flex-col items-center justify-center mx-auto">
           <DocumentHead />
 
           {/* Main Content */}
           <MainContent />
+          <LandscapeContent />
 
           {/* Footer on every page */}
           <DocumentFooter
-            documentNo="UEP-URDS-FM-004"
+            documentNo="UEP-URDS-FM-005"
             revisionNo="00"
             effectivityDate="SEPTEMBER 12, 2022"
           />

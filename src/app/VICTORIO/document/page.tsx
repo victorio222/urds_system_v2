@@ -110,7 +110,7 @@ const PrintablePage: React.FC = () => {
     <>
       <PrintStyleSheet />
       <div ref={contentRef} style={styles.printable} className="printable">
-        <main className="h-full w-[85%]  text-black bg-white flex-col items-center justify-center mx-auto">
+        <main className="h-full w-[85%] bg-white flex-col items-center justify-center mx-auto">
           <DocumentHead />
 
           {/* Main Content */}
@@ -118,7 +118,7 @@ const PrintablePage: React.FC = () => {
 
           {/* Footer on every page */}
           <DocumentFooter
-            documentNo="UEP-URDS-FM-004"
+            documentNo="UEP-URDS-FM-003"
             revisionNo="00"
             effectivityDate="SEPTEMBER 12, 2022"
           />
