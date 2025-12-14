@@ -4,7 +4,7 @@ import SidebarLayout from '@/component/layout/sidebar/Sidebar';
 import React, { useState } from 'react';
 import AdminDashboard from './admin/AdminDashboard';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import PersonelDasboard from './personnel/PersonnelDashboard';
+import PersonelDasboard from './main/PersonnelDashboard';
 
 const DashboardPage = () => {
   return (
