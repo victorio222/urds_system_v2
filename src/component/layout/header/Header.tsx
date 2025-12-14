@@ -187,7 +187,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
           <li className="relative" ref={notifRef}>
             <button
               onClick={() => setIsNotifOpen(!isNotifOpen)}
-              className={`p-2 rounded-full hover:bg-gray-100 ${
+              className={`p-2 rounded-full text-slate-500 hover:bg-gray-100 ${
                 isNotifOpen ? "bg-blue-100 text-blue-600" : ""
               }`}
             >
