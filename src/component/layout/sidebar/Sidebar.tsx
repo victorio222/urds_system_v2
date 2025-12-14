@@ -93,7 +93,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
     <>
       {/* Mobile overlay (CRITICAL FOR MOBILE CLICK-AWAY) */}
       <div
-        className={`fixed inset-0 bg-white bg-opacity-30 z-30 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-30 transition-opacity duration-300 md:hidden ${
           isSidebarOpen
             ? "opacity-100 visible backdrop-blur-sm"
             : "opacity-0 invisible"
