@@ -248,14 +248,6 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ isSidebarOpen, toggleSide
 
   return (
     <>
-      {/* Mobile overlay */}
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-30 z-30 transition-opacity duration-300 md:hidden ${
-          isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
-        onClick={toggleSidebar}
-      ></div>
-
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 bg-white p-4 h-full w-64 text-slate-800 z-40 transform transition-transform duration-300 overflow-y-auto
