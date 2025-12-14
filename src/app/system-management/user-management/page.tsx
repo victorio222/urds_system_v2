@@ -18,7 +18,7 @@ const UserManagement = () => {
     <div className="flex max-h-screen">
       <div className="bg-blue-50 h-auto w-full">
         <DefaultLayout pageName="System Management">
-          <div className="py-3 px-7 space-y-6">
+          <div className="px-1 space-y-2">
 
             {/* ⭐ Responsive Grid for 8 TotalUser Cards (NO ARRAY MAP) */}
             <div
@@ -26,7 +26,7 @@ const UserManagement = () => {
                 grid 
                 grid-cols-1 
                 sm:grid-cols-2 
-                md:grid-cols-3 
+                md:grid-cols-2 
                 lg:grid-cols-4 
                 gap-4
                 w-full

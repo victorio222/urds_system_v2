@@ -8,7 +8,7 @@ const Announcements = () => {
     <div className="flex max-h-screen">
       <div className="bg-blue-50 h-auto w-full">
         <DefaultLayout pageName='Announcement'>
-          <div className='py-3 px-5'>
+          <div className='py-3 px-1'>
             <AnnouncementPage />
           </div>
         </DefaultLayout>
