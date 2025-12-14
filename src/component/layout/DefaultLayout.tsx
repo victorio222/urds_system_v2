@@ -93,7 +93,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, pageName }) => 
 
                 {/* CONTENT AREA */}
                 <main className="flex-1 overflow-y-auto p-0"> 
-                    <div className="p-4 md:p-6"> 
+                    <div> 
                         {children}
                     </div>
                 </main>

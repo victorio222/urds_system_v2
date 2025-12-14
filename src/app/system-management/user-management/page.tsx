@@ -18,7 +18,7 @@ const UserManagement = () => {
     <div className="flex max-h-screen">
       <div className="bg-blue-50 h-auto w-full">
         <DefaultLayout pageName="System Management">
-          <div className="px-1 space-y-2">
+          <div className="px-8 py-4 space-y-2">
 
             {/* ⭐ Responsive Grid for 8 TotalUser Cards (NO ARRAY MAP) */}
             <div
