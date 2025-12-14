@@ -1,8 +1,4 @@
 // "use client";
-// import Button from "@/component/ui/Button";
-// import Modal from "@/component/ui/Modal";
-// import Table from "@/component/ui/Table";
-// import StatusFilter from "./StatusFilter";
 
 // import React, {
 //   useState,
@@ -11,12 +7,16 @@
 //   FormEvent,
 //   ChangeEvent,
 // } from "react";
+// import Modal from "@/component/ui/Modal";
+// import Table from "@/component/ui/Table";
+// import StatusFilter from "./StatusFilter";
+
 // import {
-//   BiSolidFilterAlt,
 //   BiSolidPlusCircle,
 //   BiEdit,
 //   BiTrash,
 //   BiLoaderAlt,
+//   BiShow,
 // } from "react-icons/bi";
 
 // import {
@@ -27,23 +27,11 @@
 // } from "@/utils/apiHelpers";
 
 // import { useAuth } from "@/context/AuthContext";
+// import type { Announcement, TableAnnouncementEntry } from "@/types/announcements";
 
-// // --- TYPES ---
-// interface Announcement {
-//   announcement_id: number;
-//   title: string;
-//   content: string;
-//   created_at: string;
-//   end_date: string;
-//   status: "Active" | "Expired" | "Draft";
-//   type?: string;
-//   posted_by: number;
-// }
-
-// interface TableAnnouncementEntry extends Announcement {
-//   id: number;
-//   sequential_id: number;
-// }
+// // --- MODALS ---
+// import EditAnnouncementModal from "../modal/EditAnnouncement";
+// import ViewAnnouncementModal from "../modal/ViewAnnouncement";
 
 // interface NewAnnouncementData {
 //   title: string;
@@ -78,16 +66,23 @@
 //   const [filteredAnnouncements, setFilteredAnnouncements] = useState<
 //     TableAnnouncementEntry[]
 //   >([]);
-
 //   const [announcements, setAnnouncements] = useState<TableAnnouncementEntry[]>(
 //     []
 //   );
+
 //   const [campuses, setCampuses] = useState<Campus[]>([]);
 //   const [colleges, setColleges] = useState<College[]>([]);
 //   const [loading, setLoading] = useState(true);
 //   const [dropdownLoading, setDropdownLoading] = useState(true);
 //   const [error, setError] = useState<string | null>(null);
 //   const [isModalOpen, setIsModalOpen] = useState(false);
+
+//   // Edit/View Modals
+//   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+//   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+//   const [selectedAnnouncement, setSelectedAnnouncement] = useState<
+//     TableAnnouncementEntry | null
+//   >(null);
 
 //   const [formData, setFormData] = useState<NewAnnouncementData>({
 //     title: "",
@@ -103,6 +98,7 @@
 //     audience: "",
 //   });
 
+//   // --- EFFECTS ---
 //   useEffect(() => {
 //     if (!statusFilter) {
 //       setFilteredAnnouncements(announcements);
@@ -130,19 +126,16 @@
 //     });
 //   };
 
-//   // --- API & DATA FETCHING ---
+//   // --- API FETCH ---
 //   const fetchAnnouncements = useCallback(async () => {
 //     setLoading(true);
 //     setError(null);
 //     try {
-//       const res = await getAnnouncements(); // cookie-based auth
-//       let fetchedAnnouncements: Announcement[] = res.data || [];
-
-//       fetchedAnnouncements.sort((a, b) => {
-//         return (
-//           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-//         );
-//       });
+//       const res = await getAnnouncements();
+//       const fetchedAnnouncements: Announcement[] = res.data || [];
+//       fetchedAnnouncements.sort(
+//         (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+//       );
 
 //       const mapped: TableAnnouncementEntry[] = fetchedAnnouncements.map(
 //         (announcement, index) => ({
@@ -151,7 +144,6 @@
 //           sequential_id: index + 1,
 //         })
 //       );
-
 //       setAnnouncements(mapped);
 //     } catch (err) {
 //       console.error("Failed to fetch announcements:", err);
@@ -164,10 +156,7 @@
 //   const fetchDropdownData = useCallback(async () => {
 //     setDropdownLoading(true);
 //     try {
-//       const [campusRes, collegeRes] = await Promise.all([
-//         getCampuses(),
-//         getColleges(),
-//       ]);
+//       const [campusRes, collegeRes] = await Promise.all([getCampuses(), getColleges()]);
 
 //       setCampuses(
 //         (campusRes.data || []).map((c: any) => ({
@@ -216,12 +205,7 @@
 //       alert("Authentication error: User ID missing.");
 //       return;
 //     }
-//     if (
-//       !formData.title ||
-//       !formData.content ||
-//       !formData.start_date ||
-//       !formData.end_date
-//     ) {
+//     if (!formData.title || !formData.content || !formData.start_date || !formData.end_date) {
 //       alert("Please fill in Title, Description, Valid From, and Valid Until.");
 //       return;
 //     }
@@ -241,12 +225,8 @@
 //     const target =
 //       formData.campusId || formData.collegeId || formData.audience
 //         ? {
-//             campus_id: formData.campusId
-//               ? parseInt(formData.campusId, 10)
-//               : null,
-//             college_id: formData.collegeId
-//               ? parseInt(formData.collegeId, 10)
-//               : null,
+//             campus_id: formData.campusId ? parseInt(formData.campusId, 10) : null,
+//             college_id: formData.collegeId ? parseInt(formData.collegeId, 10) : null,
 //             audience: formData.audience || null,
 //           }
 //         : null;
@@ -254,7 +234,7 @@
 //     const finalPayload = { ...baseAnnouncement, ...(target && { target }) };
 
 //     try {
-//       await createAnnouncement(finalPayload); // cookie-based
+//       await createAnnouncement(finalPayload);
 //       setIsModalOpen(false);
 //       setFormData({
 //         title: "",
@@ -277,23 +257,13 @@
 //     }
 //   };
 
-//   // --- COLUMN DEFINITION ---
+//   // --- TABLE COLUMNS ---
 //   const columns = [
 //     { key: "sequential_id", header: "#", width: "50px", align: "center" },
 //     { key: "title", header: "Title", width: "220px", align: "left" },
 //     { key: "content", header: "Description", width: "350px", align: "left" },
-//     {
-//       key: "created_at",
-//       header: "Date Created",
-//       align: "center",
-//       render: (value: string) => formatDate(value),
-//     },
-//     {
-//       key: "end_date",
-//       header: "Valid Until",
-//       align: "center",
-//       render: (value: string) => formatDate(value),
-//     },
+//     { key: "created_at", header: "Date Created", align: "center", render: (value: string) => formatDate(value) },
+//     { key: "end_date", header: "Valid Until", align: "center", render: (value: string) => formatDate(value) },
 //     {
 //       key: "status",
 //       header: "Status",
@@ -301,17 +271,10 @@
 //       render: (value: Announcement["status"]) => {
 //         let color = "";
 //         switch (value) {
-//           case "Active":
-//             color = "bg-green-500";
-//             break;
-//           case "Expired":
-//             color = "bg-red-500";
-//             break;
-//           case "Draft":
-//             color = "bg-yellow-500";
-//             break;
-//           default:
-//             color = "bg-gray-400";
+//           case "Active": color = "bg-green-500"; break;
+//           case "Expired": color = "bg-red-500"; break;
+//           case "Draft": color = "bg-yellow-500"; break;
+//           default: color = "bg-gray-400";
 //         }
 //         return (
 //           <div className="flex items-center justify-center gap-2">
@@ -329,12 +292,18 @@
 //         <div className="flex gap-2 justify-center">
 //           <button
 //             className="bg-yellow-500 hover:bg-yellow-600 text-white p-1 rounded"
-//             onClick={() => console.log("Editing:", row.announcement_id)}
+//             onClick={() => { setSelectedAnnouncement(row); setIsEditModalOpen(true); }}
 //           >
 //             <BiEdit size={16} />
 //           </button>
 //           <button
-//             className="bg-red-500 hover:bg-red-600 text-white p-1 rounded"
+//             className="bg-blue-500 hover:bg-blue-600 text-white p-1 rounded"
+//             onClick={() => { setSelectedAnnouncement(row); setIsViewModalOpen(true); }}
+//           >
+//             <BiShow size={16} />
+//           </button>
+//           <button
+//             className="hidden bg-red-500 hover:bg-red-600 text-white p-1 rounded"
 //             onClick={() => console.log("Deleting:", row.announcement_id)}
 //           >
 //             <BiTrash size={16} />
@@ -348,8 +317,7 @@
 //   if (!isAuthenticated || !isUserValid) {
 //     return (
 //       <div className="text-center text-orange-600 p-4 border border-orange-300 bg-orange-50 rounded-md">
-//         Authentication Required: You must be logged in to create or view
-//         announcements.
+//         Authentication Required: You must be logged in to create or view announcements.
 //       </div>
 //     );
 //   }
@@ -370,9 +338,8 @@
 //     );
 //   }
 
-//   // --- MAIN JSX ---
 //   return (
-//     <div className="space-y-4 mt-[-25px]">
+//     <div className="space-y-4">
 //       {/* Top Nav */}
 //       <nav className="flex justify-end items-center space-x-3">
 //         <div className="bg-white p-2 rounded-full shadow-md inline-flex space-x-2 sm:space-x-4 flex-wrap justify-end">
@@ -381,9 +348,7 @@
 //             type="button"
 //             className="text-sm flex items-center px-2 py-1.5 sm:px-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer"
 //           >
-//             <span className="pr-1 text-xl">
-//               <BiSolidPlusCircle />
-//             </span>
+//             <span className="pr-1 text-xl"><BiSolidPlusCircle /></span>
 //             <span className="hidden sm:inline">Create Announcement</span>
 //             <span className="sm:hidden">Create</span>
 //           </button>
@@ -401,8 +366,8 @@
 //         />
 //       </div>
 
-//       {/* Modal */}
-//       <Modal
+//       {/* Create Announcement Modal */}
+//  <Modal
 //         opened={isModalOpen}
 //         onClose={() => setIsModalOpen(false)}
 //         title="Create New Announcement"
@@ -424,21 +389,21 @@
 //                 value={formData.title}
 //                 onChange={handleChange}
 //                 className="
-//                         w-full 
-//                         px-3 
-//                         py-2.5 
-//                         border 
+//                         w-full
+//                         px-3
+//                         py-2.5
+//                         border
 //                         text-sm
-//                         border-gray-300 
-//                         rounded-lg 
-//                         text-gray-500 
-//                         placeholder-gray-400 
-//                         focus:outline-none 
-//                         focus:ring-2 
-//                         focus:ring-blue-300 
+//                         border-gray-300
+//                         rounded-lg
+//                         text-gray-500
+//                         placeholder-gray-400
+//                         focus:outline-none
+//                         focus:ring-2
+//                         focus:ring-blue-300
 //                         focus:border-blue-400
-//                         transition 
-//                         duration-150 
+//                         transition
+//                         duration-150
 //                         ease-in-out
 //                       "
 //               />
@@ -459,21 +424,21 @@
 //                 value={formData.content}
 //                 onChange={handleChange}
 //                 className="
-//                         w-full 
-//                         px-3 
-//                         py-2.5 
-//                         border 
+//                         w-full
+//                         px-3
+//                         py-2.5
+//                         border
 //                         text-sm
-//                         border-gray-300 
-//                         rounded-lg 
-//                         text-gray-500 
-//                         placeholder-gray-400 
-//                         focus:outline-none 
-//                         focus:ring-2 
-//                         focus:ring-blue-300 
+//                         border-gray-300
+//                         rounded-lg
+//                         text-gray-500
+//                         placeholder-gray-400
+//                         focus:outline-none
+//                         focus:ring-2
+//                         focus:ring-blue-300
 //                         focus:border-blue-400
-//                         transition 
-//                         duration-150 
+//                         transition
+//                         duration-150
 //                         ease-in-out
 //                       "
 //               ></textarea>
@@ -495,21 +460,21 @@
 //                   value={formData.start_date}
 //                   onChange={handleChange}
 //                   className="
-//                         w-full 
-//                         px-3 
-//                         py-2.5 
-//                         border 
+//                         w-full
+//                         px-3
+//                         py-2.5
+//                         border
 //                         text-sm
-//                         border-gray-300 
-//                         rounded-lg 
-//                         text-gray-500 
-//                         placeholder-gray-400 
-//                         focus:outline-none 
-//                         focus:ring-2 
-//                         focus:ring-blue-300 
+//                         border-gray-300
+//                         rounded-lg
+//                         text-gray-500
+//                         placeholder-gray-400
+//                         focus:outline-none
+//                         focus:ring-2
+//                         focus:ring-blue-300
 //                         focus:border-blue-400
-//                         transition 
-//                         duration-150 
+//                         transition
+//                         duration-150
 //                         ease-in-out
 //                       "
 //                 />
@@ -529,21 +494,21 @@
 //                   value={formData.end_date}
 //                   onChange={handleChange}
 //                   className="
-//                         w-full 
-//                         px-3 
-//                         py-2.5 
-//                         border 
+//                         w-full
+//                         px-3
+//                         py-2.5
+//                         border
 //                         text-sm
-//                         border-gray-300 
-//                         rounded-lg 
-//                         text-gray-500 
-//                         placeholder-gray-400 
-//                         focus:outline-none 
-//                         focus:ring-2 
-//                         focus:ring-blue-300 
+//                         border-gray-300
+//                         rounded-lg
+//                         text-gray-500
+//                         placeholder-gray-400
+//                         focus:outline-none
+//                         focus:ring-2
+//                         focus:ring-blue-300
 //                         focus:border-blue-400
-//                         transition 
-//                         duration-150 
+//                         transition
+//                         duration-150
 //                         ease-in-out
 //                       "
 //                 />
@@ -562,21 +527,21 @@
 //                   value={formData.status}
 //                   onChange={handleChange}
 //                   className="
-//                         w-full 
-//                         px-3 
-//                         py-2.5 
-//                         border 
+//                         w-full
+//                         px-3
+//                         py-2.5
+//                         border
 //                         text-sm
-//                         border-gray-300 
-//                         rounded-lg 
-//                         text-gray-500 
-//                         placeholder-gray-400 
-//                         focus:outline-none 
-//                         focus:ring-2 
-//                         focus:ring-blue-300 
+//                         border-gray-300
+//                         rounded-lg
+//                         text-gray-500
+//                         placeholder-gray-400
+//                         focus:outline-none
+//                         focus:ring-2
+//                         focus:ring-blue-300
 //                         focus:border-blue-400
-//                         transition 
-//                         duration-150 
+//                         transition
+//                         duration-150
 //                         ease-in-out
 //                       "
 //                 >
@@ -599,21 +564,21 @@
 //                 value={formData.type}
 //                 onChange={handleChange}
 //                 className="
-//                         w-full 
-//                         px-3 
-//                         py-2.5 
-//                         border 
+//                         w-full
+//                         px-3
+//                         py-2.5
+//                         border
 //                         text-sm
-//                         border-gray-300 
-//                         rounded-lg 
-//                         text-gray-500 
-//                         placeholder-gray-400 
-//                         focus:outline-none 
-//                         focus:ring-2 
-//                         focus:ring-blue-300 
+//                         border-gray-300
+//                         rounded-lg
+//                         text-gray-500
+//                         placeholder-gray-400
+//                         focus:outline-none
+//                         focus:ring-2
+//                         focus:ring-blue-300
 //                         focus:border-blue-400
-//                         transition 
-//                         duration-150 
+//                         transition
+//                         duration-150
 //                         ease-in-out
 //                       "
 //               >
@@ -638,21 +603,21 @@
 //                   className="
 //                                         col-span-1
 //                                         disabled:bg-gray-100
-//                                         w-full 
-//                                         px-3 
-//                                         py-2.5 
-//                                         border 
+//                                         w-full
+//                                         px-3
+//                                         py-2.5
+//                                         border
 //                                         text-sm
-//                                         border-gray-300 
-//                                         rounded-lg 
-//                                         text-gray-500 
-//                                         placeholder-gray-400 
-//                                         focus:outline-none 
-//                                         focus:ring-2 
-//                                         focus:ring-blue-300 
+//                                         border-gray-300
+//                                         rounded-lg
+//                                         text-gray-500
+//                                         placeholder-gray-400
+//                                         focus:outline-none
+//                                         focus:ring-2
+//                                         focus:ring-blue-300
 //                                         focus:border-blue-400
-//                                         transition 
-//                                         duration-150 
+//                                         transition
+//                                         duration-150
 //                                         ease-in-out
 //                                       "
 //                 >
@@ -677,21 +642,21 @@
 //                   className="
 //                                         col-span-1
 //                                         disabled:bg-gray-100
-//                                         w-full 
-//                                         px-3 
-//                                         py-2.5 
-//                                         border 
+//                                         w-full
+//                                         px-3
+//                                         py-2.5
+//                                         border
 //                                         text-sm
-//                                         border-gray-300 
-//                                         rounded-lg 
-//                                         text-gray-500 
-//                                         placeholder-gray-400 
-//                                         focus:outline-none 
-//                                         focus:ring-2 
-//                                         focus:ring-blue-300 
+//                                         border-gray-300
+//                                         rounded-lg
+//                                         text-gray-500
+//                                         placeholder-gray-400
+//                                         focus:outline-none
+//                                         focus:ring-2
+//                                         focus:ring-blue-300
 //                                         focus:border-blue-400
-//                                         transition 
-//                                         duration-150 
+//                                         transition
+//                                         duration-150
 //                                         ease-in-out
 //                                       "
 //                 >
@@ -716,21 +681,21 @@
 //                   onChange={handleChange}
 //                   className="
 //                                         col-span-1
-//                                         w-full 
-//                                         px-3 
-//                                         py-2.5 
-//                                         border 
+//                                         w-full
+//                                         px-3
+//                                         py-2.5
+//                                         border
 //                                         text-sm
-//                                         border-gray-300 
-//                                         rounded-lg 
-//                                         text-gray-500 
-//                                         placeholder-gray-400 
-//                                         focus:outline-none 
-//                                         focus:ring-2 
-//                                         focus:ring-blue-300 
+//                                         border-gray-300
+//                                         rounded-lg
+//                                         text-gray-500
+//                                         placeholder-gray-400
+//                                         focus:outline-none
+//                                         focus:ring-2
+//                                         focus:ring-blue-300
 //                                         focus:border-blue-400
-//                                         transition 
-//                                         duration-150 
+//                                         transition
+//                                         duration-150
 //                                         ease-in-out
 //                                     "
 //                 />
@@ -774,18 +739,28 @@
 //           </div>
 //         </form>
 //       </Modal>
+
+//       {/* Edit & View Modals */}
+//       {selectedAnnouncement && (
+//         <>
+//           <EditAnnouncementModal
+//             opened={isEditModalOpen}
+//             onClose={() => setIsEditModalOpen(false)}
+//             announcement={selectedAnnouncement}
+//             onUpdateSuccess={fetchAnnouncements}
+//           />
+//           <ViewAnnouncementModal
+//             opened={isViewModalOpen}
+//             onClose={() => setIsViewModalOpen(false)}
+//             announcement={selectedAnnouncement}
+//           />
+//         </>
+//       )}
 //     </div>
 //   );
 // };
 
 // export default AnnouncementPage;
-
-
-
-
-
-
-
 
 "use client";
 
@@ -796,32 +771,31 @@ import React, {
   FormEvent,
   ChangeEvent,
 } from "react";
-import Button from "@/component/ui/Button";
 import Modal from "@/component/ui/Modal";
 import Table from "@/component/ui/Table";
 import StatusFilter from "./StatusFilter";
-
 import {
   BiSolidPlusCircle,
   BiEdit,
   BiTrash,
   BiLoaderAlt,
   BiShow,
+  BiPhoneOff,
 } from "react-icons/bi";
-
 import {
   getAnnouncements,
   createAnnouncement,
   getCampuses,
   getColleges,
 } from "@/utils/apiHelpers";
-
 import { useAuth } from "@/context/AuthContext";
-import type { Announcement, TableAnnouncementEntry } from "@/types/announcements";
-
-// --- MODALS ---
+import type {
+  Announcement,
+  TableAnnouncementEntry,
+} from "@/types/announcements";
 import EditAnnouncementModal from "../modal/EditAnnouncement";
 import ViewAnnouncementModal from "../modal/ViewAnnouncement";
+import { LuMegaphoneOff } from "react-icons/lu";
 
 interface NewAnnouncementData {
   title: string;
@@ -859,7 +833,6 @@ const AnnouncementPage = () => {
   const [announcements, setAnnouncements] = useState<TableAnnouncementEntry[]>(
     []
   );
-
   const [campuses, setCampuses] = useState<Campus[]>([]);
   const [colleges, setColleges] = useState<College[]>([]);
   const [loading, setLoading] = useState(true);
@@ -867,12 +840,10 @@ const AnnouncementPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Edit/View Modals
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [selectedAnnouncement, setSelectedAnnouncement] = useState<
-    TableAnnouncementEntry | null
-  >(null);
+  const [selectedAnnouncement, setSelectedAnnouncement] =
+    useState<TableAnnouncementEntry | null>(null);
 
   const [formData, setFormData] = useState<NewAnnouncementData>({
     title: "",
@@ -888,7 +859,6 @@ const AnnouncementPage = () => {
     audience: "",
   });
 
-  // --- EFFECTS ---
   useEffect(() => {
     if (!statusFilter) {
       setFilteredAnnouncements(announcements);
@@ -905,7 +875,6 @@ const AnnouncementPage = () => {
     }
   }, [postedById]);
 
-  // --- UTILITIES ---
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return "N/A";
@@ -916,7 +885,6 @@ const AnnouncementPage = () => {
     });
   };
 
-  // --- API FETCH ---
   const fetchAnnouncements = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -924,7 +892,8 @@ const AnnouncementPage = () => {
       const res = await getAnnouncements();
       const fetchedAnnouncements: Announcement[] = res.data || [];
       fetchedAnnouncements.sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
 
       const mapped: TableAnnouncementEntry[] = fetchedAnnouncements.map(
@@ -946,7 +915,10 @@ const AnnouncementPage = () => {
   const fetchDropdownData = useCallback(async () => {
     setDropdownLoading(true);
     try {
-      const [campusRes, collegeRes] = await Promise.all([getCampuses(), getColleges()]);
+      const [campusRes, collegeRes] = await Promise.all([
+        getCampuses(),
+        getColleges(),
+      ]);
 
       setCampuses(
         (campusRes.data || []).map((c: any) => ({
@@ -975,7 +947,6 @@ const AnnouncementPage = () => {
     }
   }, [isAuthenticated, isUserValid, fetchAnnouncements, fetchDropdownData]);
 
-  // --- FORM HANDLERS ---
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -995,7 +966,12 @@ const AnnouncementPage = () => {
       alert("Authentication error: User ID missing.");
       return;
     }
-    if (!formData.title || !formData.content || !formData.start_date || !formData.end_date) {
+    if (
+      !formData.title ||
+      !formData.content ||
+      !formData.start_date ||
+      !formData.end_date
+    ) {
       alert("Please fill in Title, Description, Valid From, and Valid Until.");
       return;
     }
@@ -1015,8 +991,12 @@ const AnnouncementPage = () => {
     const target =
       formData.campusId || formData.collegeId || formData.audience
         ? {
-            campus_id: formData.campusId ? parseInt(formData.campusId, 10) : null,
-            college_id: formData.collegeId ? parseInt(formData.collegeId, 10) : null,
+            campus_id: formData.campusId
+              ? parseInt(formData.campusId, 10)
+              : null,
+            college_id: formData.collegeId
+              ? parseInt(formData.collegeId, 10)
+              : null,
             audience: formData.audience || null,
           }
         : null;
@@ -1047,13 +1027,22 @@ const AnnouncementPage = () => {
     }
   };
 
-  // --- TABLE COLUMNS ---
   const columns = [
     { key: "sequential_id", header: "#", width: "50px", align: "center" },
     { key: "title", header: "Title", width: "220px", align: "left" },
     { key: "content", header: "Description", width: "350px", align: "left" },
-    { key: "created_at", header: "Date Created", align: "center", render: (value: string) => formatDate(value) },
-    { key: "end_date", header: "Valid Until", align: "center", render: (value: string) => formatDate(value) },
+    {
+      key: "created_at",
+      header: "Date Created",
+      align: "center",
+      render: (value: string) => formatDate(value),
+    },
+    {
+      key: "end_date",
+      header: "Valid Until",
+      align: "center",
+      render: (value: string) => formatDate(value),
+    },
     {
       key: "status",
       header: "Status",
@@ -1061,10 +1050,17 @@ const AnnouncementPage = () => {
       render: (value: Announcement["status"]) => {
         let color = "";
         switch (value) {
-          case "Active": color = "bg-green-500"; break;
-          case "Expired": color = "bg-red-500"; break;
-          case "Draft": color = "bg-yellow-500"; break;
-          default: color = "bg-gray-400";
+          case "Active":
+            color = "bg-green-500";
+            break;
+          case "Expired":
+            color = "bg-red-500";
+            break;
+          case "Draft":
+            color = "bg-yellow-500";
+            break;
+          default:
+            color = "bg-gray-400";
         }
         return (
           <div className="flex items-center justify-center gap-2">
@@ -1082,13 +1078,19 @@ const AnnouncementPage = () => {
         <div className="flex gap-2 justify-center">
           <button
             className="bg-yellow-500 hover:bg-yellow-600 text-white p-1 rounded"
-            onClick={() => { setSelectedAnnouncement(row); setIsEditModalOpen(true); }}
+            onClick={() => {
+              setSelectedAnnouncement(row);
+              setIsEditModalOpen(true);
+            }}
           >
             <BiEdit size={16} />
           </button>
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white p-1 rounded"
-            onClick={() => { setSelectedAnnouncement(row); setIsViewModalOpen(true); }}
+            onClick={() => {
+              setSelectedAnnouncement(row);
+              setIsViewModalOpen(true);
+            }}
           >
             <BiShow size={16} />
           </button>
@@ -1103,11 +1105,11 @@ const AnnouncementPage = () => {
     },
   ];
 
-  // --- RENDER ---
   if (!isAuthenticated || !isUserValid) {
     return (
       <div className="text-center text-orange-600 p-4 border border-orange-300 bg-orange-50 rounded-md">
-        Authentication Required: You must be logged in to create or view announcements.
+        Authentication Required: You must be logged in to create or view
+        announcements.
       </div>
     );
   }
@@ -1129,8 +1131,7 @@ const AnnouncementPage = () => {
   }
 
   return (
-    <div className="space-y-4 mt-[-25px]">
-      {/* Top Nav */}
+    <div className="space-y-4">
       <nav className="flex justify-end items-center space-x-3">
         <div className="bg-white p-2 rounded-full shadow-md inline-flex space-x-2 sm:space-x-4 flex-wrap justify-end">
           <button
@@ -1138,33 +1139,42 @@ const AnnouncementPage = () => {
             type="button"
             className="text-sm flex items-center px-2 py-1.5 sm:px-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer"
           >
-            <span className="pr-1 text-xl"><BiSolidPlusCircle /></span>
+            <span className="pr-1 text-xl">
+              <BiSolidPlusCircle />
+            </span>
             <span className="hidden sm:inline">Create Announcement</span>
             <span className="sm:hidden">Create</span>
           </button>
 
-          {/* Status Filter */}
           <StatusFilter onFilterChange={setStatusFilter} />
         </div>
       </nav>
 
-      {/* Table */}
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-        <Table<TableAnnouncementEntry>
-          columns={columns as any}
-          data={filteredAnnouncements}
-        />
+        {filteredAnnouncements.length === 0 ? (
+          <div className="text-center text-gray-600 p-4 py-30 border border-gray-300 bg-gray-50 rounded-md">
+            <div className="mb-3 flex justify-center items-center">
+              <div className="bg-gray-300 text-white rounded-full p-3">
+                <LuMegaphoneOff size={50} />
+              </div>
+            </div>
+            <p>No announcements available.</p>
+          </div>
+        ) : (
+          <Table<TableAnnouncementEntry>
+            columns={columns as any}
+            data={filteredAnnouncements}
+          />
+        )}
       </div>
 
-      {/* Create Announcement Modal */}
- <Modal
+      <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Create New Announcement"
       >
         <form onSubmit={handleCreateAnnouncement}>
           <div className="space-y-3">
-            {/* Title Input */}
             <div>
               <label
                 htmlFor="title"
@@ -1178,28 +1188,10 @@ const AnnouncementPage = () => {
                 placeholder="Announcement Title"
                 value={formData.title}
                 onChange={handleChange}
-                className="
-                        w-full 
-                        px-3 
-                        py-2.5 
-                        border 
-                        text-sm
-                        border-gray-300 
-                        rounded-lg 
-                        text-gray-500 
-                        placeholder-gray-400 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-blue-300 
-                        focus:border-blue-400
-                        transition 
-                        duration-150 
-                        ease-in-out
-                      "
+                className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               />
             </div>
 
-            {/* Description Textarea (maps to 'content' API field) */}
             <div>
               <label
                 htmlFor="description"
@@ -1213,30 +1205,11 @@ const AnnouncementPage = () => {
                 rows={4}
                 value={formData.content}
                 onChange={handleChange}
-                className="
-                        w-full 
-                        px-3 
-                        py-2.5 
-                        border 
-                        text-sm
-                        border-gray-300 
-                        rounded-lg 
-                        text-gray-500 
-                        placeholder-gray-400 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-blue-300 
-                        focus:border-blue-400
-                        transition 
-                        duration-150 
-                        ease-in-out
-                      "
+                className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               ></textarea>
             </div>
 
-            {/* Dates and Status (Responsive Grid - 3 columns) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {/* Start Date Input (New Field) */}
               <div>
                 <label
                   htmlFor="validFrom"
@@ -1249,28 +1222,10 @@ const AnnouncementPage = () => {
                   type="date"
                   value={formData.start_date}
                   onChange={handleChange}
-                  className="
-                        w-full 
-                        px-3 
-                        py-2.5 
-                        border 
-                        text-sm
-                        border-gray-300 
-                        rounded-lg 
-                        text-gray-500 
-                        placeholder-gray-400 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-blue-300 
-                        focus:border-blue-400
-                        transition 
-                        duration-150 
-                        ease-in-out
-                      "
+                  className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
                 />
               </div>
 
-              {/* End Date Input (maps to 'end_date' API field) */}
               <div>
                 <label
                   htmlFor="validUntil"
@@ -1283,28 +1238,10 @@ const AnnouncementPage = () => {
                   type="date"
                   value={formData.end_date}
                   onChange={handleChange}
-                  className="
-                        w-full 
-                        px-3 
-                        py-2.5 
-                        border 
-                        text-sm
-                        border-gray-300 
-                        rounded-lg 
-                        text-gray-500 
-                        placeholder-gray-400 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-blue-300 
-                        focus:border-blue-400
-                        transition 
-                        duration-150 
-                        ease-in-out
-                      "
+                  className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
                 />
               </div>
 
-              {/* Status Dropdown (New Field) */}
               <div>
                 <label
                   htmlFor="statusSelect"
@@ -1316,24 +1253,7 @@ const AnnouncementPage = () => {
                   id="statusSelect"
                   value={formData.status}
                   onChange={handleChange}
-                  className="
-                        w-full 
-                        px-3 
-                        py-2.5 
-                        border 
-                        text-sm
-                        border-gray-300 
-                        rounded-lg 
-                        text-gray-500 
-                        placeholder-gray-400 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-blue-300 
-                        focus:border-blue-400
-                        transition 
-                        duration-150 
-                        ease-in-out
-                      "
+                  className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
                 >
                   <option value="Draft">Draft</option>
                   <option value="Active">Active</option>
@@ -1341,7 +1261,6 @@ const AnnouncementPage = () => {
               </div>
             </div>
 
-            {/* Purpose Dropdown (maps to 'type' API field) */}
             <div>
               <label
                 htmlFor="purpose"
@@ -1353,24 +1272,7 @@ const AnnouncementPage = () => {
                 id="purpose"
                 value={formData.type}
                 onChange={handleChange}
-                className="
-                        w-full 
-                        px-3 
-                        py-2.5 
-                        border 
-                        text-sm
-                        border-gray-300 
-                        rounded-lg 
-                        text-gray-500 
-                        placeholder-gray-400 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-blue-300 
-                        focus:border-blue-400
-                        transition 
-                        duration-150 
-                        ease-in-out
-                      "
+                className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               >
                 <option value="">Select Announcement Type</option>
                 <option value="Research">Call for Research Proposal</option>
@@ -1378,38 +1280,17 @@ const AnnouncementPage = () => {
               </select>
             </div>
 
-            {/* Audience Dropdowns (Responsive Grid) */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Audience (Optional)
               </label>
               <div className="text-sm grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {/* Campus Dropdown */}
                 <select
                   id="campusId"
                   value={formData.campusId}
                   onChange={handleChange}
                   disabled={dropdownLoading}
-                  className="
-                                        col-span-1
-                                        disabled:bg-gray-100
-                                        w-full 
-                                        px-3 
-                                        py-2.5 
-                                        border 
-                                        text-sm
-                                        border-gray-300 
-                                        rounded-lg 
-                                        text-gray-500 
-                                        placeholder-gray-400 
-                                        focus:outline-none 
-                                        focus:ring-2 
-                                        focus:ring-blue-300 
-                                        focus:border-blue-400
-                                        transition 
-                                        duration-150 
-                                        ease-in-out
-                                      "
+                  className="col-span-1 disabled:bg-gray-100 w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
                 >
                   <option value="">Select Campus</option>
                   {dropdownLoading ? (
@@ -1423,32 +1304,12 @@ const AnnouncementPage = () => {
                   )}
                 </select>
 
-                {/* College Dropdown */}
                 <select
                   id="collegeId"
                   value={formData.collegeId}
                   onChange={handleChange}
                   disabled={dropdownLoading}
-                  className="
-                                        col-span-1
-                                        disabled:bg-gray-100
-                                        w-full 
-                                        px-3 
-                                        py-2.5 
-                                        border 
-                                        text-sm
-                                        border-gray-300 
-                                        rounded-lg 
-                                        text-gray-500 
-                                        placeholder-gray-400 
-                                        focus:outline-none 
-                                        focus:ring-2 
-                                        focus:ring-blue-300 
-                                        focus:border-blue-400
-                                        transition 
-                                        duration-150 
-                                        ease-in-out
-                                      "
+                  className="col-span-1 disabled:bg-gray-100 w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
                 >
                   <option value="">Select College</option>
                   {dropdownLoading ? (
@@ -1462,37 +1323,17 @@ const AnnouncementPage = () => {
                   )}
                 </select>
 
-                {/* Audience Text Input (New Field) */}
                 <input
                   id="audience"
                   type="text"
                   placeholder="Specific Audience (e.g., 'All Faculty')"
                   value={formData.audience}
                   onChange={handleChange}
-                  className="
-                                        col-span-1
-                                        w-full 
-                                        px-3 
-                                        py-2.5 
-                                        border 
-                                        text-sm
-                                        border-gray-300 
-                                        rounded-lg 
-                                        text-gray-500 
-                                        placeholder-gray-400 
-                                        focus:outline-none 
-                                        focus:ring-2 
-                                        focus:ring-blue-300 
-                                        focus:border-blue-400
-                                        transition 
-                                        duration-150 
-                                        ease-in-out
-                                    "
+                  className="col-span-1 w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
                 />
               </div>
             </div>
 
-            {/* Upload Files Section (Static for now) */}
             <div className="pt-2">
               <label className="block text-sm font-medium text-gray-700">
                 Upload Files
@@ -1517,8 +1358,7 @@ const AnnouncementPage = () => {
               </div>
             </div>
 
-            {/* Save Changes Button */}
-            <div className="pt-4 flex justify-end">
+            <div className="pt-2">
               <button
                 type="submit"
                 className="text-sm bg-blue-600 text-white font-normal px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition duration-150 cursor-pointer"
@@ -1530,7 +1370,6 @@ const AnnouncementPage = () => {
         </form>
       </Modal>
 
-      {/* Edit & View Modals */}
       {selectedAnnouncement && (
         <>
           <EditAnnouncementModal
