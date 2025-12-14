@@ -58,7 +58,6 @@
 //   const [expanded, setExpanded] = useState<string | null>(null);
 //   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-//   // Set parent open if any subitem matches the current path
 //   useEffect(() => {
 //     sidebar.forEach((item) => {
 //       if (item.subItems?.some((sub) => sub.link === pathname)) {
@@ -73,19 +72,21 @@
 
 //   return (
 //     <>
-//       {/* Mobile overlay */}
+//       {/* Mobile overlay (CRITICAL FOR MOBILE CLICK-AWAY) */}
 //       <div
-//         className={`fixed inset-0 bg-black bg-opacity-30 z-30 transition-opacity md:hidden ${
+//         className={`fixed inset-0 bg-black bg-opacity-30 z-30 transition-opacity duration-300 md:hidden ${
 //           isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
 //         }`}
 //         onClick={toggleSidebar}
 //       ></div>
 
+//       {/* Sidebar ASIDE element */}
 //       <aside
-//         className={`fixed top-0 left-0 bg-white p-4 h-full w-64 text-slate-800 z-40 transform transition-transform duration-300
-//           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block`}
+//         className={`fixed top-0 left-0 bg-white p-4 h-full w-64 text-slate-800 z-40 transform transition-transform duration-300 overflow-y-auto
+//           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+//           md:translate-x-0 md:static md:w-64 md:shrink-0`} // <-- CRITICAL RESPONSIVENESS
 //       >
-//         {/* Logo */}
+//         {/* Logo and Menu Content (rest of your original code) */}
 //         <div className="flex justify-center items-center cursor-pointer mb-5">
 //           <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden">
 //             <Image src={logo} alt="logo" width={70} height={70} className="object-contain" priority />
@@ -95,11 +96,9 @@
 
 //         <Divider className="bg-slate-100" />
 
-//         {/* Menu */}
 //         <div className="flex flex-col gap-1 mt-7">
 //           {sidebar.map((item, index) => (
 //             <div key={index}>
-//               {/* ITEM WITH SUBMENU */}
 //               {item.subItems ? (
 //                 <>
 //                   <button
@@ -117,7 +116,6 @@
 //                     />
 //                   </button>
 
-//                   {/* SUBMENU WITH FORCE-DOWN SMOOTH TRANSITION */}
 //                   <div
 //                     ref={(el) => { refs.current[item.title] = el; }}
 //                     style={{
@@ -138,6 +136,7 @@
 //                                 ? 'bg-blue-500 text-white'
 //                                 : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'
 //                             }`}
+//                           onClick={toggleSidebar} // Close on mobile link click
 //                         >
 //                           {subItem.title}
 //                         </Link>
@@ -153,6 +152,7 @@
 //                       ? 'bg-blue-600 text-white'
 //                       : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'
 //                   }`}
+//                   onClick={toggleSidebar} // Close on mobile link click
 //                 >
 //                   {item.icon}
 //                   {item.title}
@@ -167,10 +167,6 @@
 // };
 
 // export default SidebarLayout;
-
-
-
-
 
 
 
@@ -252,7 +248,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ isSidebarOpen, toggleSide
 
   return (
     <>
-      {/* Mobile overlay (CRITICAL FOR MOBILE CLICK-AWAY) */}
+      {/* Mobile overlay */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-30 z-30 transition-opacity duration-300 md:hidden ${
           isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -260,13 +256,12 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ isSidebarOpen, toggleSide
         onClick={toggleSidebar}
       ></div>
 
-      {/* Sidebar ASIDE element */}
+      {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 bg-white p-4 h-full w-64 text-slate-800 z-40 transform transition-transform duration-300 overflow-y-auto
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-          md:translate-x-0 md:static md:w-64 md:shrink-0`} // <-- CRITICAL RESPONSIVENESS
+          md:translate-x-0 md:static md:w-64 md:shrink-0`}
       >
-        {/* Logo and Menu Content (rest of your original code) */}
         <div className="flex justify-center items-center cursor-pointer mb-5">
           <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden">
             <Image src={logo} alt="logo" width={70} height={70} className="object-contain" priority />
@@ -311,12 +306,10 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ isSidebarOpen, toggleSide
                           key={subIndex}
                           href={subItem.link}
                           className={`flex items-center gap-3 text-[13px] font-medium py-2 px-4 rounded-md transition-colors
-                            ${
-                              pathname === subItem.link
-                                ? 'bg-blue-500 text-white'
-                                : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'
-                            }`}
-                          onClick={toggleSidebar} // Close on mobile link click
+                            ${pathname === subItem.link
+                              ? 'bg-blue-500 text-white'
+                              : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'}`}
+                          onClick={toggleSidebar}
                         >
                           {subItem.title}
                         </Link>
@@ -332,7 +325,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ isSidebarOpen, toggleSide
                       ? 'bg-blue-600 text-white'
                       : 'text-slate-500 hover:bg-blue-100 hover:text-blue-600'
                   }`}
-                  onClick={toggleSidebar} // Close on mobile link click
+                  onClick={toggleSidebar}
                 >
                   {item.icon}
                   {item.title}
