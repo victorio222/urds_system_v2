@@ -6,7 +6,7 @@ import ProtectedRoute from "@/component/ProtectedRoute";
 
 const Announcements = () => {
   return (
-    <ProtectedRoute allowedRoles={["admin", "staff"]}>
+    <ProtectedRoute allowedRoles={["URDS Director", "URDS Staff", "College Dean", "College Coordinator", "Senior Faculty Researcher", "Faculty Researcher"]}>
       <div className="flex max-h-screen">
         <div className="bg-blue-50 h-auto w-full">
           <DefaultLayout pageName="Announcement">
