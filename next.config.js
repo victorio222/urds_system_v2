@@ -1,17 +1,22 @@
+// next.config.js (Corrected Format)
 
-import type { NextConfig } from "next";
+// 1. Remove the 'import type' line
+// 2. Remove the ': NextConfig' type annotation
+// 3. Remove the 'export default' line
 
-const nextConfig: NextConfig = {
-  basePath: '/urds',
-  async rewrites() {
-    return [
-      {
-        // Source: Frontend requests /api/roles
-        source: '/api/:path*',
-        
-        // Destination: Proxy sends request to https://.../api/roles
-        destination: 'https://urds-system-backendv2.onrender.com/api/:path*' 
-      }
-    ]
-  }
+const nextConfig = { // Keep this as a standard JS object definition
+    /* config options here */
+    basePath: '/urds',
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                // IMPORTANT: Ensure the /api is here for the rewrite fix
+                destination: 'https://urds-system-backendv2.onrender.com/api/:path*' 
+            }
+        ]
+    }
 };
+
+// Use the CommonJS export syntax
+module.exports = nextConfig;
