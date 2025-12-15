@@ -52,7 +52,7 @@
 "use client";
 
 import React, { useState } from "react";
-import FormInput from "@/component/ui/FormInput";
+import FormInput from "@/component/ui/FormTextArea";
 import FormButton from "@/component/ui/Button";
 import { Button } from "@mui/material";
 import { useAuth } from "@/context/AuthContext";
@@ -118,7 +118,7 @@ const LiteratureReviewPage: React.FC<Props> = ({
 
       <FormInput
         label="Literature Review Summary"
-        type="text"
+        rows={25}
         placeholder="Summarize the literature review"
         name="literatureSummary"
         value={formData.literatureSummary || ""}

@@ -152,6 +152,9 @@ import FormButton from '@/component/ui/Button';
 import { Button } from '@mui/material';
 import { useAuth } from '@/context/AuthContext';
 import { addOrUpdateTechInfo, addObjectives } from '@/utils/apiHelpers'; // Ensure updateTechInfo uses PUT to /tech-info/update/:id
+import ObjectivesSection from "../table/ObjectivesSection";
+import FormTextarea from '@/component/ui/FormTextArea';
+
 
 interface Props {
   formData: any;
@@ -170,6 +173,7 @@ const TechnicalInfoPage: React.FC<Props> = ({
 }) => {
   const { userId } = useAuth();
   const [objectives, setObjectives] = useState<string[]>(formData.objectives || ['']);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -230,33 +234,52 @@ const TechnicalInfoPage: React.FC<Props> = ({
     }
   };
 
+
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {error && <p className="text-red-500">{error}</p>}
 
       {/* Rationale */}
-      <FormInput
+      <FormTextarea
         label="Rationale"
-        type="text"
-        placeholder="Rationale"
         name="rationale"
         value={formData.rationale || ''}
         onChange={(e) => setFormData({ ...formData, rationale: e.target.value })}
+        placeholder="Describe the rationale and significance of the study"
+        rows={5}
+        required
+      />
+      {/* Methodology */}
+      <FormTextarea
+        label="Methodology"
+        name="methodology"
+        value={formData.methodology || ""}
+        onChange={(e) => setFormData({ ...formData, methodology: e.target.value })}
+        placeholder="Describe study design, participants, instruments, procedures, data analysis, etc."
+        rows={5}
         required
       />
 
-      {/* Methodology */}
-      <FormInput
-        label="Methodology"
-        type="text"
-        placeholder="Methodology"
-        name="methodology"
-        value={formData.methodology || ''}
-        onChange={(e) => setFormData({ ...formData, methodology: e.target.value })}
-      />
+      {/* <FormInput
+  label="Rationale"
+  type="text"
+  placeholder="Rationale"
+  name="rationale"
+  value={formData.rationale || ''}
+  onChange={(e) => setFormData({ ...formData, rationale: e.target.value })}
+  required
+/> */}
+      {/* <FormInput
+                label="Methodology"
+                type="text"
+                placeholder="Methodology"
+                name="methodology"
+                value={formData.methodology || ''}
+                onChange={(e) => setFormData({ ...formData, methodology: e.target.value })}
+              /> */}
 
-      {/* Objectives */}
-      {objectives.map((obj, i) => (
+      {/* {objectives.map((obj, i) => (
         <div key={i} className="flex gap-2 items-center">
           <FormInput
             label={`Objective ${i + 1}`}
@@ -283,7 +306,14 @@ const TechnicalInfoPage: React.FC<Props> = ({
         className="text-blue-500 text-sm border border-blue-300 px-2 py-1 rounded hover:bg-blue-50"
       >
         Add Objective
-      </button>
+      </button> */}
+
+      {/* Objectives handled by reusable section, bound to `objectives` state */}
+      <ObjectivesSection
+        data={{ objectives }}
+        onChange={(d) => setObjectives(d.objectives)}
+        minItems={1}
+      />
 
       <div className="flex justify-between mt-4">
         <Button type="button" onClick={prevStep}>

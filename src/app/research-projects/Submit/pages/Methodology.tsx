@@ -197,6 +197,7 @@
 import React, { useState } from 'react';
 import FormInput from '@/component/ui/FormInput';
 import FormButton from '@/component/ui/Button';
+import FormTextArea from '@/component/ui/FormTextArea';
 import { Button } from '@mui/material';
 import {
   addMethodology,
@@ -291,8 +292,8 @@ const MethodologyPage: React.FC<Props> = ({
       {error && <p className="text-red-500">{error}</p>}
 
       {/* ================= GENERAL METHODOLOGY ================= */}
-      <FormInput
-        type="text"
+      <FormTextArea
+        rows={8}
         name="generalMethodology"
         label="General Methodology"
         placeholder="Overall research methodology (e.g. Mixed Methods Approach)"

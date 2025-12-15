@@ -1,10 +1,13 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
-import FormButton from '@/component/ui/Button';
+import FormButton from '@/component/ui/FormButton';
 import FormInput from '@/component/ui/FormInput';
 import { useAuth } from '@/context/AuthContext';
 import { createProposal } from '@/utils/apiHelpers';
+import FormField from '@/component/ui/Formfield';
+import ProponentSection, {ProponentData,} from '../table/ProponentSection';
+
 
 interface Props {
   formData: any;
@@ -22,7 +25,7 @@ const commodityOptions = [
 ];
 
 const natureOptions = ["Program", "Project", "Study"];
-
+ 
 const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => {
   const { userId } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -64,6 +67,14 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
     }
   };
 
+    const proponentFromForm: ProponentData = {
+    MainProponent: formData.mainProponent || "",
+    CoProponentMain: formData.coProponentMain || "",
+    extraCoProponents: Array.isArray(formData.extraCoProponents)
+      ? formData.extraCoProponents
+      : [],
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {error && <p className="text-red-500">{error}</p>}
@@ -78,7 +89,7 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
         required
       />
 
-      <label className="flex flex-col">
+      {/* <label className="flex flex-col">
         Commodity
         <select
           value={formData.commodity || ''}
@@ -91,22 +102,53 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
             <option key={item} value={item}>{item}</option>
           ))}
         </select>
-      </label>
+        </label> */}
 
-      <label className="flex flex-col">
+      <FormField
+        label="Select Commodity"
+        value={formData.commodity || ''}
+        onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
+        options={commodityOptions.map((c) => ({ value: c, label: c }))}
+        placeholder="Select Commodity"
+        required
+      />
+
+
+      {/* <label className="flex flex-col">
         Nature of Research
         <select
-          value={formData.natureOfResearch || ''}
-          onChange={(e) => setFormData({ ...formData, natureOfResearch: e.target.value })}
-          className="border p-2 rounded mt-1"
-          required
+        value={formData.natureOfResearch || ''}
+        onChange={(e) => setFormData({ ...formData, natureOfResearch: e.target.value })}
+        className="border p-2 rounded mt-1"
+        required
         >
-          <option value="" disabled>Select Nature</option>
-          {natureOptions.map((item) => (
+        <option value="" disabled>Select Nature</option>
+        {natureOptions.map((item) => (
             <option key={item} value={item}>{item}</option>
           ))}
-        </select>
-      </label>
+          </select>
+          </label> */}
+
+      <FormField
+        label="Select Nature of Research"
+        value={formData.natureOfResearch || ''}
+        onChange={(e) => setFormData({ ...formData, natureOfResearch: e.target.value })}
+        options={natureOptions.map((n) => ({ value: n, label: n }))}
+        placeholder="Select Nature of Research"
+        required
+      />
+
+     <ProponentSection
+        data={proponentFromForm}
+        onChange={(data) => {
+          setFormData((prev: any) => ({
+            ...prev,
+            mainProponent: data.MainProponent,
+            coProponentMain: data.CoProponentMain,
+            extraCoProponents: data.extraCoProponents,
+          }));
+        }}
+      />
 
       <FormInput
         label="Project Location"
@@ -117,7 +159,7 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
         required
       />
-
+<div className='flex gap-4'>
       <FormInput
         label="Start Date"
         type="date"
@@ -135,7 +177,7 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
         onChange={(e) => setFormData({ ...formData, durationEnd: e.target.value })}
         required
       />
-
+</div>
       <FormInput
         label="Budget"
         type="number"
@@ -148,7 +190,7 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
         required
       />
 
-      <FormInput
+      {/* <FormInput
         label="Main Proponent"
         type="text"
         name="mainProponent"
@@ -165,9 +207,9 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
         placeholder="Co-Proponent"
         value={formData.coProponentMain || ''}
         onChange={(e) => setFormData({ ...formData, coProponentMain: e.target.value })}
-      />
+      /> */}
 
-      <FormButton type="submit">
+      <FormButton type="submit" >
         {loading ? 'Submitting...' : 'Next'}
       </FormButton>
     </form>
