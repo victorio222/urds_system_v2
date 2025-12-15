@@ -1,8 +1,37 @@
+// import type { NextConfig } from "next";
+
+// const nextConfig: NextConfig = {
+//   /* config options here */
+//   basePath: '/urds',
+//   async rewrites() {
+//     return [
+//       {
+//         source: '/api/:path*',
+//         destination: 'https://urds-system-backendv2.onrender.com/:path*'
+//       }
+//     ]
+//   }
+// };
+
+// export default nextConfig;
+
+
+
+
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   basePath: '/urds',
+  async rewrites() {
+    return [
+      {
+        // Source: Frontend requests /api/roles
+        source: '/api/:path*',
+        
+        // Destination: Proxy sends request to https://.../api/roles
+        destination: 'https://urds-system-backendv2.onrender.com/api/:path*' 
+      }
+    ]
+  }
 };
-
-export default nextConfig;
