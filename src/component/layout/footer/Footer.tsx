@@ -21,7 +21,7 @@ import React from "react";
 
 const FooterLayout = () => {
   return (
-    <footer className="mt-[-20px] bg-white text-gray-500 font-thin w-full border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center py-4 px-2 sm:px-6 text-xs sm:text-sm">
+    <footer className="bg-white text-gray-500 font-thin w-full border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center py-0 px-2 sm:px-6 text-xs sm:text-sm">
       <span className="text-center sm:text-left">
         © 2025. All rights reserved.
       </span>
