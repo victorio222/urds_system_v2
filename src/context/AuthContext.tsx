@@ -1,168 +1,181 @@
-"use client" 
+"use client";
 
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from "react";
 
-// --- PRODUCTION IMPORTS ---
-// IMPORTANT: Ensure this path is correct for your project
-import { logout as apiLogout } from '@/utils/apiHelpers'; 
-// --------------------------
+import { logout as apiLogout } from "@/utils/apiHelpers";
 
-// --- TYPE DEFINITIONS ---
-export type UserRole = 'admin' | 'staff' | 'researcher' | 'public';
+/* =======================
+   ROLE TYPES
+======================= */
+export type UserRole =
+  | "URDS Director"
+  | "URDS Staff"
+  | "College Coordinator"
+  | "Faculty Researcher"
+  | "Senior Faculty Researcher"
+  | "Researcher"
+  | "Public";
 
+/* =======================
+   USER DATA (SAFE)
+======================= */
 interface UserData {
-  user_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
+  user_id: number;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  suffix_name: string;
+  email: string;
+  role_id: number;
 }
 
-// Data structure passed from LoginPage to AuthContext
+/* =======================
+   LOGIN PAYLOAD (API)
+======================= */
 interface ContextLoginPayload {
-    user: UserData & { role_id: number }; // The full user object from API response
-    roleName: string; // The resolved role name string (e.g., "URDS Staff")
+  user: UserData;
 }
 
+/* =======================
+   CONTEXT TYPE
+======================= */
 interface AuthContextType {
-  isAuthenticated: boolean;
-  userRole: UserRole | null;
-  userId: number | null;
-  user: UserData | null;
-  isAuthenticatedChecked: boolean;
-  
-  contextLogin: (payload: ContextLoginPayload) => void; // Renamed to clarify its role
-  logout: () => void;
+  isAuthenticated: boolean;
+  userRole: UserRole | null;
+  userId: number | null;
+  user: UserData | null;
+  isAuthenticatedChecked: boolean;
+  contextLogin: (payload: ContextLoginPayload) => void;
+  logout: () => void;
 }
 
-// --- ROLE MAPPING (Maps API role name to generic frontend role type) ---
-const mapRoleToUserRole = (roleName: string | undefined): UserRole => { 
-    // Safety check for undefined roleName
-    if (!roleName) {
-        console.warn("Role name was undefined. Defaulting to 'public'.");
-        return 'public';
-    }
-    
-    const normalizedRole = roleName.trim();
-
-    switch (normalizedRole) {
-        case "URDS Director":
-            return 'admin'; 
-        case "URDS Staff":
-        case "College Coordinator":
-            return 'staff'; 
-        case "Faculty Researcher":
-        case "Senior Faculty Researcher":
-        case "Researcher":
-            return 'researcher';
-        default:
-            return 'public';
-    }
+/* =======================
+   ROLE RESOLVER
+======================= */
+const resolveRoleFromId = (roleId: number): UserRole => {
+  switch (roleId) {
+    case 1:
+      return "URDS Director";
+    case 2:
+      return "URDS Staff";
+    case 3:
+      return "College Coordinator";
+    case 4:
+      return "Faculty Researcher";
+    case 5:
+      return "Senior Faculty Researcher";
+    case 6:
+      return "Researcher";
+    default:
+      return "Public";
+  }
 };
 
+/* =======================
+   CONTEXT
+======================= */
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// --- AUTH PROVIDER COMPONENT ---
+/* =======================
+   PROVIDER
+======================= */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState<UserRole | null>(null);
-  const [userId, setUserId] = useState<number | null>(null);
-  const [user, setUser] = useState<UserData | null>(null); 
-  const [isAuthenticatedChecked, setIsAuthenticatedChecked] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [isAuthenticatedChecked, setIsAuthenticatedChecked] = useState(false);
 
-  useEffect(() => {
-    // Initial load check: Populates state from non-sensitive localStorage data
-    try {
-        const storedRole = localStorage.getItem('userRole') as UserRole;
-        const storedUserId = localStorage.getItem('userId');
-        const storedUserJson = localStorage.getItem('userData'); 
+  /* 🔄 INITIAL LOAD */
+  useEffect(() => {
+    try {
+      const storedUserJson = localStorage.getItem("userData");
+      const storedRole = localStorage.getItem("userRole") as UserRole | null;
+      const storedUserId = localStorage.getItem("userId");
 
-        const numericUserId = storedUserId ? parseInt(storedUserId, 10) : null;
-        const storedUserData: UserData | null = storedUserJson ? JSON.parse(storedUserJson) : null;
+      if (storedUserJson && storedRole && storedUserId) {
+        setUser(JSON.parse(storedUserJson));
+        setUserRole(storedRole);
+        setUserId(Number(storedUserId));
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.error("Failed to restore auth state:", error);
+    } finally {
+      setIsAuthenticatedChecked(true);
+    }
+  }, []);
 
-        if (storedRole && numericUserId && numericUserId > 0 && storedUserData) {
-            setIsAuthenticated(true);
-            setUserRole(storedRole);
-            setUserId(numericUserId);
-            setUser(storedUserData);
-        } 
-    } catch (error) {
-        console.error("Error reading initial auth data from localStorage:", error);
-    } finally {
-        setIsAuthenticatedChecked(true); 
-    }
-  }, []);
+  /* 🔐 LOGIN */
+  const contextLogin = ({ user }: ContextLoginPayload) => {
+    const resolvedRole = resolveRoleFromId(user.role_id);
 
-  // --- CONTEXT LOGIN FUNCTION (Handles state update only) ---
-  const contextLogin = (payload: ContextLoginPayload) => {
-        const { user: userDataFromApi, roleName } = payload;
-        
-        // 1. Map the resolved role name string to the generic frontend role type
-        const finalRole: UserRole = mapRoleToUserRole(roleName); 
-        
-        // 2. Prepare minimal, non-sensitive data for state/storage
-        const minimalUserData: UserData = {
-            user_id: userDataFromApi.user_id,
-            first_name: userDataFromApi.first_name,
-            last_name: userDataFromApi.last_name,
-            email: userDataFromApi.email,
-        };
-        
-        // 3. Update Storage
-        localStorage.setItem('userRole', finalRole);
-        localStorage.setItem('userId', userDataFromApi.user_id.toString()); 
-        localStorage.setItem('userData', JSON.stringify(minimalUserData)); 
+    const safeUserData: UserData = {
+      user_id: user.user_id,
+      first_name: user.first_name,
+      middle_name: user.middle_name,
+      last_name: user.last_name,
+      suffix_name: user.suffix_name,
+      email: user.email,
+      role_id: user.role_id,
+    };
 
-        // 4. Update React State
-        setIsAuthenticated(true);
-        setUserRole(finalRole);
-        setUserId(userDataFromApi.user_id);
-        setUser(minimalUserData); 
-  };
+    localStorage.setItem("userData", JSON.stringify(safeUserData));
+    localStorage.setItem("userRole", resolvedRole);
+    localStorage.setItem("userId", user.user_id.toString());
 
-  // --- LOGOUT FUNCTION ---
-  const logout = async () => {
-    // 1. Call backend to clear the secure cookie
-    try {
-        await apiLogout(); 
-    } catch(e) {
-        console.warn("Logout API failed (server-side), clearing client state anyway.", e);
-    }
-    
-    // 2. Clear Local Storage
-    localStorage.removeItem('authToken'); 
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userData'); 
+    setIsAuthenticated(true);
+    setUserRole(resolvedRole);
+    setUserId(user.user_id);
+    setUser(safeUserData);
+  };
 
-    // 3. Clear React state
-    setIsAuthenticated(false);
-    setUserRole(null);
-    setUserId(null);
-    setUser(null); 
-  };
+  /* 🚪 LOGOUT */
+  const logout = async () => {
+    try {
+      await apiLogout();
+    } catch {
+      console.warn("Server logout failed, clearing client session anyway.");
+    }
 
-  return (
-    <AuthContext.Provider 
-      value={{ 
-        isAuthenticated, 
-        userRole, 
-        userId,
-        user, 
-        isAuthenticatedChecked, 
-        contextLogin, // Export the contextLogin function
-        logout 
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    localStorage.clear();
+
+    setIsAuthenticated(false);
+    setUserRole(null);
+    setUserId(null);
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        userRole,
+        userId,
+        user,
+        isAuthenticatedChecked,
+        contextLogin,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-// --- CUSTOM HOOK ---
+/* =======================
+   CUSTOM HOOK
+======================= */
 export const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };

@@ -91,7 +91,6 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
 
   return (
     <>
-      {/* Mobile overlay (CRITICAL FOR MOBILE CLICK-AWAY) */}
       <div
         className={`fixed inset-0 z-30 transition-opacity duration-300 md:hidden ${
           isSidebarOpen
@@ -100,14 +99,11 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
         }`}
         onClick={toggleSidebar}
       />
-
-      {/* Sidebar ASIDE element */}
       <aside
         className={`fixed top-0 left-0 bg-white p-4 h-full w-64 text-slate-800 z-40 transform transition-transform duration-300 overflow-y-auto
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-          md:translate-x-0 md:static md:w-64 md:shrink-0`} // <-- CRITICAL RESPONSIVENESS
+          md:translate-x-0 md:static md:w-64 md:shrink-0`}
       >
-        {/* Logo and Menu Content (rest of your original code) */}
         <div className="flex justify-center items-center cursor-pointer mb-5">
           <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden">
             <Image
