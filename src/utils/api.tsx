@@ -34,14 +34,14 @@ export const apiContact = () =>
     },
   });
 
-export const apiAuth = (props: any, type: any) =>
+export const apiAuth = () =>
   axios.create({
     baseURL: config.apiUrl,
     headers: {
       Accept: "*/*",
       "Content-type": "application/json",
-      Authorization: `Bearer ${config.authorization}`,
     },
+    withCredentials: true,  // Ensure cookies are sent with every request
   });
 
 export const apiChangePassword = (props: any, type: any) =>

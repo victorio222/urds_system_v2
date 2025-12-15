@@ -46,7 +46,7 @@ const Table = <T extends { id: number | string }>({
             {columns.map((col, idx) => (
               <th
                 key={col.key as string}
-                className={`px-6 pb-2 ${
+                className={`px-6 py-2.5 ${
                   idx < 3 ? 'text-left' : 'text-center'
                 }`}
                 style={{ width: col.width }}

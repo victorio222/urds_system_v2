@@ -8,7 +8,7 @@ import PersonelDasboard from './main/PersonnelDashboard';
 
 const DashboardPage = () => {
   return (
-    <div className="flex max-h-screen">
+    <div>
       <DefaultLayout pageName='Dashboard'>
         <PersonelDasboard />
       </DefaultLayout>

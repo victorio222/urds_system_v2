@@ -1,32 +1,32 @@
-import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/router';
-import React, { ReactNode, useEffect } from 'react';
+// components/ProtectedRoute.tsx
+"use client";
+import { ReactNode, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles: string[]; // Array of allowed roles for this route
+  allowedRoles?: ("admin" | "staff" | "researcher" | "public")[]; // optional role restriction
 }
 
-const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-  const { isAuthenticated, userRole } = useAuth();
+export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
+  const { isAuthenticated, isAuthenticatedChecked, userRole } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      // Redirect to login page if not authenticated
-      router.push('/login');
-    } else if (!allowedRoles.includes(userRole || '')) {
-      // Redirect to home if the role is not allowed
-      router.push('/');
+    if (isAuthenticatedChecked) {
+      if (!isAuthenticated) {
+        router.replace("/auth/login"); // redirect to login if not authenticated
+      } else if (allowedRoles && !allowedRoles.includes(userRole!)) {
+        router.replace("/unauthorized"); // optional: redirect if role not allowed
+      }
     }
-  }, [isAuthenticated, userRole, allowedRoles, router]);
+  }, [isAuthenticated, isAuthenticatedChecked, userRole, router, allowedRoles]);
 
-  if (!isAuthenticated || !allowedRoles.includes(userRole || '')) {
-    // Optionally show a loading screen while checking auth
-    return <div>Loading...</div>;
+  // Show a loading message while checking auth
+  if (!isAuthenticatedChecked || !isAuthenticated) {
+    return <div className="text-center mt-20">Checking authentication...</div>;
   }
 
   return <>{children}</>;
-};
-
-export default ProtectedRoute;
+}
