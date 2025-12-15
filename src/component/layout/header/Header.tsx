@@ -7,6 +7,7 @@ import Image from "next/image";
 import profile from "@/assets/images/profile.png";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+
 interface HeaderLayoutProps {
   toggleSidebar: () => void;
   pageName: string;
@@ -125,18 +126,14 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const fullName = user ? `${user.first_name} ${user.last_name}` : "User";
+  const fullName = user
+    ? `${user.first_name} ${user.last_name}`
+    : "User";
 
   const email = user?.email ?? "—";
 
-  const roleLabel =
-    userRole === "admin"
-      ? "URDS Director"
-      : userRole === "staff"
-      ? "URDS Staff"
-      : userRole === "researcher"
-      ? "Researcher"
-      : "User";
+  /* ✅ ROLE NOW MATCHES AuthContext EXACTLY */
+  const roleLabel = userRole ?? "User";
 
   return (
     <header className="bg-white px-4 sm:px-7 py-2 flex items-center shadow-sm sticky top-0 z-20">
@@ -151,7 +148,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
         <p className="font-light text-xs mb-1 text-slate-500">
           Home / {pageName}
         </p>
-        <h1 className="text-xl text-slate-700  md:text-2xl font-semibold">
+        <h1 className="text-xl text-slate-700 md:text-2xl font-semibold">
           {pageName}
         </h1>
       </div>
