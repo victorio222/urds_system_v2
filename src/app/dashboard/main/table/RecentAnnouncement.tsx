@@ -173,7 +173,7 @@ const RecentAnnouncement: React.FC = () => {
   };
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col justify-between h-[230px]">
+    <section className="rounded-lg border min-h-lg border-slate-200 bg-white p-4 shadow-sm flex flex-col justify-between h-[230px]">
       <div>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
