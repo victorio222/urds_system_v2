@@ -77,15 +77,15 @@ const ProposalWizard = () => {
           //   proposalId={proposalId} // optional if needed
         />
       )}
-      {step === 5 && (
+      {/* {step === 5 && (
         <WorkPlanPage
           formData={formData}
           setFormData={setFormData}
           prevStep={prevStep}
           // onSubmit={handleSubmit}
-          proposalId={proposalId} // optional if needed
+          proposalId={proposalId}
         />
-      )}
+      )} */}
     </div>
   );
 };
