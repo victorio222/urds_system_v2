@@ -5,10 +5,11 @@ const config = {
     `${process.env.NEXT_PUBLIC_SERVICES_APP_URL}`,
     "http://localhost:3000"
   ),
-  apiUrl: setDefault(
-    `${process.env.NEXT_PUBLIC_SERVICES_API_URL}`,
-    "https://localhost:8080"
-  ),
+  apiUrl: '/api',
+  // apiUrl: setDefault(
+  //   `${process.env.NEXT_PUBLIC_SERVICES_API_URL}`,
+  //   "https://localhost:8080"
+  // ),
   secret: setDefault(process.env.NEXT_PUBLIC_REACT_SECRET_KEY, ""),
   authorization: setDefault(process.env.REACT_APP_AUTHORIZATION, ""),
 }
