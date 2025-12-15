@@ -16,10 +16,11 @@ import { logout as apiLogout } from "@/utils/apiHelpers";
 export type UserRole =
   | "URDS Director"
   | "URDS Staff"
+  | "College Dean"
   | "College Coordinator"
   | "Faculty Researcher"
   | "Senior Faculty Researcher"
-  | "Researcher"
+  | "Research Evaluator"
   | "Public";
 
 /* =======================
@@ -71,7 +72,9 @@ const resolveRoleFromId = (roleId: number): UserRole => {
     case 5:
       return "Senior Faculty Researcher";
     case 6:
-      return "Researcher";
+      return "College Dean";
+    case 7:
+      return "Research Evaluator";
     default:
       return "Public";
   }

@@ -103,9 +103,9 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
   const profileRef = useRef<HTMLLIElement>(null);
   const notifRef = useRef<HTMLLIElement>(null);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsProfileOpen(false);
-    logout();
+    await logout();
     router.push("/auth/login");
   };
 
