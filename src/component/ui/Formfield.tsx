@@ -6,7 +6,7 @@ interface FormFieldProps {
   label?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { value: string; label: string }[];
+  options?: { value: string; label: string }[];
   placeholder?: string;
 }
 
@@ -17,7 +17,8 @@ const FormField: React.FC<FormFieldProps> = ({
   value,
   onChange,
   options,
-  placeholder = "Select role",
+  placeholder,
+ 
 }) => {
   return (
     <div className="mb-3 w-full">
@@ -25,7 +26,7 @@ const FormField: React.FC<FormFieldProps> = ({
         {label} 
       </label>
       <select
-        value={value}
+        value={value ?? ""}
         onChange={onChange}
         required={required}
         className="
@@ -48,16 +49,26 @@ const FormField: React.FC<FormFieldProps> = ({
           ease-in-out
         "
       >
-        <option value="" disabled className='text-slate-500'>
-          {placeholder}
-        </option>
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value} className='text-slate-700'>
-            {opt.label}
+     
+     {placeholder && (
+          <option value="" disabled className="text-slate-400">
+            {placeholder}
           </option>
-        ))}
+        )}
+
+        {options &&
+          options.map((opt) => (
+            <option
+              key={opt.value}
+              value={opt.value}
+              className="text-slate-700"
+            >
+              {opt.label}
+            </option>
+          ))}
+
+        {children}
       </select>
-      {children}
     </div>
   );
 };

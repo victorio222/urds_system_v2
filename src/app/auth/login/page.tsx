@@ -266,7 +266,7 @@ const LoginPage = () => {
   // --- STATE ---
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [roleId, setRoleId] = useState(""); // Stores the selected role's ID (value)
+  const [roleId, setRoleId] = useState<string>(""); // Stores the selected role's ID (value)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [roleOptions, setRoleOptions] = useState<RoleOption[]>([]);
@@ -296,13 +296,16 @@ const LoginPage = () => {
         role_name: role.role_name,
       }));
 
-      setRoleOptions(options);
-    } catch (err) {
-      console.error("Failed to fetch roles", err);
-      setError("Failed to load roles. Please try refreshing the page.");
-    } finally {
-      setIsRoleLoading(false);
-    }
+       setRoleOptions(options);
+
+    // ensure placeholder shows after load
+    setRoleId(""); 
+  } catch (err) {
+    console.error("Failed to fetch roles", err);
+    setError("Failed to load roles. Please try refreshing the page.");
+  } finally {
+    setIsRoleLoading(false);
+  }
   }, []);
 
   useEffect(() => {
@@ -454,8 +457,11 @@ const LoginPage = () => {
               value={roleId}
               onChange={(e) => setRoleId(e.target.value)}
               options={roleOptions}
+              placeholder="Select your role"
               required
             />
+               
+            
 
             <FormInput
               label="Password"
