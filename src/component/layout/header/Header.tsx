@@ -7,6 +7,7 @@ import Image from "next/image";
 import profile from "@/assets/images/profile.png";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { NotificationsOff } from "@mui/icons-material";
 
 interface HeaderLayoutProps {
   toggleSidebar: () => void;
@@ -82,9 +83,11 @@ const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
       <div className="px-4 py-3 border-b border-gray-100">
         <h3 className="text-md font-semibold text-slate-800">Notifications</h3>
       </div>
-
-      <div className="p-4 text-sm text-slate-500 text-center">
-        No notifications
+      <div className="flex flex-col justify-center items-center py-10">
+        <NotificationsOff className="text-slate-400" />
+        <p className="p-4 text-sm text-slate-500 text-center">
+          No notifications
+        </p>
       </div>
     </div>
   );
@@ -126,9 +129,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const fullName = user
-    ? `${user.first_name} ${user.last_name}`
-    : "User";
+  const fullName = user ? `${user.first_name} ${user.last_name}` : "User";
 
   const email = user?.email ?? "—";
 
