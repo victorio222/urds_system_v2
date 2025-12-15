@@ -311,7 +311,7 @@ const FacultyDashboard = () => {
         </div>
 
         {/* Recent Proposal */}
-        <div className="mt-3">
+        <div className="mt-5.5">
           <RecentProposal />
         </div>
 
