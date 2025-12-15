@@ -7,11 +7,6 @@ import Image from "next/image";
 import profile from "@/assets/images/profile.png";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-
-/* =====================
-   INTERFACES
-===================== */
-
 interface HeaderLayoutProps {
   toggleSidebar: () => void;
   pageName: string;
@@ -27,10 +22,6 @@ interface ProfileDropdownProps {
 interface NotificationsDropdownProps {
   open: boolean;
 }
-
-/* =====================
-   PROFILE DROPDOWN
-===================== */
 
 const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   open,
@@ -76,10 +67,6 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   );
 };
 
-/* =====================
-   NOTIFICATIONS DROPDOWN
-===================== */
-
 const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
   open,
 }) => {
@@ -101,10 +88,6 @@ const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
     </div>
   );
 };
-
-/* =====================
-   HEADER LAYOUT
-===================== */
 
 const HeaderLayout: React.FC<HeaderLayoutProps> = ({
   toggleSidebar,
@@ -168,7 +151,9 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
         <p className="font-light text-xs mb-1 text-slate-500">
           Home / {pageName}
         </p>
-        <h1 className="text-xl text-slate-700  md:text-2xl font-semibold">{pageName}</h1>
+        <h1 className="text-xl text-slate-700  md:text-2xl font-semibold">
+          {pageName}
+        </h1>
       </div>
 
       <nav className="ml-auto">
