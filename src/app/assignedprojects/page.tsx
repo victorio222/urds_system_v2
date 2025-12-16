@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
 import AssignedProjectPage from './table/AssignedProjects';
 import ProtectedRoute from '@/component/ProtectedRoute';

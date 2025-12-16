@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
 import InHousePage from './table/InHouseTable';
 import ProtectedRoute from '@/component/ProtectedRoute';

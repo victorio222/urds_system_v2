@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import DefaultLayout from '@/component/layout/DefaultLayout';
 import ResearchEvaluatorPage from './table/ResearchEvaluator';
 import ProtectedRoute from '@/component/ProtectedRoute';
 
