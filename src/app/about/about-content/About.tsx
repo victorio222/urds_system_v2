@@ -1,205 +1,7 @@
-// 'use client';
-// import React from 'react';
-// import { motion } from 'framer-motion';
-
-// // Animation variants - "as const" fixes the TypeScript Ease/String error
-// const fadeInUp = {
-//   initial: { opacity: 0, y: 30 },
-//   whileInView: { opacity: 1, y: 0 },
-//   viewport: { once: false, amount: 0.2 },
-//   transition: { duration: 0.6, ease: "easeOut" }
-// } as const;
-
-// const AboutContent = () => {
-//   return (
-//     <div className="bg-white font-sans text-gray-800 overflow-x-hidden">
-
-//       {/* 1. HERO SECTION WITH IMAGE OVERLAY */}
-//       <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center text-center text-white overflow-hidden">
-//         {/* Background Image Layer */}
-//         <div
-//           className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
-//           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80')` }}
-//         />
-//         {/* Dark Blue Overlay Layer */}
-//         <div className="absolute inset-0 z-10 bg-blue-900/80 mix-blend-multiply" />
-
-//         <motion.div
-//           initial={{ opacity: 0, scale: 0.9 }}
-//           whileInView={{ opacity: 1, scale: 1 }}
-//           viewport={{ once: false }}
-//           transition={{ duration: 0.8 }}
-//           className="relative z-20 px-6"
-//         >
-//           <p className="text-[10px] md:text-sm uppercase tracking-widest mb-2 text-blue-300 font-semibold">Home &gt; About Us</p>
-//           <h1 className="text-3xl md:text-6xl font-bold mb-4 tracking-tight">About Our Services</h1>
-//           <div className="w-16 md:w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
-//         </motion.div>
-//       </section>
-
-//       {/* 2. INTRO SECTION */}
-//       <section className="max-w-7xl mx-auto py-12 md:py-24 px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-//         <motion.div
-//           initial={fadeInUp.initial}
-//           whileInView={fadeInUp.whileInView}
-//           viewport={fadeInUp.viewport}
-//           transition={fadeInUp.transition}
-//           className="order-2 md:order-1 text-center md:text-left"
-//         >
-//           <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wide">
-//             University Research & Development
-//           </span>
-//           <h2 className="text-2xl md:text-4xl font-bold mt-4 mb-4 leading-tight text-slate-900">
-//             Hear what people are saying <br className="hidden md:block" /> about career Management.
-//           </h2>
-//           <p className="text-sm md:text-lg text-gray-600 mb-6 leading-relaxed">
-//             As a centralized research hub, Mark and the URDS team understand the nuances necessary to navigate
-//             the project lifecycle. We help discover the right path to a rewarding research output for every faculty member.
-//           </p>
-//           <button className="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-md text-sm md:text-base font-medium hover:bg-blue-700 transition-all shadow-lg active:scale-95">
-//             View Our Services ↗
-//           </button>
-//         </motion.div>
-
-//         <motion.div
-//           initial={{ opacity: 0, x: 50 }}
-//           whileInView={{ opacity: 1, x: 0 }}
-//           viewport={{ once: false }}
-//           transition={{ duration: 0.8 }}
-//           className="relative order-1 md:order-2"
-//         >
-//           <img
-//             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
-//             alt="Research Team"
-//             className="rounded-2xl shadow-xl w-full object-cover h-64 md:h-[450px]"
-//           />
-//           <div className="absolute inset-0 flex items-center justify-center">
-//              <motion.div
-//                whileHover={{ scale: 1.1 }}
-//                className="w-14 h-14 md:w-20 md:h-20 bg-blue-600/90 rounded-full flex items-center justify-center text-white cursor-pointer shadow-2xl backdrop-blur-sm"
-//              >
-//                 <span className="ml-1 text-xl md:text-2xl">▶</span>
-//              </motion.div>
-//           </div>
-//         </motion.div>
-//       </section>
-
-//       {/* 3. CORE VALUES / FEATURES */}
-//       <section className="bg-blue-50 py-16 md:py-24 px-6 text-center">
-//         <div className="max-w-7xl mx-auto">
-//           <motion.div
-//             initial={fadeInUp.initial}
-//             whileInView={fadeInUp.whileInView}
-//             viewport={fadeInUp.viewport}
-//             transition={fadeInUp.transition}
-//           >
-//             <span className="text-blue-600 font-bold uppercase text-[10px] md:text-xs tracking-widest">Our Values</span>
-//             <h2 className="text-2xl md:text-4xl font-bold mt-2 mb-10 md:mb-16 text-slate-900">Streamlining Your Progress</h2>
-//           </motion.div>
-
-//           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-//             {/* Card 1 */}
-//             <motion.div
-//               {...fadeInUp}
-//               className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-blue-100 hover:shadow-md transition-shadow"
-//             >
-//               <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-blue-600 text-2xl md:text-3xl">📊</div>
-//               <h3 className="font-bold text-lg md:text-xl mb-3">Business Progress</h3>
-//               <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">Your business is our business. We believe in making your dreams and goals a reality.</p>
-//               <button className="text-blue-600 font-bold text-xs md:text-sm hover:underline">Read More →</button>
-//             </motion.div>
-
-//             {/* Card 2 (Highlight - Always centered on desktop) */}
-//             <motion.div
-//               initial={{ opacity: 0, y: 30 }}
-//               whileInView={{ opacity: 1, y: 0 }}
-//               viewport={{ once: false }}
-//               transition={{ duration: 0.6, delay: 0.1 }}
-//               className="bg-blue-600 p-8 md:p-10 rounded-2xl shadow-xl text-white transform md:-translate-y-4"
-//             >
-//               <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-2xl md:text-3xl">⚙️</div>
-//               <h3 className="font-bold text-lg md:text-xl mb-3 text-white">Administration</h3>
-//               <p className="text-blue-100 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">Our experts know exactly how to navigate complex institutional administration workflows.</p>
-//               <button className="text-white font-bold text-xs md:text-sm hover:underline">Read More →</button>
-//             </motion.div>
-
-//             {/* Card 3 */}
-//             <motion.div
-//               {...fadeInUp}
-//               className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-blue-100 hover:shadow-md transition-shadow"
-//             >
-//               <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-blue-600 text-2xl md:text-3xl">🧩</div>
-//               <h3 className="font-bold text-lg md:text-xl mb-3">Secret Success</h3>
-//               <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">Fostering collaborative teamwork environments where researchers across units innovate.</p>
-//               <button className="text-blue-600 font-bold text-xs md:text-sm hover:underline">Read More →</button>
-//             </motion.div>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* 4. MISSION SECTION (Checklist) */}
-//       <section className="max-w-7xl mx-auto py-16 md:py-24 px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
-//         <motion.div
-//           initial={{ opacity: 0, x: -30 }}
-//           whileInView={{ opacity: 1, x: 0 }}
-//           viewport={{ once: false }}
-//           transition={{ duration: 0.7 }}
-//           className="text-center md:text-left"
-//         >
-//           <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-[10px] md:text-xs font-bold">Our Mission</span>
-//           <h2 className="text-2xl md:text-3xl font-bold mt-4 mb-4 md:mb-6 text-slate-900 leading-tight">How we can improve your Business on with our Coaching.</h2>
-//           <p className="text-sm md:text-base text-gray-600 mb-6 md:mb-8 leading-relaxed">
-//             We provide a reliable digital environment for managing research initiatives,
-//             ensuring all activities are well-documented and aligned with academic standards.
-//           </p>
-//           <button className="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors">Join Our Coaching →</button>
-//         </motion.div>
-
-//         <motion.div
-//           initial={{ opacity: 0, x: 30 }}
-//           whileInView={{ opacity: 1, x: 0 }}
-//           viewport={{ once: false }}
-//           transition={{ duration: 0.7 }}
-//           className="bg-blue-50/50 p-6 md:p-10 rounded-2xl border border-blue-100 shadow-sm"
-//         >
-//           <ul className="space-y-4 md:space-y-6">
-//             {[
-//               'We want to understand your unique goals.',
-//               'Fostering positive thoughts and innovation.',
-//               'Systematic Business Administration (BSC).'
-//             ].map((item, idx) => (
-//               <li key={idx} className="flex items-center text-xs md:text-base text-gray-700 font-medium">
-//                 <span className="bg-blue-600 text-white w-5 h-5 md:w-7 md:h-7 rounded-full flex-shrink-0 flex items-center justify-center mr-4 text-[8px] md:text-[12px]">✓</span>
-//                 {item}
-//               </li>
-//             ))}
-//           </ul>
-//           <div className="mt-8 md:mt-12 flex items-center border-t border-blue-200 pt-6 md:pt-10">
-//             <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-200 rounded-full mr-4 overflow-hidden border-2 border-blue-100">
-//                <img src="https://i.pravatar.cc/150?u=director" alt="Founder" />
-//             </div>
-//             <div>
-//               <p className="font-bold text-slate-900 text-sm md:text-lg leading-none">Warren Stokes Sr.</p>
-//               <p className="text-blue-600 text-[10px] md:text-xs font-bold uppercase mt-1">Founder, URDS Services</p>
-//             </div>
-//           </div>
-//         </motion.div>
-//       </section>
-
-//       {/* FOOTER */}
-//       <footer className="py-12 text-center text-gray-400 text-[10px] md:text-sm border-t border-gray-100 px-6">
-//         <p className="mb-2">Version 1.0 • Built with React & Next.js</p>
-//         <p>© 2025 University Research and Development Services. All rights reserved.</p>
-//       </footer>
-//     </div>
-//   );
-// };
-
-// export default AboutContent;
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // Animation variants
 const fadeInUp = {
@@ -210,6 +12,7 @@ const fadeInUp = {
 } as const;
 
 const AboutContent = () => {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle header scroll effect
@@ -218,6 +21,14 @@ const AboutContent = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogin = () => {
+    router.push("/auth/login");
+  };
+
+  const handleSignup = () => {
+    router.push("/auth/signup");
+  };
 
   return (
     <div className="bg-white font-sans text-gray-800 overflow-x-hidden">
@@ -270,6 +81,7 @@ const AboutContent = () => {
           {/* Auth Buttons */}
           <div className="flex items-center gap-4">
             <button
+              onClick={handleLogin}
               className={`text-xs font-bold uppercase tracking-widest transition-colors ${
                 isScrolled
                   ? "text-slate-700 hover:text-blue-600"
@@ -278,7 +90,10 @@ const AboutContent = () => {
             >
               Login
             </button>
-            <button className="bg-blue-600 text-white px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md active:scale-95">
+            <button
+              onClick={handleSignup}
+              className="bg-blue-600 text-white px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md active:scale-95"
+            >
               Sign Up
             </button>
           </div>
@@ -489,14 +304,17 @@ const AboutContent = () => {
           </ul>
           <div className="mt-16 flex items-center border-t border-blue-200 pt-10">
             <div className="w-16 h-16 bg-blue-200 rounded-2xl mr-6 overflow-hidden border-4 border-white shadow-md">
-              <img src="https://i.pravatar.cc/150?u=director" alt="Founder" />
+              <img
+                src="https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg"
+                alt="Founder"
+              />
             </div>
             <div>
               <p className="font-black text-slate-900 text-xl leading-none">
-                Warren Stokes Sr.
+                Rogelio A Banagbanag, Dall
               </p>
               <p className="text-blue-600 text-xs font-black uppercase tracking-widest mt-2">
-                Founder, URDS Services
+                URDS Director
               </p>
             </div>
           </div>

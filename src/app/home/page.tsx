@@ -26,7 +26,7 @@ const WelcomePage = () => {
   };
 
   const handleSignup = () => {
-    router.push("/auth/login");
+    router.push("/auth/signup");
   };
   return (
     <div className="bg-white font-sans text-gray-800 overflow-x-hidden">
