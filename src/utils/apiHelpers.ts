@@ -265,54 +265,54 @@ const createApiClient = (
   /* ======================================================
      RESPONSE INTERCEPTOR (AUTO REFRESH)
   ====================================================== */
-  instance.interceptors.response.use(
-    (response) => response,
-    async (error: AxiosError) => {
-      const originalRequest: any = error.config;
+  // instance.interceptors.response.use(
+  //   (response) => response,
+  //   async (error: AxiosError) => {
+  //     const originalRequest: any = error.config;
 
-      if (
-        error.response?.status === 401 &&
-        !originalRequest?._retry &&
-        useCredentials
-      ) {
-        originalRequest._retry = true;
+  //     if (
+  //       error.response?.status === 401 &&
+  //       !originalRequest?._retry &&
+  //       useCredentials
+  //     ) {
+  //       originalRequest._retry = true;
 
-        // If refresh is already running, queue request
-        if (isRefreshing) {
-          return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
-          }).then(() => instance(originalRequest));
-        }
+  //       // If refresh is already running, queue request
+  //       if (isRefreshing) {
+  //         return new Promise((resolve, reject) => {
+  //           failedQueue.push({ resolve, reject });
+  //         }).then(() => instance(originalRequest));
+  //       }
 
-        isRefreshing = true;
+  //       isRefreshing = true;
 
-        try {
-          // 🔁 Refresh session (cookie-based)
-          await axios.post(
-            `${config.apiUrl}/auth/refresh`,
-            {},
-            { withCredentials: true }
-          );
+  //       try {
+  //         // 🔁 Refresh session (cookie-based)
+  //         await axios.post(
+  //           `${config.apiUrl}/auth/refresh`,
+  //           {},
+  //           { withCredentials: true }
+  //         );
 
-          processQueue();
-          return instance(originalRequest);
-        } catch (refreshError) {
-          processQueue(refreshError);
+  //         processQueue();
+  //         return instance(originalRequest);
+  //       } catch (refreshError) {
+  //         processQueue(refreshError);
 
-          // Hard logout on refresh failure
-          if (typeof window !== "undefined") {
-            window.location.href = "/urds/auth/login";
-          }
+  //         // Hard logout on refresh failure
+  //         if (typeof window !== "undefined") {
+  //           window.location.href = "/urds/auth/login";
+  //         }
 
-          return Promise.reject(refreshError);
-        } finally {
-          isRefreshing = false;
-        }
-      }
+  //         return Promise.reject(refreshError);
+  //       } finally {
+  //         isRefreshing = false;
+  //       }
+  //     }
 
-      return Promise.reject(error);
-    }
-  );
+  //     return Promise.reject(error);
+  //   }
+  // );
 
   return instance;
 };
