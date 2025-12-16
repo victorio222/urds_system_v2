@@ -316,6 +316,14 @@ const sidebar: SidebarItem[] = [
           "College Coordinator",
         ],
       },
+            {
+        title: "Terminated",
+        link: "/research-projects/terminated",
+        allowedRoles: [
+          "URDS Director",
+          "URDS Staff",
+        ],
+      },
       {
         title: "My Proposal",
         link: "research-projects/completed", //change later

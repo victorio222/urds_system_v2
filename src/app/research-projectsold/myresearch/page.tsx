@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
 import AllResearchPage from './table/AllResearch';
-import ActivityTimeline from './table/ActivityTimeline';
-import UpdatesList from './table/UpdateList';
 
 const AllResearch = () => {
   return (
@@ -12,12 +10,6 @@ const AllResearch = () => {
         <DefaultLayout pageName='My Research Projects'>
           <div className='py-3 px-5'>
             <AllResearchPage />
-            </div>
-            <div className='flex justify-between py-3 px-5  gap-4'>
-              <ActivityTimeline  />
-             
-              <UpdatesList />
-            
           </div>
         </DefaultLayout>
       </div>

@@ -88,7 +88,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
               left: position.left,
               width: DROPDOWN_WIDTH,
             }}
-            className={`absolute text-slate-700 bg-white border border-slate-100 cursor-pointer rounded-md shadow-lg z-50 animate-fadeIn 
+            className={`absolute bg-white border border-slate-100 cursor-pointer rounded-md shadow-lg z-50 animate-fadeIn 
               ${open ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -108,7 +108,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
               }}
               className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
             >
-              <BiCheck size={16} /> Approve
+              <BiCheck size={16} /> Endorse
             </button>
             <button
               onClick={() => {
@@ -117,7 +117,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
               }}
               className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
             >
-              <GrReturn size={16} /> Request Revision
+              <GrReturn size={16} /> Return for Revision
             </button>
           </div>,
           document.body

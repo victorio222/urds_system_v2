@@ -1,15 +1,15 @@
 'use client';
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import CompletedResearchPage from './table/CompletedResearch';
+import TerminatedResearchPage from './table/TerminatedResearch';
 
-const SubmitForm = () => {
+const AllResearch = () => {
   return (
     <div className="flex max-h-screen">
       <div className="bg-blue-50 h-auto w-full">
-        <DefaultLayout pageName='Submit Research Proposal'>
+        <DefaultLayout pageName='Research Projects'>
           <div className='py-3 px-5'>
-            <CompletedResearchPage/>
+            <TerminatedResearchPage/>
           </div>
         </DefaultLayout>
       </div>
@@ -17,4 +17,4 @@ const SubmitForm = () => {
   );
 };
 
-export default SubmitForm;
+export default AllResearch;

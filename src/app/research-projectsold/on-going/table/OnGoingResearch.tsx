@@ -180,7 +180,7 @@ interface ResearchProject {
 
 type ColumnKey = keyof ResearchProject | "action";
 
-const AllResearchPage = () => {
+const OnGoingResearchPage = () => {
   const data: ResearchProject[] = [
     {
       id: 1,
@@ -188,7 +188,7 @@ const AllResearchPage = () => {
       researcher: "Dr. Alice",
       campus: "Main",
       college: "Science",
-      status: "Completed",
+      status: "Ongoing",
     },
     {
       id: 2,
@@ -196,7 +196,7 @@ const AllResearchPage = () => {
       researcher: "Dr. Bob",
       campus: "West",
       college: "Agriculture",
-      status: "Pending",
+      status: "Ongoing",
     },
     {
       id: 3,
@@ -212,7 +212,7 @@ const AllResearchPage = () => {
       researcher: "Dr. Dave",
       campus: "East",
       college: "Environment",
-      status: "Terminated",
+      status: "Ongoing",
     },
   ];
 
@@ -306,4 +306,4 @@ const AllResearchPage = () => {
   );
 };
 
-export default AllResearchPage;
+export default OnGoingResearchPage;

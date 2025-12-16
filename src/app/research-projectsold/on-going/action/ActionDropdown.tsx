@@ -1,3 +1,74 @@
+// "use client";
+// import React, { useState, useEffect } from "react";
+// import { BiDotsHorizontalRounded, BiEdit, BiTrash, BiShow, BiCheck } from "react-icons/bi";
+// import { GrReturn } from "react-icons/gr";
+
+// interface ActionDropdownProps {
+//   onView?: () => void;
+//   onApprove?: () => void;
+//   onRequest?: () => void;
+// }
+
+// const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRequest }) => {
+//   const [open, setOpen] = useState(false);
+
+//   // Close dropdown when clicking outside
+//   useEffect(() => {
+//     const handleClickOutside = () => setOpen(false);
+//     if (open) document.addEventListener("click", handleClickOutside);
+//     return () => document.removeEventListener("click", handleClickOutside);
+//   }, [open]);
+
+//   return (
+//     <div className="relative inline-block text-left">
+//       <button
+//         onClick={(e) => {
+//           e.stopPropagation();
+//           setOpen(!open);
+//         }}
+//         aria-haspopup="true"
+//         aria-expanded={open}
+//         className="p-1 rounded-full hover:bg-gray-200 transition"
+//         title="Actions"
+//       >
+//         <BiDotsHorizontalRounded size={20} />
+//       </button>
+
+//       {open && (
+//         <div
+//           className="absolute right-0 mt-2 w-44 bg-white border border-gray-300 rounded-md shadow-lg
+//           origin-top-right animate-fadeIn z-20"
+//           onClick={(e) => e.stopPropagation()}
+//         >
+//           <button
+//             onClick={onView}
+//             className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
+//           >
+//             <BiShow size={16} /> View
+//           </button>
+//           <button
+//             onClick={onApprove}
+//             className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
+//           >
+//             <BiCheck size={16} /> Approve
+//           </button>
+//           <button
+//             onClick={onRequest}
+//             className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
+//           >
+//             <GrReturn size={16} /> Request Revision
+//           </button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ActionDropdown;
+
+
+
+
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -88,7 +159,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
               left: position.left,
               width: DROPDOWN_WIDTH,
             }}
-            className={`absolute text-slate-700 bg-white border border-slate-100 cursor-pointer rounded-md shadow-lg z-50 animate-fadeIn 
+            className={`absolute bg-white border border-slate-100 cursor-pointer rounded-md shadow-lg z-50 animate-fadeIn 
               ${open ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
             onClick={(e) => e.stopPropagation()}
           >

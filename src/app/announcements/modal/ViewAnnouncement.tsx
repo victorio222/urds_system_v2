@@ -87,7 +87,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
             <label className="block text-sm font-medium text-gray-700">
               Title
             </label>
-            <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
+            <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
               {announcement.title}
             </div>
           </div>
@@ -97,7 +97,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
             <label className="block text-sm font-medium text-gray-700">
               Description
             </label>
-            <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words whitespace-pre-wrap">
+            <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words whitespace-pre-wrap">
               {announcement.content}
             </div>
           </div>
@@ -107,7 +107,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
             <label className="block text-sm font-medium text-gray-700">
               Type
             </label>
-            <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
+            <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
               {announcement.type || "N/A"}
             </div>
           </div>
@@ -117,7 +117,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
             <label className="block text-sm font-medium text-gray-700">
               Status
             </label>
-            <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
+            <div className="w-full px-2 capitalize text-slate-700 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
               {announcement.status}
             </div>
           </div>
@@ -128,7 +128,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
               <label className="block text-sm font-medium text-gray-700">
                 Start Date
               </label>
-              <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50">
+              <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50">
                 {new Date(announcement.start_date).toLocaleDateString()}
               </div>
             </div>
@@ -136,7 +136,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
               <label className="block text-sm font-medium text-gray-700">
                 End Date
               </label>
-              <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50">
+              <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50">
                 {new Date(announcement.end_date).toLocaleDateString()}
               </div>
             </div>
@@ -148,7 +148,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
               <label className="block text-sm font-medium text-gray-700">
                 Campus
               </label>
-              <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
+              <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
                 {getCampusName(target?.campus_id)}
               </div>
             </div>
@@ -156,7 +156,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
               <label className="block text-sm font-medium text-gray-700">
                 College
               </label>
-              <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
+              <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
                 {getCollegeName(target?.college_id)}
               </div>
             </div>
@@ -164,7 +164,7 @@ const ViewAnnouncementModal: React.FC<ViewAnnouncementModalProps> = ({
               <label className="block text-sm font-medium text-gray-700">
                 Specific Audience
               </label>
-              <div className="w-full px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
+              <div className="w-full capitalize text-slate-700 px-2 py-1 border-b border-gray-300 text-sm bg-gray-50 break-words">
                 {target?.audience || "N/A"}
               </div>
             </div>

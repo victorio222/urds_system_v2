@@ -88,7 +88,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
               left: position.left,
               width: DROPDOWN_WIDTH,
             }}
-            className={`absolute text-slate-700 bg-white border border-slate-100 cursor-pointer rounded-md shadow-lg z-50 animate-fadeIn 
+            className={`text-slate-600 absolute bg-white border border-slate-100 cursor-pointer rounded-md shadow-lg z-50 animate-fadeIn 
               ${open ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
             onClick={(e) => e.stopPropagation()}
           >

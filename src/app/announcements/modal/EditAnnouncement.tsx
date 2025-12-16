@@ -165,7 +165,7 @@ const EditAnnouncementModal: React.FC<EditAnnouncementModalProps> = ({
               type="text"
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
+              className="w-full capitalize text-slate-700 px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               placeholder="Announcement Title"
             />
           </div>
@@ -178,7 +178,7 @@ const EditAnnouncementModal: React.FC<EditAnnouncementModalProps> = ({
               value={formData.content}
               onChange={handleChange}
               rows={4}
-              className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
+              className="w-full text-slate-700 capitalize px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               placeholder="Enter announcement details..."
             />
           </div>
@@ -192,7 +192,7 @@ const EditAnnouncementModal: React.FC<EditAnnouncementModalProps> = ({
                 type="date"
                 value={formData.start_date}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
+                className="w-full text-slate-700 px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               />
             </div>
             <div>
@@ -202,16 +202,16 @@ const EditAnnouncementModal: React.FC<EditAnnouncementModalProps> = ({
                 type="date"
                 value={formData.end_date}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
+                className="w-full text-slate-700 px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               />
             </div>
-            <div>
+            <div className="hidden">
               <label className="block text-sm font-medium text-gray-700">Status</label>
               <select
                 id="statusSelect"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
+                className="w-full text-slate-700 px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
               >
                 <option value="Draft">Draft</option>
                 <option value="Active">Active</option>
@@ -227,7 +227,7 @@ const EditAnnouncementModal: React.FC<EditAnnouncementModalProps> = ({
               id="purpose"
               value={formData.type}
               onChange={handleChange}
-              className="w-full px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
+              className="w-full capitalize text-slate-700 px-3 py-2.5 border text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-150 ease-in-out"
             >
               <option value="">Select Announcement Type</option>
               <option value="Research">Call for Research Proposal</option>
@@ -238,7 +238,7 @@ const EditAnnouncementModal: React.FC<EditAnnouncementModalProps> = ({
           {/* Audience (Campus / College / Audience) */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Audience (Optional)</label>
-            <div className="text-sm grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="capitalize text-slate-700 text-sm grid grid-cols-1 sm:grid-cols-3 gap-3">
               {/* Campus Dropdown */}
               <select
                 id="campusId"

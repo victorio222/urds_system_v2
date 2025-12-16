@@ -97,7 +97,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
                 setOpen(false);
                 onView && onView();
               }}
-              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
+              className="flex items-center gap-2 w-full px-4 py-2 text-black text-left hover:bg-gray-100 transition"
             >
               <BiShow size={16} /> View
             </button>
@@ -106,7 +106,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
                 setOpen(false);
                 onApprove && onApprove();
               }}
-              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
+              className="flex items-center gap-2 w-full px-4 py-2 text-black text-left hover:bg-gray-100 transition"
             >
               <BiCheck size={16} /> Endorse
             </button>
@@ -115,7 +115,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({ onView, onApprove, onRe
                 setOpen(false);
                 onRequest && onRequest();
               }}
-              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 transition"
+              className="flex items-center gap-2 w-full px-4 py-2 text-black text-left hover:bg-gray-100 transition"
             >
               <GrReturn size={16} /> Return for Revision
             </button>
