@@ -8,7 +8,7 @@ const config = {
   apiUrl: '/api',
   // apiUrl: setDefault(
   //   `${process.env.NEXT_PUBLIC_SERVICES_API_URL}`,
-  //   "https://localhost:8080"
+  //   "http://localhost:8080"
   // ),
   secret: setDefault(process.env.NEXT_PUBLIC_REACT_SECRET_KEY, ""),
   authorization: setDefault(process.env.REACT_APP_AUTHORIZATION, ""),
