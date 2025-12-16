@@ -586,4 +586,5 @@ const BudgetDetailsPage: React.FC<Props> = ({
   );
 };
 
-export default BudgetDetailsPage;
+export default BudgetDetailsPage; 
+
