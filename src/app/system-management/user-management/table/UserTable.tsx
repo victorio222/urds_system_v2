@@ -16,6 +16,7 @@ import {
 } from "@/utils/apiHelpers";
 
 import { useAuth } from "@/context/AuthContext";
+import { Spinner } from "@/component/base/Spinner";
 
 // --- Type Definitions ---
 interface UserEntry {
@@ -475,8 +476,8 @@ const UserManagementPage = () => {
 
   if (fetchStatus === "loading") {
     return (
-      <div className="p-8 text-center text-xl text-blue-600">
-        Loading user data and lookups...
+      <div className="mt-[-10rem] text-center text-xl text-blue-600">
+        <Spinner />
       </div>
     );
   }

@@ -14,7 +14,7 @@ const StaffandDirector = () => {
 
       <p className="text-sm font-normal">URDS Staff and Director</p>
 
-      <h2 className="text-2xl font-bold my-1">70</h2>
+      <h2 className="text-2xl font-bold my-1">2</h2>
 
       <div className="absolute w-32 h-32 bg-white/10 rounded-full -bottom-10 -left-10" />
       <div className="absolute w-24 h-24 bg-white/10 rounded-full -top-5 -right-5" />
