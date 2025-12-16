@@ -101,6 +101,7 @@ import TechnicalInfoPage from "./TechInfo";
 import LiteratureReviewPage from "./ReviewLiterature";
 import MethodologyPage from "./Methodology";
 import WorkPlanPage from "./WorkPlan";
+import BudgetaryRequirementPage from "./BudgetDetailPage";
 
 
 const TOTAL_STEPS = 6;
@@ -216,16 +217,16 @@ const ProposalWizard = () => {
         />
       )}
 
-      {/* Step 6 */}
-      {/* {step === 6 && proposalId && (
-        <BudgetaryRequirementPage
-          formData={formData}
-          setFormData={setFormData}
-          prevStep={prevStep}
-          proposalId={proposalId}
-          onSubmit={handleFinalSubmit}
-        />
-      )} */}
+    {/* Step 6 */}
+    {step === 6 && proposalId && (
+      <BudgetaryRequirementPage
+        formData={formData}
+        setFormData={setFormData}
+        prevStep={prevStep}
+        proposalId={proposalId}
+        onSubmit={handleFinalSubmit}
+      />
+    )}
 
       {step !== 1 && !proposalId && (
         <p className="mt-4 text-sm text-red-500">

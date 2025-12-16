@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import CompletedResearchPage from './table/CompletedResearch';
 import ProposalWizard from './pages/ProposalWizard';
 
 const SubmitForm = () => {
