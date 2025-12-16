@@ -228,7 +228,7 @@ import axios, { AxiosInstance, AxiosError } from "axios";
 import config from "./config";
 
 /* ======================================================
-   REFRESH TOKEN QUEUE (Prevents multiple refresh calls)
+   REFRESH TOKEN QUEUE (PREVENT MULTIPLE REFRESH CALLS)
 ====================================================== */
 let isRefreshing = false;
 let failedQueue: {
@@ -270,16 +270,14 @@ const createApiClient = (
     async (error: AxiosError) => {
       const originalRequest: any = error.config;
 
-      // If unauthorized AND request uses credentials
       if (
         error.response?.status === 401 &&
         !originalRequest?._retry &&
         useCredentials
       ) {
-        // Prevent infinite loop
         originalRequest._retry = true;
 
-        // If refresh already happening, queue request
+        // If refresh is already running, queue request
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });
@@ -289,7 +287,7 @@ const createApiClient = (
         isRefreshing = true;
 
         try {
-          // 🔁 Call refresh endpoint
+          // 🔁 Refresh session (cookie-based)
           await axios.post(
             `${config.apiUrl}/auth/refresh`,
             {},
@@ -301,7 +299,7 @@ const createApiClient = (
         } catch (refreshError) {
           processQueue(refreshError);
 
-          // Hard logout if refresh fails
+          // Hard logout on refresh failure
           if (typeof window !== "undefined") {
             window.location.href = "/login";
           }
@@ -320,7 +318,7 @@ const createApiClient = (
 };
 
 /* ======================================================
-   AXIOS INSTANCES
+   AXIOS INSTANCES (UNCHANGED NAMING)
 ====================================================== */
 
 // Public / unauthenticated
@@ -333,7 +331,7 @@ export const apiAuth = createApiClient(true);
 export const apiFormData = () => createApiClient(true, true);
 
 /* ======================================================
-   AUTH
+   AUTH (UNCHANGED)
 ====================================================== */
 
 export const login = (data: any) =>
@@ -346,7 +344,10 @@ export const logout = () => apiAuth.post("/auth/logout");
 export const signup = (data: any) =>
   apiPublic.post("/auth/register", data);
 
-// Restore session (IMPORTANT)
+export const changePassword = (data: any) =>
+  apiAuth.put("/auth/change-password", data);
+
+// Restore session
 export const getMe = () => apiAuth.get("/auth/me");
 
 /* ======================================================
@@ -461,12 +462,13 @@ export const uploadFile = (formData: FormData) =>
   apiFormData().post("/upload", formData);
 
 /* ======================================================
-   DEFAULT EXPORT (OPTIONAL)
+   DEFAULT EXPORT (UNCHANGED)
 ====================================================== */
 export default {
   login,
   logout,
   signup,
+  changePassword,
   getMe,
   getUsers,
   createUser,
