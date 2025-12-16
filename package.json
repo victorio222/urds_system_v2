@@ -11,6 +11,9 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@heroui/react": "^2.8.6",
+    "@heroui/table": "^2.2.28",
+    "@iconify/react": "^6.0.2",
     "@mantine/core": "^8.3.8",
     "@mantine/hooks": "^8.3.8",
     "@mantine/notifications": "^8.3.8",
