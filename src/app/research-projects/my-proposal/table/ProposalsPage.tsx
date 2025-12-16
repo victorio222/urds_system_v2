@@ -81,8 +81,10 @@ import React, { useState } from "react";
 import { BiChevronRight } from "react-icons/bi";
 import ProjectWorkspace from "./ProjectWorkSpace";
 import { BsPlusCircleFill } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 
 const ProposalsPage = () => {
+  const router = useRouter();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   const myProposals = [
@@ -99,6 +101,10 @@ const ProposalsPage = () => {
     );
   }
 
+  const handleSubmitProposal = () => {
+    router.push('/research-projects/submit')
+  }
+
   return (
     <div className="px-4 sm:px-7 py-4 max-w-full">
       {/* Header */}
@@ -108,7 +114,7 @@ const ProposalsPage = () => {
         </p>
 
         <div className="flex justify-end">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full flex items-center justify-center font-medium transition shadow-sm text-sm w-40 sm:w-auto">
+          <button onClick={handleSubmitProposal} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full flex items-center justify-center font-medium transition shadow-sm text-sm w-40 sm:w-auto">
           <BsPlusCircleFill className="mr-2" />
           <span className="sm:inline">New Proposal</span>
         </button>
