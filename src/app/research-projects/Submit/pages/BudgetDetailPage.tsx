@@ -12,8 +12,9 @@ interface Props {
   formData: any;
   setFormData: (data: any) => void;
   prevStep: () => void;
-  nextStep: () => void;
+  nextStep?: () => void;
   proposalId: number;
+  onSubmit?: (finalData: any) => void; // optional callback for final submission
 }
 
 /** ---------- Types for each section ---------- */
@@ -74,6 +75,7 @@ const BudgetDetailsPage: React.FC<Props> = ({
   prevStep,
   nextStep,
   proposalId,
+  onSubmit,
 }) => {
   const { userId } = useAuth();
 
@@ -306,12 +308,17 @@ const BudgetDetailsPage: React.FC<Props> = ({
 
       // await addBudgetDetails(payload);
 
-      setFormData({
+          setFormData({
         ...formData,
         budgetDetails: payload,
       });
 
-      nextStep();
+      // If parent provided an onSubmit handler (final step), call it instead of moving to the next step
+      if (typeof onSubmit === "function") {
+        onSubmit(payload);
+      } else if (typeof nextStep === "function") {
+        nextStep();
+      }
     } catch (err: any) {
       console.error(err);
       setError(
