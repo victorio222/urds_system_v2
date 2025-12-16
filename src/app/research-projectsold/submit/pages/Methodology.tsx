@@ -201,7 +201,7 @@ import FormTextArea from '@/component/ui/FormTextArea';
 import { Button } from '@mui/material';
 import {
   addMethodology,
-  updateTechInfoMethodology,
+  addOrUpdateTechInfo,
 } from '@/utils/apiHelpers';
 
 interface MethodologyItem {
@@ -261,7 +261,7 @@ const MethodologyPage: React.FC<Props> = ({
 
     try {
       /** 1️⃣ SAVE GENERAL METHODOLOGY */
-      await updateTechInfoMethodology(proposalId, generalMethodology);
+      await addOrUpdateTechInfo(proposalId, generalMethodology);
 
       /** 2️⃣ SAVE SUB-METHODOLOGIES */
       await addMethodology({
