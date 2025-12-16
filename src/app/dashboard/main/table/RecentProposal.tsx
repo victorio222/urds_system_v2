@@ -1,116 +1,86 @@
-"use client";
-
-import React, { useState } from "react";
-import Table from "@/component/ui/Table";
-import { BiSolidFilterAlt } from "react-icons/bi";
+import { useState } from "react";
 import ActionDropdown from "../action/ActionDropdown";
 import Dropdown, { DropdownItem } from "@/component/ui/Dropdown";
+import { BiSolidFilterAlt } from "react-icons/bi";
+import Table from "@/component/ui/Table";
 
-interface BatchEntry {
+interface ResearchProject {
   id: number;
-  batchId: string;
   title: string;
   researcher: string;
-  commodity: string;
+  campus: string;
   college: string;
-  status: "New" | "Completed" | "Ongoing";
+  status: "Completed" | "Terminated" | "Pending" | "Ongoing";
+  action?: React.ReactNode;
 }
 
-type ColumnKey = keyof BatchEntry | "checkbox" | "action";
+type ColumnKey = keyof ResearchProject | "action";
 
 const RecentProjectPage = () => {
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const [selectAll, setSelectAll] = useState(false);
-
-  // 🚀 NEW DATA
-  const data: BatchEntry[] = [
+  const data: ResearchProject[] = [
     {
       id: 1,
-      batchId: "EV-001",
-      title: "Rice",
-      researcher: "Dr. Kim",
-      commodity: "Natural Sciences",
-      college: "CAC",
-      status: "Completed",
+      title: "Plant Growth Study",
+      researcher: "Dr. Alice",
+      campus: "Main",
+      college: "Science",
+      status: "Pending",
     },
     {
       id: 2,
-      batchId: "EV-002",
-      title: "Corn",
-      researcher: "Dr. Smith",
-      commodity: "Education",
-      college: "COED",
-      status: "New",
+      title: "Soil Analysis",
+      researcher: "Dr. Bob",
+      campus: "West",
+      college: "Agriculture",
+      status: "Pending",
     },
     {
       id: 3,
-      batchId: "EV-003",
-      title: "Vegetables",
-      researcher: "Prof. John Lee Indino, PhD",
-      commodity: "Science",
-      college: "CS",
-      status: "Ongoing",
+      title: "Genetic Research",
+      researcher: "Dr. Carol",
+      campus: "Main",
+      college: "Biotech",
+      status: "Pending",
+    },
+    {
+      id: 4,
+      title: "Water Quality Study",
+      researcher: "Dr. Dave",
+      campus: "East",
+      college: "Environment",
+      status: "Pending",
     },
   ];
-
-  const toggleRow = (id: number) => {
-    setSelectedRows((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
-
-  const toggleSelectAll = () => {
-    if (selectAll) {
-      setSelectedRows([]);
-    } else {
-      setSelectedRows(data.map((item) => item.id));
-    }
-    setSelectAll(!selectAll);
-  };
 
   const [year, setYear] = useState(2025);
   const [status, setStatus] = useState("All Proposal");
 
-  const columns = [
-    {
-      key: "checkbox" as ColumnKey,
-      header: (
-        <input
-          type="checkbox"
-          checked={selectAll}
-          onChange={toggleSelectAll}
-          className="w-4 h-4 cursor-pointer"
-        />
-      ),
-      align: "center",
-      width: "40px",
-      render: (_: any, row: BatchEntry) => (
-        <input
-          type="checkbox"
-          checked={selectedRows.includes(row.id)}
-          onChange={() => toggleRow(row.id)}
-          className="w-4 h-4 cursor-pointer"
-        />
-      ),
-    },
-    { key: "batchId", header: "Batch ID", align: "left" },
+  const columns: Array<{
+    key: ColumnKey;
+    header: string;
+    render?: (value: any, row: ResearchProject) => React.ReactNode;
+    align?: "left" | "center";
+    width?: string;
+  }> = [
+    { key: "id", header: "#", align: "center", width: "60px" },
     { key: "title", header: "Title", align: "left" },
-    { key: "researcher", header: "Researcher", align: "center" },
-    { key: "commodity", header: "Commodity/Unit", align: "center" },
+    { key: "researcher", header: "Researcher", align: "left" },
+    { key: "campus", header: "Campus", align: "center" },
     { key: "college", header: "College", align: "center" },
     {
       key: "status",
       header: "Status",
       align: "center",
-      render: (value: BatchEntry["status"]) => {
+      render: (value: ResearchProject["status"]) => {
         const styleMap = {
           Completed: "bg-green-100 text-green-700",
-          New: "bg-yellow-100 text-yellow-700",
+          Terminated: "bg-red-100 text-red-700",
+          Pending: "bg-yellow-100 text-yellow-700",
           Ongoing: "bg-blue-100 text-blue-700",
         };
         return (
           <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${styleMap[value]}`}
+            className={`inline-block px-3 py-1 rounded-full font-medium select-none ${styleMap[value]}`}
           >
             {value}
           </span>
@@ -122,17 +92,18 @@ const RecentProjectPage = () => {
       header: "Action",
       align: "center",
       width: "60px",
-      render: (_: any, row: BatchEntry) => (
+      render: (_, row) => (
         <ActionDropdown
-          onView={() => alert(`Viewing ${row.batchId}`)}
-          onApprove={() => alert(`Approving ${row.batchId}`)}
-          onRequest={() => alert(`Request for ${row.batchId}`)}
+          onView={() => alert(`Edit ${row.title}`)}
+          onApprove={() => alert(`Delete ${row.title}`)}
+          onRequest={() => alert(`View ${row.title}`)}
         />
       ),
     },
   ];
 
-  const yearItems: DropdownItem[] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
+  // Dropdown items
+  const yearItems: DropdownItem [] = [2023, 2024, 2025, 2026, 2027].map((y) => ({
     label: y.toString(),
     onClick: () => setYear(y),
   }));
@@ -149,9 +120,11 @@ const RecentProjectPage = () => {
   }));
 
   return (
-    <div className="space-y-4 mt-[-10px] w-full">
-
-      <Table columns={columns as any} data={data} />
+    <div className="space-y-4 mt-[-10px] w-full bg-white rounded-lg shadow">
+      <div>
+        <p className="text-slate-500 text-[12px] font-black p-3 uppercase">Recent Proposals</p>
+        <Table<ResearchProject> columns={columns} data={data} />
+      </div>
     </div>
   );
 };
