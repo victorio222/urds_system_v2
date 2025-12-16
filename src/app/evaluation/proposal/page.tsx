@@ -22,7 +22,7 @@ export default function EvaluationPanel() {
       <div className="flex flex-1 max-w-[1600px] mx-auto w-full flex-col lg:flex-row">
         {/* Left Sidebar */}
         <aside
-          className="w-full lg:w-[380px] bg-gray-100 px-4 sm:p-6 border-r border-gray-200 overflow-y-auto flex flex-col sticky top-0 self-start"
+          className="w-full lg:w-[380px] bg-gray-100 p-6 border-r border-gray-200 overflow-y-auto flex flex-col sticky top-0 self-start"
           style={{ maxHeight: "calc(100vh - 0px)" }}
         >
           <div className="flex items-center gap-2">
