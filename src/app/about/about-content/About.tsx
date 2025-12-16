@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import NextImage from "next/image";
+import Logo from "@/assets/images/logo.png";
+
 
 // Animation variants
 const fadeInUp = {
@@ -43,8 +46,14 @@ const AboutContent = () => {
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
-              U
+                <div className="w-12 h-12 ">
+              <NextImage
+                src={Logo}
+                alt="URDS Logo"
+                className="w-full h-full object-contain"
+                priority
+              />
+            
             </div>
             <span
               className={`font-black tracking-tighter text-xl ${
