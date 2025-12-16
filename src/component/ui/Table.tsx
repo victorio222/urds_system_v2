@@ -305,6 +305,13 @@
 
 // export default Table;
 
+
+
+
+
+
+
+
 "use client";
 import React, { ReactNode, useState, useMemo } from "react";
 import {
@@ -431,7 +438,8 @@ const Table = <T extends { id: number | string }>({
                   <TableCell
                     padding="checkbox"
                     sx={{
-                      height: 45, // set desired row height in px
+                      height: 45,
+                      px: 3 // set desired row height in px
                     }}
                   >
                     <Checkbox
@@ -460,7 +468,8 @@ const Table = <T extends { id: number | string }>({
                     }}
                     padding="none"
                     sx={{
-                      height: 45, // set desired row height in px
+                      height: 45,
+                      px: 3 // set desired row height in px
                     }}
                     title={col.header}
                   >
@@ -488,6 +497,7 @@ const Table = <T extends { id: number | string }>({
                         padding="checkbox"
                         sx={{
                           height: 45, // set desired row height in px
+                          px: 3
                         }}
                       >
                         <Checkbox checked={isItemSelected} />
@@ -507,6 +517,7 @@ const Table = <T extends { id: number | string }>({
                         padding="none"
                         sx={{
                           height: 45, // set desired row height in px
+                          px: 3
                         }}
                         title={String(row[col.key])}
                       >

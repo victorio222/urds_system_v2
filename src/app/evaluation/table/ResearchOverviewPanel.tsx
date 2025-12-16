@@ -82,18 +82,11 @@ const ResearchOverviewPanel = () => {
       <div
         className={`
           fixed z-20 top-0 left-0 h-full w-64 md:w-[450px] bg-white border-r border-gray-100 p-4 overflow-y-auto shadow-lg
-          transform transition-transform duration-300 ease-in-out
+          transform transition-transform duration-300 ease-in-out 
           ${sidebarOpen ? "translate-x-0" : "-translate-x-64"}
-          md:translate-x-0 md:relative md:h-full
+          md:translate-x-0 md:relative md:h-full pt-18 md:pt-2
         `}
       >
-        {/* Mobile close button */}
-        <button
-          className="md:hidden mb-2 text-slate-600 px-2 py-1 rounded hover:bg-gray-100"
-          onClick={() => setSidebarOpen(false)}
-        >
-          Close
-        </button>
 
         <h2 className="pt-2 flex items-center gap-2 text-lg font-semibold text-slate-700 mb-2">
           <button
