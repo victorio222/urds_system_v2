@@ -1,5 +1,3 @@
-"use client";
-import React, { useState } from "react";
 import DefaultLayout from "@/component/layout/DefaultLayout";
 import AnnouncementPage from "./table/Announcement";
 import ProtectedRoute from "@/component/ProtectedRoute";
