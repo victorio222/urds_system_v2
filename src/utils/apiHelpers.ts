@@ -301,7 +301,7 @@ const createApiClient = (
 
           // Hard logout on refresh failure
           if (typeof window !== "undefined") {
-            window.location.href = "/login";
+            window.location.href = "/urds/auth/login";
           }
 
           return Promise.reject(refreshError);
