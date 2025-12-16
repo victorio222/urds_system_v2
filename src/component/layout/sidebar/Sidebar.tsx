@@ -67,6 +67,11 @@ const sidebar: SidebarItem[] = [
     ],
     subItems: [
       {
+        title: "My Proposal",
+        link: "/research-projects/my-proposal", //change later
+        allowedRoles: ["Faculty Researcher", "Senior Faculty Researcher"],
+      },
+      {
         title: "All Proposals",
         link: "/research-projects/all",
         allowedRoles: [
@@ -105,7 +110,6 @@ const sidebar: SidebarItem[] = [
         allowedRoles: [
           "URDS Director",
           "URDS Staff",
-          "Faculty Researcher",
           "Senior Faculty Researcher",
           "College Dean",
           "College Coordinator",
@@ -116,10 +120,13 @@ const sidebar: SidebarItem[] = [
         link: "/research-projects/terminated",
         allowedRoles: ["URDS Director", "URDS Staff"],
       },
-      {
-        title: "My Proposal",
-        link: "research-projects/completed", //change later
-        allowedRoles: ["Faculty Researcher", "Senior Faculty Researcher"],
+            {
+        title: "Finished Projects",
+        link: "/research-projects/completed",
+        allowedRoles: [
+          "Faculty Researcher",
+          "Senior Faculty Researcher",
+        ],
       },
     ],
   },
@@ -235,11 +242,10 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
   };
 
   const handleLinkClick = () => {
-  if (window.innerWidth < 768) {
-    toggleSidebar();
-  }
-};
-
+    if (window.innerWidth < 768) {
+      toggleSidebar();
+    }
+  };
 
   /* ==========================
      ROLE FILTER HELPERS
