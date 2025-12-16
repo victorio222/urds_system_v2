@@ -112,11 +112,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiAuth } from "@/utils/apiHelpers";
+import { Megaphone, ArrowRight, Clock } from "lucide-react";
 
+// 1. Interface (Kept strictly identical to your provided data)
 interface Announcement {
   announcement_id: number;
   title: string;
-  created_at: string; // Use created_at for relative time
+  created_at: string;
 }
 
 const RecentAnnouncement: React.FC = () => {
@@ -124,21 +126,21 @@ const RecentAnnouncement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  // 2. Logic (Kept identical to your provided code)
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const res = await apiAuth.get("/announcement"); // Your API endpoint
+        const res = await apiAuth.get("/announcement"); 
         const data: Announcement[] = res.data;
 
-        // Sort by created_at descending, take latest 3
         const latest = data
-          .filter((a) => a.title && a.created_at) // filter invalid data
+          .filter((a) => a.title && a.created_at)
           .sort(
             (a, b) =>
               new Date(b.created_at).getTime() -
               new Date(a.created_at).getTime()
           )
-          .slice(0, 3);
+          .slice(0, 3); // Keeping top 3 to fit the profile card look
 
         setAnnouncements(latest);
       } catch (err) {
@@ -152,14 +154,13 @@ const RecentAnnouncement: React.FC = () => {
   }, []);
 
   const handleSeeAll = () => {
-    router.push("/announcements"); // Navigate to the announcements page
+    router.push("/announcements");
   };
 
-  // Helper to format relative time
   const getRelativeTime = (dateString: string) => {
     const now = new Date();
     const past = new Date(dateString);
-    const diff = now.getTime() - past.getTime(); // milliseconds
+    const diff = now.getTime() - past.getTime(); 
 
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -173,44 +174,68 @@ const RecentAnnouncement: React.FC = () => {
   };
 
   return (
-    <section className="rounded-lg border min-h-lg border-slate-200 bg-white p-4 shadow-sm flex flex-col justify-between h-[230px]">
+    // Main Card Container (White Theme)
+    <section className="flex h-full w-full flex-col justify-between rounded-2xl border border-slate-100 bg-white p-5 shadow-sm font-sans">
+      
       <div>
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Recent Announcements
+        {/* Header */}
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-sm lg:text-base font-bold text-slate-800">
+            Announcements
           </h2>
-          {announcements.length > 0 && (
-            <button
-              onClick={handleSeeAll}
-              className="text-[11px] font-medium text-indigo-600 hover:text-indigo-700"
-            >
-              Show all
-            </button>
-          )}
+          <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-500">
+             {announcements.length} New
+          </span>
         </div>
 
+        {/* Content Area */}
         {loading ? (
-          <p className="text-xs text-slate-400">Loading announcements...</p>
+          <div className="flex flex-col gap-3">
+             {/* Simple Skeleton Loader */}
+             <div className="h-12 w-full animate-pulse rounded-xl bg-slate-50"></div>
+             <div className="h-12 w-full animate-pulse rounded-xl bg-slate-50"></div>
+          </div>
         ) : announcements.length === 0 ? (
-          <p className="text-xs text-slate-400">No recent announcements.</p>
+          <div className="flex flex-col items-center justify-center py-6 text-center">
+             <p className="text-xs text-slate-400">No recent updates.</p>
+          </div>
         ) : (
-          <div className="space-y-2">
-            {announcements.map((item) => (
+          <div className="flex flex-col gap-3">
+            {announcements.map((item, index) => (
               <div
                 key={item.announcement_id}
-                className="rounded-xl bg-slate-50 px-3 py-2 text-xs text-slate-700 hover:bg-slate-100 cursor-pointer"
-                onClick={() =>
-                  router.push(`/announcements/${item.announcement_id}`)
-                }
+                onClick={() => router.push(`/announcements/${item.announcement_id}`)}
+                className="group flex cursor-pointer items-start gap-3 rounded-xl border border-transparent p-2 transition-all hover:bg-slate-50 hover:border-slate-100"
               >
-                <p className="line-clamp-1 font-medium">{item.title}</p>
-                <p className="mt-1 text-[11px] text-slate-400">
-                  {getRelativeTime(item.created_at)}
-                </p>
+                {/* Icon Placeholder (Replaces Avatar from reference image) */}
+                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${index === 0 ? "bg-indigo-100 text-indigo-600" : "bg-slate-100 text-slate-500"}`}>
+                  <Megaphone size={14} />
+                </div>
+
+                {/* Text Content */}
+                <div className="flex flex-col">
+                  <p className="line-clamp-2 text-xs font-bold text-slate-700 group-hover:text-indigo-700 transition-colors">
+                    {item.title}
+                  </p>
+                  <div className="mt-1 flex items-center gap-1 text-[10px] font-medium text-slate-400">
+                    <Clock size={10} />
+                    <span>{getRelativeTime(item.created_at)}</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         )}
+      </div>
+
+      {/* Footer Action (Clickable Text) */}
+      <div className="mt-4 border-t border-slate-50 pt-3 flex justify-center">
+        <button
+          onClick={handleSeeAll}
+          className="flex items-center gap-1.5 text-[11px] font-bold text-indigo-600 hover:text-indigo-700 transition-colors"
+        >
+          View all announcements <ArrowRight size={12} />
+        </button>
       </div>
     </section>
   );
