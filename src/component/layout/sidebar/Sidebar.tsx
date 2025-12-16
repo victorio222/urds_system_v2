@@ -392,7 +392,7 @@ const sidebar: SidebarItem[] = [
   {
     title: "Assigned Projects",
     icon: <FaList size={20} />,
-    link: "/system/management/settings",
+    link: "/assigned-projects",
     allowedRoles: [
       "Research Evaluator",
     ],
@@ -400,7 +400,7 @@ const sidebar: SidebarItem[] = [
   {
     title: "Evaluate Research",
     icon: <BiCommentEdit size={20} />,
-    link: "/system/management/settings",
+    link: "/evaluation",
     allowedRoles: [
       "Research Evaluator",
     ],
@@ -408,7 +408,7 @@ const sidebar: SidebarItem[] = [
   {
     title: "History",
     icon: <MdHistory size={20} />,
-    link: "/system/management/settings",
+    link: "/history",
     allowedRoles: [
       "Research Evaluator",
     ],
