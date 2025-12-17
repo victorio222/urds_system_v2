@@ -48,7 +48,7 @@ const NotificationsTable: React.FC = () => {
       
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-sm lg:text-base font-bold text-slate-800">
+        <h2 className="text-sm lg:text-base font-medium text-slate-800">
           Notifications
         </h2>
         {hasNotifications && (

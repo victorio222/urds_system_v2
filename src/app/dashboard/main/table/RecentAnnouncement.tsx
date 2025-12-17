@@ -180,7 +180,7 @@ const RecentAnnouncement: React.FC = () => {
       <div>
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-sm lg:text-base font-bold text-slate-800">
+          <h2 className="text-sm lg:text-base font-medium text-slate-800">
             Announcements
           </h2>
           <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-500">
