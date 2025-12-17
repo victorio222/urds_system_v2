@@ -579,8 +579,8 @@ const AssignedProjectPage = () => {
   }
 
   return (
-    <div className="w-full max-w-full mx-auto p-4">
-      <section className="rounded-xl border border-slate-100 bg-white p-4 shadow-lg">
+    <div className="w-full max-w-full mx-auto md:p-2">
+      <section className="rounded-sm border border-slate-100 bg-white p-4 shadow-lg">
         
         {/* Header Section */}
         <div className="mb-6">
