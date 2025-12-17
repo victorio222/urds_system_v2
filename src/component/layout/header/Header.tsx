@@ -279,7 +279,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
 
       <div className="py-1">
         <a
-          href="/settings"
+          href="/urds/system-management/settings"
           className="flex items-center font-medium px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
         >
           <BiCog className="mr-3 h-5 w-5 opacity-70" />
@@ -473,7 +473,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
               <input
                 type="text"
                 placeholder="Type here..."
-                className="pl-10 pr-4 py-2 rounded-full border bg-blue-50 border-slate-200 shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-300 text-xs placeholder:font-medium w-32 sm:w-40 md:w-64"
+                className="pl-10 text-slate-600 pr-4 py-2 rounded-full border bg-blue-50 border-slate-200 shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-300 text-xs placeholder:font-medium w-32 sm:w-40 md:w-64"
               />
               <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
