@@ -16,7 +16,7 @@ const UserManagement = () => {
     <ProtectedRoute allowedRoles={["URDS Director"]}>
       <div className="flex max-h-screen">
         <div className="bg-blue-50 h-full w-full">
-          <DefaultLayout pageName="System Management">
+          <DefaultLayout pageName="User Management">
             <UserPage />
           </DefaultLayout>
         </div>

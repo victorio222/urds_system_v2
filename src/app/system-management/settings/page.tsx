@@ -7,7 +7,7 @@ const Announcements = () => {
   return (
     <div className="flex max-h-screen">
       <div className="bg-blue-50 h-auto w-full">
-        <DefaultLayout pageName='In-House Schedule'>
+        <DefaultLayout pageName='System Settings'>
           <div className='py-3 px-5'>
             <SystemSettings />
           </div>

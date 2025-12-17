@@ -461,7 +461,7 @@ const SystemLogs = () => {
      RENDER
   ====================== */
   return (
-    <DefaultLayout pageName="System Logs">
+    <DefaultLayout pageName="Activity Logs">
       <div className="space-y-6">
         {loading ? (
           <div className="flex justify-center bg-blue-50 items-center w-full h-screen">
