@@ -102,7 +102,7 @@ const ProposalsPage = () => {
   }
 
   const handleSubmitProposal = () => {
-    router.push('/research-projects/Submit')
+    router.push('/research-projects/submit')
   }
 
   return (
