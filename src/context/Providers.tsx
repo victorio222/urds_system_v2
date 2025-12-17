@@ -8,8 +8,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <GoogleReCaptchaProvider
       reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
       scriptProps={{
-        async: true,
-        defer: true,
+        async: false,
+        defer: false,
         appendTo: "head",
       }}
     >
