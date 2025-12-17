@@ -44,7 +44,7 @@ const NotificationsTable: React.FC = () => {
   const hasNotifications = mockNotifications.length > 0;
 
   return (
-    <section className="flex h-full w-full flex-col rounded-2xl border border-slate-100 bg-white p-5 shadow-sm font-sans min-h-[230px]">
+    <section className="flex h-full w-full flex-col rounded-xl border border-slate-100 bg-white p-5 shadow-sm font-sans min-h-[230px]">
       
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">

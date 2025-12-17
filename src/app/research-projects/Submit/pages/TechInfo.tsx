@@ -251,7 +251,7 @@ const TechnicalInfoPage: React.FC<Props> = ({
         required
       />
       {/* Methodology */}
-      <FormTextarea
+      {/* <FormTextarea
         label="Methodology"
         name="methodology"
         value={formData.methodology || ""}
@@ -259,7 +259,7 @@ const TechnicalInfoPage: React.FC<Props> = ({
         placeholder="Describe study design, participants, instruments, procedures, data analysis, etc."
         rows={5}
         required
-      />
+      /> */}
 
       {/* <FormInput
   label="Rationale"

@@ -175,7 +175,7 @@ const RecentAnnouncement: React.FC = () => {
 
   return (
     // Main Card Container (White Theme)
-    <section className="flex h-full w-full flex-col justify-between rounded-2xl border border-slate-100 bg-white p-5 shadow-sm font-sans">
+    <section className="flex h-full w-full flex-col justify-between rounded-xl border border-slate-100 bg-white p-5 shadow-sm font-sans">
       
       <div>
         {/* Header */}
