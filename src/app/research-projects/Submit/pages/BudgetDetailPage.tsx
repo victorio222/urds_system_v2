@@ -578,7 +578,7 @@ const BudgetDetailsPage: React.FC<Props> = ({
         <Button type="button" onClick={prevStep} variant="outlined">
           Back
         </Button>
-        <FormButton type="submit">
+        <FormButton className="bg-blue-600 pxx-3 py-1 hover:bg-blue-700" type="submit">
           {loading ? "Saving..." : "Next"}
         </FormButton>
       </div>

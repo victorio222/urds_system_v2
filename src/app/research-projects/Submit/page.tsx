@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import ProposalWizard from './pages/ProposalWizard';
+import ProposalWizard from './pages/Scrollable';
 
 const SubmitForm = () => {
   return (

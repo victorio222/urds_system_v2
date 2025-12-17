@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import NewResearchPage from './table/NewResearch';
+import NewResearchPage from './table/Scrollable';
 
 const AllResearch = () => {
   return (

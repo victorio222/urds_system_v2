@@ -28,11 +28,11 @@
 "use client";
 
 import DefaultLayout from "@/component/layout/DefaultLayout";
-import AnnouncementPage from "./table/Announcement"; // Your Table/Admin View
+import AnnouncementPage from "./table/Scrollable"; // Your Table/Admin View
 // Your Card/Reader View
 import ProtectedRoute from "@/component/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext"; // Path to your AuthContext
-import AnnouncementFeed from "../call-for-research/Announcement";
+import AnnouncementFeed from "../call-for-research/Scrollable";
 
 const Announcements = () => {
   const { userRole } = useAuth();
