@@ -120,7 +120,7 @@ export default function ResearchLayout({ pageTitle, statusFilter }: Props) {
 
   return (
     <div className="bg-[#F4F7FE] min-h-screen p-4 md:p-8 font-sans">
-      <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 relative">
+      <div className="max-w-7xl mx-auto bg-white rounded-md shadow-sm border border-gray-100 relative">
         
         {/* Simplified Header (No Nav Tabs) */}
         <div className="p-6 border-b border-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">

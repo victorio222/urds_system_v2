@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { Divider } from "@mui/material";
+import { Spinner } from "@/component/base/Spinner";
 
 interface EvaluationItem {
   id: number;
@@ -63,6 +64,25 @@ const ResearchOverviewPanel = () => {
 
   const router = useRouter();
 
+      const [loading, setLoading] = useState(true);
+    
+      // Simulate data loading on mount
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setLoading(false);
+        }, 1000); // 1 second delay to simulate an API call
+    
+        return () => clearTimeout(timer);
+      }, []);
+    
+      if (loading) {
+        return (
+          <div className="flex flex-col justify-center items-center h-screen bg-[#F4F7FE]">
+            <Spinner />
+          </div>
+        );
+      }
+
   const handleViewContent = () => {
     // Redirect to /evaluation/proposal
     router.push("/evaluation/proposal");
@@ -91,7 +111,7 @@ const ResearchOverviewPanel = () => {
         <h2 className="pt-2 flex items-center gap-2 text-lg font-semibold text-slate-700 mb-2">
           <button
             className="flex font-medium text-slate-600 items-center gap-2 justify-start ml-[-7px] hover:cursor-pointer hover:text-blue-700"
-            onClick={() => router.push("/dashboard")}
+            onClick={() => router.push("/assigned-projects")}
           >
             <ChevronLeft className="h-6 w-6" />
           </button>

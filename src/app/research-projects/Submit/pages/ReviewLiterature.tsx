@@ -1,54 +1,3 @@
-// 'use client';
-
-// import React, { useState } from 'react';
-// import FormInput from '@/component/ui/FormInput';
-// import FormButton from '@/component/ui/Button';
-// import FileUploadArea from '@/component/ui/Fileupload';
-// import { Button } from '@mui/material';
-
-// interface Props {
-//   formData: any;
-//   setFormData: (data: any) => void;
-//   nextStep: () => void;
-//   prevStep: () => void;
-// }
-
-// const LiteratureReviewPage: React.FC<Props> = ({ formData, setFormData, nextStep, prevStep }) => {
-//   const [file, setFile] = useState<File | null>(formData.literatureFile || null);
-
-//   return (
-//     <form
-//       onSubmit={(e) => {
-//         e.preventDefault();
-//         setFormData({ ...formData, literatureFile: file });
-//         nextStep();
-//       }}
-//       className="flex flex-col gap-4"
-//     >
-//       <FormInput
-//         label="Literature Review Summary"
-//         type="text"
-//         placeholder='Rationale'
-//         name="rrl"
-//         value={formData.literatureSummary || ''}
-//         onChange={(e) => setFormData({ ...formData, literatureSummary: e.target.value })}
-//         required
-//       />
-
-//       <FileUploadArea onFileChange={(file) => setFile(file)} />
-
-//       <div className="flex justify-between mt-4">
-//         <Button type="button" onClick={prevStep}>
-//           Back
-//         </Button>
-//         <FormButton type="submit">Next</FormButton>
-//       </div>
-//     </form>
-//   );
-// };
-
-// export default LiteratureReviewPage;
-
 "use client";
 
 import React, { useState } from "react";
@@ -132,7 +81,7 @@ const LiteratureReviewPage: React.FC<Props> = ({
         <Button type="button" onClick={prevStep}>
           Back
         </Button>
-        <FormButton type="submit">{loading ? "Saving..." : "Next"}</FormButton>
+        <FormButton className="bg-blue-600 py-1 px-3 hover:bg-blue-700" type="submit">{loading ? "Saving..." : "Next"}</FormButton>
       </div>
     </form>
   );

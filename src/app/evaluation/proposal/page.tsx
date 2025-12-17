@@ -9,9 +9,29 @@ import WorkPlanPrintablePage from "@/app/report/workplan-report/page";
 import BudgetReportPrintablePage from "@/app/report/budget-report/page";
 import EvaluatorHeader from "../header/EvaluatorHeader";
 import { Divider } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Spinner } from "@/component/base/Spinner";
 
 export default function EvaluationPanel() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  // Simulate data loading on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000); // 1 second delay to simulate an API call
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen bg-[#F4F7FE]">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -27,7 +47,7 @@ export default function EvaluationPanel() {
         >
           <div className="flex items-center gap-2">
             <button
-              className="font-medium text-slate-600 ml-[-7px] hover:cursor-pointer hover:text-blue-700"
+              className="font-medium block sm:hidden text-slate-600 ml-[-7px] hover:cursor-pointer hover:text-blue-700"
               onClick={() => router.push("/evaluation")}
             >
               <ChevronLeft className="h-6 w-6" />

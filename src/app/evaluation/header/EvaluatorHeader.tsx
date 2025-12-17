@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import { BiSearch, BiCog, BiLogOut } from 'react-icons/bi';
+import { BiSearch, BiCog, BiLogOut, BiSolidHome } from 'react-icons/bi';
 import { BsBellFill } from 'react-icons/bs';
 import Image from 'next/image';
 import logo from '@/assets/images/logo.png';
@@ -73,6 +73,12 @@ const EvaluatorHeader = () => {
 
         {/* NOTIFICATIONS */}
         <div className="relative" ref={notifRef}>
+          <button
+            onClick={handleDashboard}
+            className={`p-2 mr-2 rounded-full hover:bg-gray-100 ${isNotifOpen ? 'bg-blue-100 text-blue-600' : 'text-slate-500'}`}
+          >
+            <BiSolidHome />
+          </button>
           <button
             onClick={() => setIsNotifOpen(!isNotifOpen)}
             className={`p-2 rounded-full hover:bg-gray-100 ${isNotifOpen ? 'bg-blue-100 text-blue-600' : 'text-slate-500'}`}

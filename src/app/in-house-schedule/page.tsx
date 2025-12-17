@@ -1,5 +1,5 @@
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import InHousePage from './table/InHouseTable';
+import InHousePage from './table/Scrollable';
 import ProtectedRoute from '@/component/ProtectedRoute';
 
 const Announcements = () => {
@@ -8,7 +8,7 @@ const Announcements = () => {
       <div className="flex max-h-screen">
         <div className="bg-blue-50 h-auto w-full">
           <DefaultLayout pageName='In-House Schedule'>
-            <div className='py-3 px-5'>
+            <div className='m-6'>
               <InHousePage />
             </div>
           </DefaultLayout>

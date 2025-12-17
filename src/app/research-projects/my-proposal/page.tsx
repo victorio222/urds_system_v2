@@ -4,7 +4,7 @@ import DefaultLayout from "@/component/layout/DefaultLayout";
 import AllResearchPage from "./table/AllResearch";
 import ActivityTimeline from "./table/ActivityTimeline";
 import UpdatesList from "./table/UpdateList";
-import ProposalsPage from "./table/ProposalsPage";
+import ProposalsPage from "./table/Scrollable";
 
 const AllResearch = () => {
   return (

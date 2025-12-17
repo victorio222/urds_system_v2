@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import DefaultLayout from '@/component/layout/DefaultLayout';
-import TerminatedResearchPage from './table/TerminatedResearch';
+import TerminatedResearchPage from './table/Scrollable';
 
 const AllResearch = () => {
   return (

@@ -353,7 +353,7 @@ const MethodologyPage: React.FC<Props> = ({
         <Button type="button" onClick={prevStep}>
           Back
         </Button>
-        <FormButton type="submit">
+        <FormButton className='bg-blue-600 py-1 px-3 hover:bg-blue-700' type="submit">
           {loading ? 'Saving...' : 'Next'}
         </FormButton>
       </div>

@@ -209,7 +209,7 @@ const BasicInfoPage: React.FC<Props> = ({ formData, setFormData, nextStep }) => 
         onChange={(e) => setFormData({ ...formData, coProponentMain: e.target.value })}
       /> */}
 
-      <FormButton type="submit" >
+      <FormButton className='bg-blue-600 text-base font-medium hover:bg-blue-700 hover:cursor-pointer p-2 mt-[-12px] rounded-full text-gray-50' type="submit" >
         {loading ? 'Submitting...' : 'Next'}
       </FormButton>
     </form>

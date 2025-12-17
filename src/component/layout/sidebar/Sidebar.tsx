@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -67,11 +68,6 @@ const sidebar: SidebarItem[] = [
     ],
     subItems: [
       {
-        title: "My Proposal",
-        link: "/research-projects/my-proposal", //change later
-        allowedRoles: ["Faculty Researcher", "Senior Faculty Researcher"],
-      },
-      {
         title: "All Proposals",
         link: "/research-projects/all",
         allowedRoles: [
@@ -82,11 +78,15 @@ const sidebar: SidebarItem[] = [
           "College Coordinator",
         ],
       },
+            {
+        title: "My Proposal",
+        link: "/research-projects/my-proposal", //change later
+        allowedRoles: ["Faculty Researcher", "Senior Faculty Researcher"],
+      },
       {
         title: "New",
         link: "/research-projects/new",
         allowedRoles: [
-          "Senior Faculty Researcher",
           "College Dean",
           "URDS Director",
           "URDS Staff",
@@ -99,7 +99,6 @@ const sidebar: SidebarItem[] = [
         allowedRoles: [
           "URDS Director",
           "URDS Staff",
-          "Senior Faculty Researcher",
           "College Dean",
           "College Coordinator",
         ],
@@ -110,7 +109,6 @@ const sidebar: SidebarItem[] = [
         allowedRoles: [
           "URDS Director",
           "URDS Staff",
-          "Senior Faculty Researcher",
           "College Dean",
           "College Coordinator",
         ],
