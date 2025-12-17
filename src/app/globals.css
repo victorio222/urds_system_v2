@@ -155,3 +155,16 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.15s ease-out forwards;
 }
+
+/* RECAPTCHA */
+.grecaptcha-badge { 
+  /* Standard original position */
+  bottom: 14px !important; 
+  right: 0px !important;
+
+  /* Force it to stay above all other elements */
+  z-index: 99999 !important; 
+
+  /* Ensures it stays visible even if parent containers have z-index issues */
+  position: fixed !important; 
+}

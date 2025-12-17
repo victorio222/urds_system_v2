@@ -14,7 +14,7 @@ const UserManagement = () => {
   return (
     <div className="flex max-h-screen">
       <div className="bg-blue-50 w-full">
-        <div className="px-8 py-4 space-y-2">
+        <div className="px-4 md:px-8 py-4 space-y-2">
           {/* ⭐ Responsive Grid for 8 TotalUser Cards (NO ARRAY MAP) */}
           <div
             className="
