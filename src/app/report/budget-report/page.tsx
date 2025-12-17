@@ -8,6 +8,8 @@ import DocumentHead from "@/component/document/Header";
 import DocumentFooter from "@/component/document/Footer";
 import MainContent from "./content/main";
 import LandscapeContent from "./content/landscapeContent";
+import ThirdPage from "./content/thirdpage";
+import FourthPage from "./content/fourthPage";
 
 // Define the printable page styles
 const styles: { [key: string]: React.CSSProperties } = {
@@ -23,6 +25,20 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
+const landscapeStyles: { [key: string]: React.CSSProperties } = {
+  printable: {
+    padding: "4px",
+    backgroundColor: "white",
+    margin: "0 auto", // Center horizontally on screen
+    width: "297mm", // A4 landscape width
+    minHeight: "210mm", // A4 landscape height
+    boxSizing: "border-box", // Include padding in width/height
+    borderRadius: "0", // Remove rounded corners
+    position: "relative", // Needed for footer positioning
+  },
+};
+
+
 // Define print-specific styles
 const printStyles = ` 
   @media print {
@@ -30,19 +46,28 @@ const printStyles = `
       margin: 0;
       padding: 0;
       font-size: 12pt;
-      width: 210mm;
-      height: 297mm;
       background: white;
       overflow: hidden;
     }
 
-    .printable {
+    .printable-portrait {
+      page: portrait
       border: none;
       margin: 0 !important;
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      page-break-inside: avoid;
+      page-break-after: always
+    }
+
+    .printable-landscape {
+      page: landscape
+      border: none;
+      margin: 0 !important;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      page-break-after: always
     }
 
     .noPrint {
@@ -80,9 +105,14 @@ const printStyles = `
       page-break-inside: auto;
     }
 
-    @page {
-      size: A4; /* Specify A4 paper size */
-       margin-top: 20mm;
+    @page portrait {
+      size: A4 portrait; /* Specify A4 paper size */
+       margin: 20mm;
+    }
+
+    @page landscape {
+      size: A4 landscape;
+      margin: 20mm;
     }
 
     .report-footer {
@@ -110,13 +140,12 @@ const BudgetReportPrintablePage: React.FC = () => {
   return (
     <>
       <PrintStyleSheet />
-      <div ref={contentRef} style={styles.printable} className="printable">
+      <div ref={contentRef} style={styles.printable} className="printable-portrait">
         <main className="h-full w-[85%] text-black bg-white flex-col items-center justify-center mx-auto">
           <DocumentHead />
 
           {/* Main Content */}
           <MainContent />
-          {/* <LandscapeContent /> */}
 
           {/* Footer on every page */}
           <DocumentFooter
@@ -126,6 +155,42 @@ const BudgetReportPrintablePage: React.FC = () => {
           />
           <div className="page-break"></div>
         </main>
+      </div>
+
+      <div ref={contentRef} style={landscapeStyles.printable} className="printable-landscape">
+        <main className="h-full w-[85%] text-black bg-white flex-col items-center justify-center my-3 mx-auto">          
+          <LandscapeContent />
+          <DocumentFooter
+            documentNo="UEP-URDS-FM-005"
+            revisionNo="00"
+            effectivityDate="SEPTEMBER 12, 2022"
+          />
+        </main>
+          <div className="page-break"></div>
+      </div>
+
+      <div ref={contentRef} style={landscapeStyles.printable} className="printable-landscape">
+        <main className="h-full w-[85%] text-black bg-white flex-col items-center justify-center my-3 mx-auto">          
+          <ThirdPage />
+          <DocumentFooter
+            documentNo="UEP-URDS-FM-005"
+            revisionNo="00"
+            effectivityDate="SEPTEMBER 12, 2022"
+          />
+        </main>
+          <div className="page-break"></div>
+      </div>
+
+      <div ref={contentRef} style={landscapeStyles.printable} className="printable-landscape">
+        <main className="h-full w-[85%] text-black bg-white flex-col items-center justify-center my-3 mx-auto">          
+          <FourthPage />
+          <DocumentFooter
+            documentNo="UEP-URDS-FM-005"
+            revisionNo="00"
+            effectivityDate="SEPTEMBER 12, 2022"
+          />
+        </main>
+          <div className="page-break"></div>
       </div>
     </>
   );

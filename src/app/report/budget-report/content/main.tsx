@@ -97,7 +97,7 @@ const printStyles = `
 
 const PrintStyleSheet: React.FC = () => (
   <style dangerouslySetInnerHTML={{ __html: printStyles }} />
-);
+);  
 
 const MainContent: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -112,8 +112,11 @@ const MainContent: React.FC = () => {
               UNIVERSITY RESEARCH AND DEVELOPMENT SERVICES
             </h1>
             <h2 className="uppercase text-center text-black font-bold text-[16px] w-[100%]">
-              WORKPLAN
+              FINANCIAL COMPONENTS OF THE RESEARCH
             </h2>
+            <h3 className="text-center text-black font-bold text-[15px] w-[100%]">
+              (Budget Summary)
+            </h3>
           </div>
         </div>
 
@@ -276,7 +279,7 @@ const MainContent: React.FC = () => {
           </table>
         </div>
         <SignatorySection
-          proponentName="EMMANUAL D. SANTOS"
+          proponentName="EMMANUEL D. SANTOS"
           researchCoordinatorName="Franklin E. Cortez"
           collegeDeanName="Anelita M. Obrar, PhD"
           recommendingApprovalName="Recommender"
