@@ -24,6 +24,10 @@ const EvaluatorHeader = () => {
     router.push('/auth/login');
   };
 
+  const handleDashboard = () => {
+    router.push('/dashboard')
+  }
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (profileRef.current && !profileRef.current.contains(e.target as Node))
@@ -48,7 +52,7 @@ const EvaluatorHeader = () => {
   return (
     <header className="w-full h-16 bg-white px-4 sm:px-6 lg:px-8 shadow-sm flex items-center sticky top-0 z-30">
       {/* LEFT: LOGO */}
-      <div className="flex items-center gap-2">
+      <div onClick={handleDashboard} className="flex items-center gap-2">
         <Image src={logo} alt="uep-logo" width={48} height={48} className="object-cover" />
         <h1 className="text-[26px] font-semibold text-blue-600">URDS</h1>
       </div>

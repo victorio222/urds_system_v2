@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Divider } from "@mui/material";
 import {
   AiOutlineDashboard,
@@ -222,6 +222,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
 }) => {
   const pathname = usePathname();
   const { userRole } = useAuth();
+  const router = useRouter();
 
   const [expanded, setExpanded] = useState<string | null>(null);
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -253,6 +254,10 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
   const hasAccess = (roles?: string[]) =>
     !roles || (userRole && roles.includes(userRole));
 
+  const handleDashboard = () => {
+    router.push('/dashboard');
+  }
+
   return (
     <>
       <div
@@ -269,7 +274,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
           md:translate-x-0 md:static md:w-64 md:shrink-0`}
       >
-        <div className="flex justify-center items-center cursor-pointer mb-5">
+        <div onClick={handleDashboard} className="flex justify-center items-center cursor-pointer mb-5">
           <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden">
             <Image
               src={logo}
